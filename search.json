@@ -1,0 +1,2092 @@
+[
+  {
+    "objectID": "01-why-git.html",
+    "href": "01-why-git.html",
+    "title": "1  为什么需要 Git",
+    "section": "",
+    "text": "1.1 你可能已经这样做过\n很多人第一次接触 Git，不是因为突然对版本控制有兴趣，而是因为文件开始变多了，项目开始改来改去，光靠文件夹备份已经不够用了。\n这一章要解决的问题很简单：Git 到底在帮我们省掉什么麻烦？如果不用 Git，平常又会怎么出错？把这件事想明白，后面那些命令才不会显得像一套硬背的咒语。\n本章会回答几个问题：\n读完这一章，你应该能理解：Git 不是为了增加步骤，而是为了让修改变得可追踪、可回退、可协作。\n如果你以前没有学过 Git，管理文件时大概用过这些办法：\n这些办法不是完全没用。项目很小、修改很少、也只有自己一个人动手时，勉强还能撑住。问题在于，只要修改次数一多，下面几件事就会一起冒出来：\nGit 要解决的，就是这些问题。",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>为什么需要 Git</span>"
+    ]
+  },
+  {
+    "objectID": "01-why-git.html#你可能已经这样做过",
+    "href": "01-why-git.html#你可能已经这样做过",
+    "title": "1  为什么需要 Git",
+    "section": "",
+    "text": "直接覆盖旧文件\n另存一个新文件，名字叫 report-final.docx\n改完以后又存一个 report-final-2.docx\n担心出错，再复制一个 report-final-真的最终版.docx\n想起上周删过一段文字，却不知道去哪里找回来\n\n\n\n你不知道哪个文件才是最新的\n你知道文件变了，却说不清到底哪里变了\n你想回到昨天的状态，却没有可靠的办法\n两个人同时改同一个文件时，后合并的人很容易把前面的修改盖掉",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>为什么需要 Git</span>"
+    ]
+  },
+  {
+    "objectID": "01-why-git.html#git-到底在管什么",
+    "href": "01-why-git.html#git-到底在管什么",
+    "title": "1  为什么需要 Git",
+    "section": "1.2 Git 到底在管什么",
+    "text": "1.2 Git 到底在管什么\n先把一句话放在这里：Git 管的不是“文件夹里有没有文件”，而是“这个项目是怎么一步步改成现在这个样子的”。\n这句话很重要，因为很多人一开始会把 Git 误会成：\n\n一个高级云盘\n一个自动备份工具\n一个专门给程序员用的东西\n\n它和这些东西都沾边，但都不完全一样。\n云盘擅长同步文件，让你在不同设备上都能拿到同一份内容。Git 擅长记录修改，让你知道谁在什么时候改了什么，还能回到之前的状态。两者可以一起用，但负责的事情不同。\n普通备份更像“按时间留副本”。Git 更像“按修改留历史”。你不是被迫保存一整堆 final 文件，而是把每一次关键变动组织成一条清楚的历史线。\n这里有个很关键的转变。没用 Git 时，我们常常只是“把当前结果存下来”；至于中间怎么改过、为什么这样改，时间一久就说不清了。用了 Git 以后，你开始管理的就不只是结果，还包括通往这个结果的过程。",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>为什么需要 Git</span>"
+    ]
+  },
+  {
+    "objectID": "01-why-git.html#为什么文件夹备份很快就不够用",
+    "href": "01-why-git.html#为什么文件夹备份很快就不够用",
+    "title": "1  为什么需要 Git",
+    "section": "1.3 为什么文件夹备份很快就不够用",
+    "text": "1.3 为什么文件夹备份很快就不够用\n先看一个很常见的场景。\n你在做一个个人网站，第一天存成 index.html。第二天你准备大改首页文案，怕翻车，于是复制一份，叫 index-new.html。改了一半觉得不太好，又回去修旧稿。第三天你决定融合两个版本，结果两个文件都改过了，你已经不记得：\n\n哪一份才是最新的\n哪一份删过一段更好的话\n哪一份加入了新的例子\n\n这时真正麻烦的，不是文件太多，而是“变化没有被结构化地记录下来”。\nGit 的第一个价值，就是让你不再用文件名承担“版本管理”这件事。\n很多人第一次真正感受到 Git 的价值，不是在建仓库那一刻，而是在几天后回头看时，发现自己终于不用靠猜来回忆“那版到底改了什么”。",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>为什么需要 Git</span>"
+    ]
+  },
+  {
+    "objectID": "01-why-git.html#git-和云盘备份的区别",
+    "href": "01-why-git.html#git-和云盘备份的区别",
+    "title": "1  为什么需要 Git",
+    "section": "1.4 Git 和云盘、备份的区别",
+    "text": "1.4 Git 和云盘、备份的区别\n这一点最好一开始就分清楚。\n\n\n\n\n\n\n\n\n工具\n最擅长的事\n不擅长的事\n\n\n\n\n云盘\n同步文件、跨设备访问、共享文件\n清楚比较修改历史、组织开发流程\n\n\n手动备份\n留下某个时间点的副本\n难以持续维护，版本很快混乱\n\n\nGit\n记录修改、比较差异、回退历史、支撑协作\n不能替代日常网盘，也不是所有二进制文件都适合用它管\n\n\n\n所以比较稳的理解不是“用了 Git 就不用备份”，而是：\n\nGit 负责管修改历史\n云盘负责管文件同步\n备份负责防止整体丢失\n\n这三个角色分清楚以后，后面很多误会会少很多。比如有人会问：“我都放网盘了，为什么还要 Git？”这个问题其实就像在问：“我已经把纸张装进文件盒了，为什么还要给文稿写修订记录？”两者不是互相替代，而是在处理不同问题。",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>为什么需要 Git</span>"
+    ]
+  },
+  {
+    "objectID": "01-why-git.html#为什么不只写代码的人该学-git",
+    "href": "01-why-git.html#为什么不只写代码的人该学-git",
+    "title": "1  为什么需要 Git",
+    "section": "1.5 为什么不只写代码的人该学 Git",
+    "text": "1.5 为什么不只写代码的人该学 Git\n很多人一听 Git，就先想到程序员。其实只要你做的是“会反复修改，而且希望看得清历史”的工作，Git 都有价值。\n例如：\n\n写论文、书稿、讲义\n维护网站文案\n写配置文件\n记录数据处理脚本\n和别人一起改同一份文档\n\n像个人网站、小型文档站点、课程笔记仓库这类项目，都很适合用 Git。它们的文件大多是文本文件，修改会不断累积。如果不用 Git，时间一久，最容易出现的不是“文件丢了”，而是“文件还在，但已经说不清怎么变成现在这样”。\n这一点对持续打磨的内容尤其明显。页面不是一次写完的，而是一轮一轮往前推：改标题、换文案、补说明、挪顺序、重写某一段。要是这些变化都没被好好记住，写到后面就会很难判断“这版为什么比上一版更好”，也很难放心回退。",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>为什么需要 Git</span>"
+    ]
+  },
+  {
+    "objectID": "01-why-git.html#git-最有用的四件事",
+    "href": "01-why-git.html#git-最有用的四件事",
+    "title": "1  为什么需要 Git",
+    "section": "1.6 Git 最有用的四件事",
+    "text": "1.6 Git 最有用的四件事\n如果要把 Git 的价值压缩成最核心的四点，可以这样记。\n\n1.6.1 一是看得见变化\n你可以知道这次到底改了什么，而不是只知道“文件好像不一样了”。\n\n\n1.6.2 二是回得去之前\n你改坏了，或者实验一条路以后想退回来，不需要靠运气找旧文件。\n\n\n1.6.3 三是能把一次修改说清楚\n你不是把一整个杂乱状态扔进去，而是能整理成一笔一笔提交。以后回头看历史时，才会知道每一笔改动是在解决什么问题。\n\n\n1.6.4 四是能让多人协作不那么乱\n没有 Git 时，两个人同时改一份东西，通常靠聊天沟通“你先别动，我改完发你”。有了 Git 以后，协作会变得更可控，因为每个人的修改都有明确记录，也有合并机制。",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>为什么需要 Git</span>"
+    ]
+  },
+  {
+    "objectID": "01-why-git.html#git-不是什么",
+    "href": "01-why-git.html#git-不是什么",
+    "title": "1  为什么需要 Git",
+    "section": "1.7 Git 不是什么",
+    "text": "1.7 Git 不是什么\n学 Git 时，早点知道它的边界也很重要。\nGit 不是：\n\n自动帮你写好提交说明的老师\n永远不会出错的保险箱\n所有文件都适合直接放进去的仓库\n学会几条命令以后就不用理解流程的魔法工具\n\n再补一句更实际的话：Git 也不是让你从此再也不会乱。它只是把“乱”变得可见、可整理、可回头。这个差别看起来不大，用起来却非常大。\n尤其是最后一点。Git 的难，不全在命令，而在于你要知道自己现在是在处理哪一层：工作区、暂存区、历史，还是远端。这个问题下一章会正式展开。",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>为什么需要 Git</span>"
+    ]
+  },
+  {
+    "objectID": "01-why-git.html#先做一个很小的体验",
+    "href": "01-why-git.html#先做一个很小的体验",
+    "title": "1  为什么需要 Git",
+    "section": "1.8 先做一个很小的体验",
+    "text": "1.8 先做一个很小的体验\n这一章先不急着上来就学完整命令，但可以先做一个很小的观察实验。目的不是立刻学会 Git，而是亲眼看到“有记录”和“没记录”的差别。\n\n1.8.1 小实验：用普通文件夹管理修改\n你可以在桌面随便建一个目录，比如 git-demo-without-git，然后做下面的事：\n\n建一个 notes.txt\n写入第一版内容\n过几分钟改掉其中两三句\n再删掉一段\n试着回答下面几个问题\n\n\n第二次到底改了哪几句\n删掉的那一段原来写了什么\n如果你只想保留其中一处修改，怎么做\n\n只靠普通文件夹，你通常做不到很轻松地回答这些问题。\n\n\n1.8.2 如果现在就用 Git，成功会长什么样\n下一章开始我们会真正动手。你先记住一个判断标准：Git 用起来顺不顺，不是看命令背得多不多，而是看你能不能明确回答下面几件事：\n\n我现在改了哪些文件\n哪些修改准备提交，哪些还没准备提交\n上一次提交记录了什么\n如果改坏了，我能退到哪里\n\n只要你能稳定回答这四个问题，Git 就已经开始真的帮上忙了。\n这也是这本书后面每一章反复在做的事。我们不是为了多学几条命令，而是在不断练这四个判断：现在改了什么，准备交什么，历史里已经有什么，出错时能退到哪里。",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>为什么需要 Git</span>"
+    ]
+  },
+  {
+    "objectID": "01-why-git.html#这一章的结论",
+    "href": "01-why-git.html#这一章的结论",
+    "title": "1  为什么需要 Git",
+    "section": "1.9 这一章的结论",
+    "text": "1.9 这一章的结论\n这一章还没进入细命令，但有三件事应该先钉牢。\n第一，Git 不是为了把流程变复杂，而是为了让修改历史清楚下来。\n第二，Git 最重要的价值，不是“多存一份”，而是让你看得见变化、回得去之前、说得清每次修改在做什么。\n第三，如果你以后在 Git 里迷路，通常不是因为你不聪明，而是因为你还没把它的心智模型看清楚。下一章我们就专门解决这个问题。\n如果这一章读完，你已经从“Git 很厉害，但我不知道它到底在管什么”变成“Git 管的是修改过程，而不只是文件结果”，那这一章的任务就完成了一大半。",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>为什么需要 Git</span>"
+    ]
+  },
+  {
+    "objectID": "01-why-git.html#本章练习",
+    "href": "01-why-git.html#本章练习",
+    "title": "1  为什么需要 Git",
+    "section": "1.10 本章练习",
+    "text": "1.10 本章练习\n这一章的练习不要求你已经会 Git，只要求你开始用“版本管理”的眼光看手头项目。\n\n1.10.1 练习 1：找一个你正在维护的文件\n可以是下面这些类型之一：\n\n一篇文档\n一个 Markdown 文档\n一个脚本\n一份配置文件\n\n然后回答：\n\n它最近一周改过几次\n你能不能清楚说出每次改了什么\n如果要回到前天的版本，你现在有没有把握做到\n\n如果这三个问题里有两个你答不稳，就说明这个文件已经很适合交给 Git 管。\n\n\n1.10.2 练习 2：判断成功和失败\n先不用操作 Git，只判断自己的现状。\n算成功：\n\n你已经能用自己的话说清楚 Git 在解决什么问题\n你知道 Git 不等于 GitHub\n你知道手动备份和版本管理不是同一回事\n\n算失败：\n\n你仍然觉得 Git 只是“程序员用来上传代码的网站工具”\n你觉得版本管理等于“多存几个副本”\n你还说不清为什么需要“修改历史”而不只是“最新文件”",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>为什么需要 Git</span>"
+    ]
+  },
+  {
+    "objectID": "02-how-git-thinks.html",
+    "href": "02-how-git-thinks.html",
+    "title": "2  Git 是怎么想的",
+    "section": "",
+    "text": "2.1 先把这张图装进脑子里\n很多初学者不是记不住命令，而是脑子里没有画面。只要看不见 Git 在记录什么，add、commit、status 这些命令就会一直像零散按钮。\n这一章要建立的，是 Git 最重要的心智模型。你可以先把 Git 想成一套记录修改历史的方法，但它不是看到文件就自动保存，而是让你分步骤决定：哪些修改要纳入这一次提交，哪些还不要。\n本章重点包括：\n这一章讲清楚后，后面的日常操作会轻松很多，因为你不再只是背命令，而是知道命令分别作用在哪一层。\n先把 Git 想成三层：\n它们不是三个完全独立的世界，但你每次操作，几乎都在这三层之间移动内容。",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Git 是怎么想的</span>"
+    ]
+  },
+  {
+    "objectID": "02-how-git-thinks.html#先把这张图装进脑子里",
+    "href": "02-how-git-thinks.html#先把这张图装进脑子里",
+    "title": "2  Git 是怎么想的",
+    "section": "",
+    "text": "工作区\n暂存区\n仓库历史\n\n\n\n2.1.1 工作区\n工作区就是你现在手上正在改的文件。你在编辑器里打字、删句子、加代码，改的都是工作区里的内容。\n它的特点是：\n\n改了就改了\n还没正式进入历史\n改到一半也很正常\n\n工作区最像你桌上摊开的草稿。\n\n\n2.1.2 暂存区\n暂存区是很多人第一次学 Git 时最疑惑的地方。它像一个“准备提交清单”。你不是一改文件就直接进入历史，而是先挑出这次准备交出去的修改，放进暂存区。\n它的作用是：让你把一次提交组织得更干净。\n比如你今天同时做了两件事：\n\n修正了一段错别字\n新增了一个例子\n\n如果你想把这两件事分成两次提交，就需要暂存区。因为 Git 不是强迫你把手头所有变化一次全交出去。\n\n\n2.1.3 仓库历史\n仓库历史就是已经提交完成的记录。每一次提交，都会成为这条历史上的一个节点。以后你看日志、比较差异、回到旧版本，都是在和这条历史打交道。\n所以可以先这样记：\n\n工作区：你正在改\n暂存区：你准备交\n仓库历史：你已经交出去并记录下来了",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Git 是怎么想的</span>"
+    ]
+  },
+  {
+    "objectID": "02-how-git-thinks.html#为什么-git-add-和-git-commit-要分开",
+    "href": "02-how-git-thinks.html#为什么-git-add-和-git-commit-要分开",
+    "title": "2  Git 是怎么想的",
+    "section": "2.2 为什么 git add 和 git commit 要分开",
+    "text": "2.2 为什么 git add 和 git commit 要分开\n很多初学者一开始会觉得这设计有点绕，为什么不能改完直接提交。\n因为现实里的修改，往往不是整块整块长得很整齐。你今天可能一边修错字，一边试新写法，一边顺手改了标题。如果改完就自动提交，你会很难把这次修改说清楚。\ngit add 的作用，就是先挑选“这一次要提交的内容”。\ngit commit 的作用，则是把已经挑好的内容正式记进历史。\n这两步分开以后，你就能做到：\n\n把一团修改拆成几笔\n暂时不提交还没整理好的内容\n让提交历史以后更容易读\n\n如果把这件事再说白一点，就是 Git 不希望你把“我今天手上所有乱七八糟的改动”原封不动扔进历史。它逼你多做一步选择，而这一步选择，恰恰决定了历史后来会不会清楚。",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Git 是怎么想的</span>"
+    ]
+  },
+  {
+    "objectID": "02-how-git-thinks.html#一次提交到底保存了什么",
+    "href": "02-how-git-thinks.html#一次提交到底保存了什么",
+    "title": "2  Git 是怎么想的",
+    "section": "2.3 一次提交到底保存了什么",
+    "text": "2.3 一次提交到底保存了什么\n很多初学者会把提交想成“把整个文件重新存一份”。这个理解不算全错，但还不够准确。\n更贴近的说法是：\n\n提交会记录当时项目的一个状态\n同时把这次状态和上一笔历史连起来\n\n所以提交真正有价值的地方，不只是“这里存过一次”，而是“你能知道这个状态是从上一个状态怎么变来的”。\n这也是为什么提交一旦写得清楚，项目历史读起来就像一条有逻辑的变化线；写得乱时，历史就会变成一团很难回看的存档。",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Git 是怎么想的</span>"
+    ]
+  },
+  {
+    "objectID": "02-how-git-thinks.html#用一个具体场景来理解三层",
+    "href": "02-how-git-thinks.html#用一个具体场景来理解三层",
+    "title": "2  Git 是怎么想的",
+    "section": "2.4 用一个具体场景来理解三层",
+    "text": "2.4 用一个具体场景来理解三层\n假设你在维护一个个人网站，当前目录里有个 index.html。\n一开始，文件里写的是：\n&lt;h1&gt;欢迎来到我的网站&lt;/h1&gt;\n你后来把它改成：\n&lt;h1&gt;欢迎来到我的网站&lt;/h1&gt;\n&lt;p&gt;这里记录我的作品和联系方式。&lt;/p&gt;\n这时事情发生在工作区，还没有进入历史。\n如果你接着执行：\ngit add index.html\n这份修改就会进入暂存区。意思不是“已经永久保存”，而是“这次准备把它交出去”。\n再执行：\ngit commit -m \"补充首页简介\"\n它才会进入仓库历史，成为一笔正式记录。",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Git 是怎么想的</span>"
+    ]
+  },
+  {
+    "objectID": "02-how-git-thinks.html#现在就来做一次最小实操",
+    "href": "02-how-git-thinks.html#现在就来做一次最小实操",
+    "title": "2  Git 是怎么想的",
+    "section": "2.5 现在就来做一次最小实操",
+    "text": "2.5 现在就来做一次最小实操\n这一章开始，我们正式动手。请在终端进入一个你打算练习的目录。为了不影响现有项目，你可以新建一个测试目录。\nmkdir git-thinking-demo\ncd git-thinking-demo\ngit init\nprintf \"第一版内容\\n\" &gt; notes.txt\ngit status\n\n2.5.1 你现在应该看到什么\n如果顺利，git init 之后会出现类似“Initialized empty Git repository”的提示。不同系统提示文字可能略有不同，但重点都一样：这里已经变成 Git 仓库了。\ngit status 这时通常会告诉你：\n\n当前在某个分支上，常见是 main 或 master\n有一个 notes.txt 还没有被追踪\n\n也就是你大概率会看到类似 Untracked files 的提示。\n\n\n2.5.2 这一步怎样算成功\n算成功：\n\ngit init 没有报错\n当前目录里已经有 Git 仓库\ngit status 能看到 notes.txt\n状态里显示它还没被追踪\n\n算失败：\n\n终端提示 git: command not found\ngit status 报错，说当前目录不是 Git 仓库\n你明明建了 notes.txt，状态里却没有看到它\n\n如果失败，先检查三件事：\n\n你电脑上有没有安装 Git\n你现在所在的目录是不是刚才初始化仓库的目录\nnotes.txt 是不是确实建在当前目录里",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Git 是怎么想的</span>"
+    ]
+  },
+  {
+    "objectID": "02-how-git-thinks.html#从工作区走到暂存区",
+    "href": "02-how-git-thinks.html#从工作区走到暂存区",
+    "title": "2  Git 是怎么想的",
+    "section": "2.6 从工作区走到暂存区",
+    "text": "2.6 从工作区走到暂存区\n接着执行：\ngit add notes.txt\ngit status\n这时最关键的变化是：notes.txt 不会再出现在“未追踪文件”那里，而会进入“准备提交”的状态。\n不同界面的提示可能不同，但你应该能看到类似：\n\nChanges to be committed\nnew file: notes.txt\n\n\n2.6.1 这一步怎样算成功\n算成功：\n\ngit add 没有报错\ngit status 里能看到 notes.txt 已进入待提交区域\n它不再显示为 Untracked\n\n算失败：\n\ngit add 提示找不到 notes.txt\ngit status 里仍然只有 Untracked files\n你在别的目录执行了 git add\n\n如果这一步没成功，通常不是 Git 坏了，而是路径或当前目录不对。",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Git 是怎么想的</span>"
+    ]
+  },
+  {
+    "objectID": "02-how-git-thinks.html#从暂存区走到历史",
+    "href": "02-how-git-thinks.html#从暂存区走到历史",
+    "title": "2  Git 是怎么想的",
+    "section": "2.7 从暂存区走到历史",
+    "text": "2.7 从暂存区走到历史\n继续执行：\ngit commit -m \"添加第一版笔记\"\ngit status\n第一次提交时，有些电脑会先提示你设置身份信息，例如用户名和邮箱。如果出现这类提示，可以按它给出的命令先设置。\n设置方式通常像这样：\ngit config --global user.name \"你的名字\"\ngit config --global user.email \"你的邮箱\"\n然后再重新执行提交命令。\n\n2.7.1 你现在应该看到什么\n提交成功后，Git 通常会输出一小段摘要，告诉你：\n\n这次提交的编号前几位\n提交说明\n改了几个文件\n\n接着再跑一次 git status，大多数情况下你会看到类似：\nnothing to commit, working tree clean\n意思是：工作区里没有还没处理的修改，当前状态是干净的。\n\n\n2.7.2 这一步怎样算成功\n算成功：\n\ngit commit 成功建立一笔提交\ngit status 显示当前没有待提交内容\n你已经从“未追踪文件”走到“干净历史”\n\n算失败：\n\ngit commit 提示没有设置 user.name 或 user.email\ngit commit 提示没有任何内容可提交\n你以为提交成功了，但 git status 仍然显示有未处理修改\n\n最后一种情况常见于：你改了文件，但没有先 git add。",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Git 是怎么想的</span>"
+    ]
+  },
+  {
+    "objectID": "02-how-git-thinks.html#再做一次修改观察三层重新分开",
+    "href": "02-how-git-thinks.html#再做一次修改观察三层重新分开",
+    "title": "2  Git 是怎么想的",
+    "section": "2.8 再做一次修改，观察三层重新分开",
+    "text": "2.8 再做一次修改，观察三层重新分开\n现在打开 notes.txt，把内容改成：\n第一版内容\n第二行补充说明\n然后执行：\ngit status\ngit diff\n这时你应该会看到：\n\ngit status 告诉你文件被修改了\ngit diff 直接显示这次加了哪一行\n\n重点在于：这时修改只在工作区，还没进入暂存区，也没进入历史。\n你可以把这三个状态分别想成：\n\n工作区：桌上还在改的稿子\n暂存区：已经挑好、准备交出去的部分\n历史：已经正式记档的版本\n\n这三个位置一旦在脑子里站稳，后面很多命令都会顺很多。\n接着执行：\ngit add notes.txt\ngit status\ngit diff\ngit diff --staged\n这里很值得观察，因为它能帮你真正看见三层。\n\n2.8.1 现在分别在看什么\n\ngit diff：看工作区和暂存区之间的差异\ngit diff --staged：看暂存区和上一笔提交之间的差异\n\n如果你刚 add 完还没再改文件，常见情况会是：\n\ngit diff 没内容\ngit diff --staged 能看到你刚才加进去的那一行\n\n这说明修改已经从工作区进入暂存区了。\n这里很多人第一次会有一种“原来是这样”的感觉。因为在没看见 git diff 和 git diff --staged 的区别前，工作区和暂存区很容易只是书上的两个词；一旦亲眼看到两条命令输出不同，这两层才会真正立起来。",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Git 是怎么想的</span>"
+    ]
+  },
+  {
+    "objectID": "02-how-git-thinks.html#为什么理解这件事很重要",
+    "href": "02-how-git-thinks.html#为什么理解这件事很重要",
+    "title": "2  Git 是怎么想的",
+    "section": "2.9 为什么理解这件事很重要",
+    "text": "2.9 为什么理解这件事很重要\n很多 Git 初学者会在这里卡很久，因为他们心里其实只有两层：\n\n文件现在长什么样\n历史里以前长什么样\n\n但 Git 中间还有一个暂存区。你一旦漏掉这一层，就会觉得很多现象很奇怪，比如：\n\n明明改了文件，为什么提交时说没有内容\n明明刚 add 过，为什么 git diff 什么都没显示\n为什么有些修改提交了，有些还没有\n\n一旦把三层看清楚，这些现象都会变得合理。",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Git 是怎么想的</span>"
+    ]
+  },
+  {
+    "objectID": "02-how-git-thinks.html#这一章你至少要练到什么程度",
+    "href": "02-how-git-thinks.html#这一章你至少要练到什么程度",
+    "title": "2  Git 是怎么想的",
+    "section": "2.10 这一章你至少要练到什么程度",
+    "text": "2.10 这一章你至少要练到什么程度\n到这里，你不需要已经记住所有命令，但至少应该做到下面这些判断。\n如果给你一个文件当前状态，你要能回答：\n\n它现在只是工作区改了，还是已经进暂存区了\n它有没有进入历史\n下一步该用 git add，还是该用 git commit\n\n如果这三件事你还答不稳，先不要急着往后冲。把这一章的练习多做两遍，比死背命令有效得多。\n学 Git 时，最容易让人着急的地方，就是总想赶快进入更像“高级操作”的部分。但如果这一章没站稳，后面的撤销、分支、合并和远端同步都会显得更乱。这个地基打稳，后面会省很多力气。",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Git 是怎么想的</span>"
+    ]
+  },
+  {
+    "objectID": "02-how-git-thinks.html#本章练习",
+    "href": "02-how-git-thinks.html#本章练习",
+    "title": "2  Git 是怎么想的",
+    "section": "2.11 本章练习",
+    "text": "2.11 本章练习\n\n2.11.1 练习 1：亲手走完三层\n在一个测试目录里，从头再做一遍：\n\ngit init\n新建一个文件\ngit status\ngit add\ngit status\ngit commit\n再次修改文件\ngit diff\ngit add\ngit diff --staged\n\n\n\n2.11.2 练习 2：判断成功和失败\n算成功：\n\n你能说清楚每一步是在处理工作区、暂存区还是历史\n你知道为什么 git add 和 git commit 不是一回事\n你能根据 git status 的结果判断下一步该做什么\n\n算失败：\n\n你仍然把 git add 理解成“提交”\n你看不懂 Untracked、Changes to be committed、modified 这些状态\n你不知道 git diff 和 git diff --staged 分别在比什么\n\n如果还没稳，最值得重做的不是整章重读，而是再做一遍最小实验，边做边看状态变化。Git 很多时候不是“看懂”的，而是“看着状态变一次，就慢慢懂了”。",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Git 是怎么想的</span>"
+    ]
+  },
+  {
+    "objectID": "03-first-repo.html",
+    "href": "03-first-repo.html",
+    "title": "3  第一次建立仓库",
+    "section": "",
+    "text": "3.1 先把这一章的验收标准放清楚\n理解了基本概念之后，下一步就是亲手建一个仓库，把 Git 真正跑起来。\n这一章会从最小流程开始：建立一个目录、初始化 Git、加入文件、查看状态、做出第一笔提交。重点不是把命令一次列满，而是让你亲眼看到 Git 从“还没开始追踪”到“已经留下历史”的过程。\n本章会带你完成：\n读完这一章，你应该已经能独立开始一个小项目，并知道 Git 现在记住了什么。\n这一章不是“跟着敲完就算结束”。更实际的标准是：做到最后时，你应该能独立回答下面几件事。\n如果这四个问题你都能答得稳，这一章才算真的过关。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第一次建立仓库</span>"
+    ]
+  },
+  {
+    "objectID": "03-first-repo.html#先把这一章的验收标准放清楚",
+    "href": "03-first-repo.html#先把这一章的验收标准放清楚",
+    "title": "3  第一次建立仓库",
+    "section": "",
+    "text": "我这个目录现在是不是 Git 仓库\n哪些文件已经被追踪，哪些还没有\n第一笔历史有没有真的建起来\n.gitignore 到底在排除什么",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第一次建立仓库</span>"
+    ]
+  },
+  {
+    "objectID": "03-first-repo.html#这一章要做出什么",
+    "href": "03-first-repo.html#这一章要做出什么",
+    "title": "3  第一次建立仓库",
+    "section": "3.2 这一章要做出什么",
+    "text": "3.2 这一章要做出什么\n我们先定一个很具体的目标。做完这一章时，你手上应该有一个最小 Git 仓库，里面至少有：\n\n一个被 Git 追踪的文本文件\n一笔真正提交成功的历史\n一个简单的 .gitignore\n\n如果这三样东西都在，你就不是“看过 Git”，而是真的开过一个仓库了。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第一次建立仓库</span>"
+    ]
+  },
+  {
+    "objectID": "03-first-repo.html#练习环境怎么准备",
+    "href": "03-first-repo.html#练习环境怎么准备",
+    "title": "3  第一次建立仓库",
+    "section": "3.3 练习环境怎么准备",
+    "text": "3.3 练习环境怎么准备\n为了避免把练习和你正在做的项目混在一起，先单独建一个测试目录。终端里执行：\nmkdir git-first-repo-demo\ncd git-first-repo-demo\n如果你已经有一个同名目录，也可以换个名字。重点不是目录叫什么，而是你要清楚：接下来的每一步都发生在这个目录里。\n\n3.3.1 这一步怎样算成功\n算成功：\n\nmkdir 和 cd 都没有报错\n终端当前目录已经变成 git-first-repo-demo\n\n算失败：\n\nmkdir 提示目录已存在\n你执行完 cd 后，其实还停在原来的目录\n\n如果目录已存在，又不确定里面有没有旧内容，最好换一个新的目录名，避免练习结果和旧文件混在一起。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第一次建立仓库</span>"
+    ]
+  },
+  {
+    "objectID": "03-first-repo.html#第一步初始化仓库",
+    "href": "03-first-repo.html#第一步初始化仓库",
+    "title": "3  第一次建立仓库",
+    "section": "3.4 第一步：初始化仓库",
+    "text": "3.4 第一步：初始化仓库\n在刚才的目录里执行：\ngit init\n这条命令的意思是：告诉 Git，从现在开始，这个目录要当作一个仓库来管理。\n很多人第一次执行 git init 时，会觉得它像是“做了什么很神秘的初始化”。其实你可以先把它想得朴素一点：从这一刻起，Git 开始在这个目录里建立自己的记录方式了。\n\n3.4.1 你现在应该看到什么\n通常会看到类似下面的提示：\nInitialized empty Git repository in ...\n不同系统上的文字可能不完全一样，但核心意思都是一样的：这个目录已经被初始化成一个 Git 仓库。\n\n\n3.4.2 这一步怎样算成功\n算成功：\n\ngit init 没有报错\n当前目录已经变成 Git 仓库\n\n算失败：\n\n出现 git: command not found\n你其实不在预期目录里，却把别的目录初始化成了仓库\n\n如果第二种情况发生了，不要急着乱删东西，先用 pwd 看清楚自己当前在哪个目录。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第一次建立仓库</span>"
+    ]
+  },
+  {
+    "objectID": "03-first-repo.html#第二步建一个文件让-git-有东西可管",
+    "href": "03-first-repo.html#第二步建一个文件让-git-有东西可管",
+    "title": "3  第一次建立仓库",
+    "section": "3.5 第二步：建一个文件，让 Git 有东西可管",
+    "text": "3.5 第二步：建一个文件，让 Git 有东西可管\n现在我们建一个简单文件：\nprintf \"# 我的第一个 Git 仓库\\n\" &gt; README.md\ngit status\n这里的 README.md 只是一个例子。很多项目都会有这个文件，用来说明这个仓库是做什么的。\n这里选 README.md 还有一个好处：它足够简单，不会把你的注意力带去业务内容本身。你现在要练的不是“写什么”，而是“Git 怎样开始接管一个文件”。\n\n3.5.1 你现在应该看到什么\ngit status 大概率会显示：\n\n有一个 README.md\n它目前还没有被追踪\n\n你常见到的提示会是：\nUntracked files:\n  README.md\n\n\n3.5.2 这一步怎样算成功\n算成功：\n\nREADME.md 已经建出来了\ngit status 能看到它\n它显示为 Untracked\n\n算失败：\n\n文件没有真的建立成功\n你建了文件，但不在当前目录\ngit status 没看到这个文件\n\n如果 git status 看不到它，先执行一次 ls，确认文件是不是真的在当前目录里。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第一次建立仓库</span>"
+    ]
+  },
+  {
+    "objectID": "03-first-repo.html#第三步把文件加入暂存区",
+    "href": "03-first-repo.html#第三步把文件加入暂存区",
+    "title": "3  第一次建立仓库",
+    "section": "3.6 第三步：把文件加入暂存区",
+    "text": "3.6 第三步：把文件加入暂存区\n现在执行：\ngit add README.md\ngit status\n这一步不是“已经提交”，只是把 README.md 放进本次准备提交的清单。\n\n3.6.1 你现在应该看到什么\n这时 README.md 应该从“未追踪文件”移动到“准备提交的修改”。\n常见提示像这样：\nChanges to be committed:\n  new file: README.md\n\n\n3.6.2 这一步怎样算成功\n算成功：\n\ngit add 没报错\nREADME.md 不再出现在 Untracked files\n它出现在 Changes to be committed\n\n算失败：\n\ngit add 报错，提示找不到文件\ngit status 里仍然显示它未被追踪\n\n这种失败一般不是 Git 有问题，而是文件名、路径或当前目录不对。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第一次建立仓库</span>"
+    ]
+  },
+  {
+    "objectID": "03-first-repo.html#第四步提交第一笔历史",
+    "href": "03-first-repo.html#第四步提交第一笔历史",
+    "title": "3  第一次建立仓库",
+    "section": "3.7 第四步：提交第一笔历史",
+    "text": "3.7 第四步：提交第一笔历史\n现在执行：\ngit commit -m \"初始化仓库并添加 README\"\ngit status\n\n3.7.1 如果 Git 要你先设置身份\n第一次在这台电脑上提交时，Git 可能会要求你先设置用户名和邮箱。如果看到类似提示，可以先执行：\ngit config --global user.name \"你的名字\"\ngit config --global user.email \"你的邮箱\"\n然后再重新执行提交命令。\n\n\n3.7.2 你现在应该看到什么\n提交成功后，Git 通常会输出一段简短信息，里面会包含：\n\n本次提交的简短编号\n你写的提交说明\n这次改动涉及几个文件\n\n随后再看 git status，你应该会看到：\nnothing to commit, working tree clean\n这句话很重要，它表示当前工作区和暂存区都没有还没处理的内容。\n\n\n3.7.3 这一步怎样算成功\n算成功：\n\n第一笔提交已经建立起来\ngit status 显示工作区是干净的\n你已经有了一个最小可用仓库\n\n算失败：\n\ngit commit 因为身份信息没设好而失败\ngit commit 提示没有东西可提交\n提交后 git status 仍然显示有文件没处理\n\n第二种情况通常说明：你忘了先 git add。\n这也是初学者最容易混淆的一点：改了文件不等于已经进入历史。Git 不会替你脑补“你大概是想提交吧”。你得明确告诉它，这次要交哪些内容。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第一次建立仓库</span>"
+    ]
+  },
+  {
+    "objectID": "03-first-repo.html#第五步确认历史真的存在",
+    "href": "03-first-repo.html#第五步确认历史真的存在",
+    "title": "3  第一次建立仓库",
+    "section": "3.8 第五步：确认历史真的存在",
+    "text": "3.8 第五步：确认历史真的存在\n很多初学者做到这里，会以为“状态干净了就算结束”。更关键的是，你要确认历史真的留下来了。\n执行：\ngit log --oneline\n\n3.8.1 你现在应该看到什么\n你应该会看到至少一行输出，大致像这样：\nabc1234 初始化仓库并添加 README\n前面那串短编号会因每台电脑不同而不同，但你应该能看到：\n\n一笔提交记录\n你刚才写的提交说明\n\n\n\n3.8.2 这一步怎样算成功\n算成功：\n\ngit log --oneline 能显示出刚才那笔提交\n你能确认第一笔历史已经存在\n\n算失败：\n\ngit log 没有输出你预期的提交\n你以为提交成功了，其实刚才那一步根本没成功\n\n如果这里没有看到记录，就回头检查上一节的 git commit 是否真的执行成功。\n把 git log --oneline 养成习惯很值得。它不是多做一步，而是在帮你确认：我以为自己已经完成的事情，是不是真的已经进入历史。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第一次建立仓库</span>"
+    ]
+  },
+  {
+    "objectID": "03-first-repo.html#第六步再改一次感受日常节奏",
+    "href": "03-first-repo.html#第六步再改一次感受日常节奏",
+    "title": "3  第一次建立仓库",
+    "section": "3.9 第六步：再改一次，感受日常节奏",
+    "text": "3.9 第六步：再改一次，感受日常节奏\n现在继续修改 README.md，追加一行说明：\nprintf \"\\n这是一个用来练习 Git 的测试仓库。\\n\" &gt;&gt; README.md\ngit status\ngit diff\n这时你应该看到：\n\nREADME.md 被标记为已修改\ngit diff 显示你新加的那一行\n\n然后执行：\ngit add README.md\ngit commit -m \"补充仓库说明\"\ngit log --oneline\n\n3.9.1 这一步怎样算成功\n算成功：\n\n你又完成了一次完整流程：修改、查看、暂存、提交\ngit log --oneline 里现在至少有两笔提交\n最新一笔是 补充仓库说明\n\n算失败：\n\ngit diff 看不到你预期的改动\ngit commit 后日志里还是只有一笔提交\n你把内容改了，但忘了保存文件\n\n最后一种情况很常见，尤其是用编辑器手动修改时。终端命令没问题，不代表文件已经真的保存到了磁盘上。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第一次建立仓库</span>"
+    ]
+  },
+  {
+    "objectID": "03-first-repo.html#gitignore-是干什么的",
+    "href": "03-first-repo.html#gitignore-是干什么的",
+    "title": "3  第一次建立仓库",
+    "section": "3.10 .gitignore 是干什么的",
+    "text": "3.10 .gitignore 是干什么的\n到这里，仓库已经能正常工作了。接下来要补一个很实用的东西：.gitignore。\n不是所有文件都该交给 Git 管。比如：\n\n临时文件\n编辑器自动生成的缓存\n编译产物\n本地环境文件\n\n这一点越早建立越省事。很多仓库之所以一开始就显得乱，不是因为 Git 难，而是因为不该进仓库的东西太早混进来了。\n如果这些文件混进仓库，状态会变得很乱，协作时也容易带来麻烦。\n现在执行：\nprintf \".DS_Store\\n*.log\\n\" &gt; .gitignore\ngit status\n\n3.10.1 你现在应该看到什么\n这时 Git 会把 .gitignore 当作一个新文件看待，因为你刚刚新建了它。它通常会显示在未追踪文件里。\n如果你目录里恰好有 .DS_Store 或某个 .log 文件，Git 之后就会忽略它们，不再把它们列为待处理内容。\n\n\n3.10.2 这一步怎样算成功\n算成功：\n\n.gitignore 文件建立成功\ngit status 能看到 .gitignore\n以后匹配规则的文件不会再反复冒出来\n\n算失败：\n\n你写错了文件名，比如写成 gitignore\n忽略规则没有生效，却以为 Git 出了问题\n\n要注意一件事：如果某个文件之前已经被 Git 追踪了，后来才写进 .gitignore，它不会自动消失。.gitignore 主要影响“还没被追踪的文件”。\n这一句很值得记住，因为很多人第一次用 .gitignore 时，都会误以为“写进去以后 Git 就会自动把旧文件忘掉”。其实不是这样，它更像是在说：从现在起，这类新文件别再来打扰我。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第一次建立仓库</span>"
+    ]
+  },
+  {
+    "objectID": "03-first-repo.html#把-.gitignore-也提交进去",
+    "href": "03-first-repo.html#把-.gitignore-也提交进去",
+    "title": "3  第一次建立仓库",
+    "section": "3.11 把 .gitignore 也提交进去",
+    "text": "3.11 把 .gitignore 也提交进去\n既然 .gitignore 是仓库规则的一部分，它本身通常也应该提交进历史。\n执行：\ngit add .gitignore\ngit commit -m \"添加基础忽略规则\"\ngit log --oneline\n\n3.11.1 这一步怎样算成功\n算成功：\n\n.gitignore 也进入历史\n日志里能看到第三笔提交\n\n算失败：\n\n你建了 .gitignore，但没提交进去\n之后换一台电脑或换一个协作者，这份规则就跟着丢了",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第一次建立仓库</span>"
+    ]
+  },
+  {
+    "objectID": "03-first-repo.html#到这里你应该已经具备什么能力",
+    "href": "03-first-repo.html#到这里你应该已经具备什么能力",
+    "title": "3  第一次建立仓库",
+    "section": "3.12 到这里你应该已经具备什么能力",
+    "text": "3.12 到这里你应该已经具备什么能力\n如果前面的流程你都亲手做过一遍，到这一章结束时，你应该已经能独立完成下面这些动作：\n\n建一个新目录并初始化 Git\n用 git status 判断当前状态\n用 git add 把文件放进暂存区\n用 git commit 建立正式历史\n用 git log --oneline 检查历史\n用 .gitignore 排除一部分不该追踪的文件\n\n这就是一个最小但完整的 Git 起点。\n从这一章往后，你会不断往这个最小起点上加东西：看差异、读历史、撤销、分支、远端、协作。可无论后面学多少内容，起点一直都是这里这几步。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第一次建立仓库</span>"
+    ]
+  },
+  {
+    "objectID": "03-first-repo.html#本章练习",
+    "href": "03-first-repo.html#本章练习",
+    "title": "3  第一次建立仓库",
+    "section": "3.13 本章练习",
+    "text": "3.13 本章练习\n\n3.13.1 练习 1：从零再做一遍\n换一个新的测试目录，从头完整做一次，不要看上面的命令逐条照抄，只在卡住时回头检查。\n如果你能自己完成下面这些动作，说明这一章已经基本稳了：\n\n建仓库\n建文件\n做第一笔提交\n再改一次并提交\n加入 .gitignore\n\n\n\n3.13.2 练习 2：判断成功和失败\n算成功：\n\n你已经有一个真的 Git 仓库，不是空目录\ngit log --oneline 至少能看到两到三笔提交\ngit status 大多数时候能回到 working tree clean\n你知道 .gitignore 是拿来排除什么的\n\n算失败：\n\n你只会照抄命令，但看不懂 git status\n你以为 git add 就等于完成提交\n你提交过了，却不会检查日志\n你不知道仓库里哪些文件该交给 Git，哪些不该\n\n如果还没稳，不要急着往分支和远端走。先把这一章练到顺，因为后面所有操作都建立在这个最小流程上。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>第一次建立仓库</span>"
+    ]
+  },
+  {
+    "objectID": "04-history-and-diff.html",
+    "href": "04-history-and-diff.html",
+    "title": "4  怎么看变化，怎么看历史",
+    "section": "",
+    "text": "4.1 为什么这一步很重要\n会提交只是开始。真正让 Git 有价值的，是你之后能看见改了什么、什么时候改的、是谁改的，以及这次修改和上一次到底差在哪里。\n这一章会带你学会两件事：怎么看当前变化，怎么看过去历史。前者帮你决定这次要不要提交，后者帮你理解一个项目是怎么一步步变成今天这个样子的。\n本章会涵盖：\n如果这一章掌握了，你会开始感受到 Git 不只是“保存一下”，而是在帮你整理整个修改过程。\n很多初学者学 Git 时，容易把重点放在“怎么提交”。可一旦提交次数变多，真正决定你会不会乱掉的，反而是另外两个能力：\n如果没有这两个能力，提交就会慢慢退化成机械动作。表面上你在用 Git，实际上历史还是一团乱。",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>怎么看变化，怎么看历史</span>"
+    ]
+  },
+  {
+    "objectID": "04-history-and-diff.html#为什么这一步很重要",
+    "href": "04-history-and-diff.html#为什么这一步很重要",
+    "title": "4  怎么看变化，怎么看历史",
+    "section": "",
+    "text": "你能不能在提交前看懂自己改了什么\n你能不能在几天以后看懂当时为什么那么改",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>怎么看变化，怎么看历史</span>"
+    ]
+  },
+  {
+    "objectID": "04-history-and-diff.html#先准备一个练习仓库",
+    "href": "04-history-and-diff.html#先准备一个练习仓库",
+    "title": "4  怎么看变化，怎么看历史",
+    "section": "4.2 先准备一个练习仓库",
+    "text": "4.2 先准备一个练习仓库\n如果你前一章已经做过 git-first-repo-demo，可以继续沿用那个目录。没有的话，就先建立一个最小仓库，并至少做过一笔提交。\n你需要先确保下面这件事成立：\ngit status\ngit log --oneline\n\n4.2.1 这一步怎样算成功\n算成功：\n\ngit status 能正常执行\ngit log --oneline 至少能看到一笔提交\n\n算失败：\n\ngit status 提示当前目录不是 Git 仓库\ngit log --oneline 没有任何提交记录\n\n如果这里还没准备好，就先回到上一章，把仓库初始化和第一次提交补齐。",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>怎么看变化，怎么看历史</span>"
+    ]
+  },
+  {
+    "objectID": "04-history-and-diff.html#第一部分怎么看当前变化",
+    "href": "04-history-and-diff.html#第一部分怎么看当前变化",
+    "title": "4  怎么看变化，怎么看历史",
+    "section": "4.3 第一部分：怎么看当前变化",
+    "text": "4.3 第一部分：怎么看当前变化\n先改一个文件。假设你当前目录里有 README.md，现在追加两行：\nprintf \"\\n## 练习目标\\n学会查看差异和历史。\\n\" &gt;&gt; README.md\ngit status\n\n4.3.1 你现在应该看到什么\n这时 git status 应该会告诉你：README.md 被修改了，但还没有进入暂存区。\n常见提示像这样：\nmodified: README.md\n\n\n4.3.2 这一步怎样算成功\n算成功：\n\n你已经真的改到了文件\ngit status 把 README.md 标成 modified\n\n算失败：\n\n你以为自己改了，但文件其实没保存\ngit status 没看到任何变化\n\n如果状态没有变化，先检查文件是不是改在当前仓库里那一份，而不是改到了别的目录里的同名文件。",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>怎么看变化，怎么看历史</span>"
+    ]
+  },
+  {
+    "objectID": "04-history-and-diff.html#用-git-diff-看改了什么",
+    "href": "04-history-and-diff.html#用-git-diff-看改了什么",
+    "title": "4  怎么看变化，怎么看历史",
+    "section": "4.4 用 git diff 看改了什么",
+    "text": "4.4 用 git diff 看改了什么\n现在执行：\ngit diff\n这条命令会直接比较“工作区现在的内容”和“暂存区里当前准备提交的内容”。因为你现在还没 git add，所以它会把刚才新加的两行显示出来。\n\n4.4.1 你现在应该看到什么\n你通常会看到一段带 + 和 - 的输出：\n\n以 + 开头的行，表示新增内容\n以 - 开头的行，表示删除内容\n\n如果你刚才只是追加了两行，大概率会看到两行以 + 开头的文本。\n\n\n4.4.2 这一步怎样算成功\n算成功：\n\ngit diff 能清楚显示你刚才改动的内容\n你能看出哪些行是新增，哪些行是删除\n\n算失败：\n\ngit diff 什么都没显示，但你明明改了文件\n你看到输出，却完全分不清哪些是旧内容，哪些是新内容\n\n第一种失败最常见的原因是：你已经先 git add 了。这样工作区和暂存区一致，git diff 就可能没有输出。",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>怎么看变化，怎么看历史</span>"
+    ]
+  },
+  {
+    "objectID": "04-history-and-diff.html#为什么-git-diff-有时没输出",
+    "href": "04-history-and-diff.html#为什么-git-diff-有时没输出",
+    "title": "4  怎么看变化，怎么看历史",
+    "section": "4.5 为什么 git diff 有时没输出",
+    "text": "4.5 为什么 git diff 有时没输出\n这是初学者最容易困惑的地方之一。不是没有改动，而是你比较的两层刚好一样。\n比如你执行：\ngit add README.md\ngit diff\ngit diff --staged\n这时常见情况会变成：\n\ngit diff 没输出\ngit diff --staged 有输出\n\n原因不是 Git 出问题了，而是因为：\n\n工作区和暂存区现在一样\n暂存区和上一次提交不一样\n\n\n4.5.1 这一步怎样算成功\n算成功：\n\n你能理解为什么 git diff 和 git diff --staged 的结果不同\n你知道该用哪条命令看哪一层的差异\n\n算失败：\n\n你把“没输出”理解成“改动消失了”\n你不知道修改现在到底停在哪一层",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>怎么看变化，怎么看历史</span>"
+    ]
+  },
+  {
+    "objectID": "04-history-and-diff.html#第二部分怎么看历史",
+    "href": "04-history-and-diff.html#第二部分怎么看历史",
+    "title": "4  怎么看变化，怎么看历史",
+    "section": "4.6 第二部分：怎么看历史",
+    "text": "4.6 第二部分：怎么看历史\n当前改动看明白以后，下一步就是看历史。先把刚才的改动提交进去：\ngit commit -m \"补充练习目标说明\"\ngit log\n\n4.6.1 你现在应该看到什么\ngit log 通常会显示一串提交记录，最新的在最上面。每一笔提交一般都会包含：\n\n提交编号\n作者\n日期\n提交说明\n\n如果你觉得这信息太长，也可以用更紧凑的版本：\ngit log --oneline\n这样每笔提交会压成一行，更适合快速浏览。\n\n\n4.6.2 这一步怎样算成功\n算成功：\n\ngit log 能看到刚才那笔新提交\ngit log --oneline 能按顺序列出历史\n\n算失败：\n\n你刚提交完，但日志里没有新记录\n你其实没有提交成功，却误以为已经进入历史\n\n如果日志没有更新，先不要猜，直接重新看上一条 git commit 的输出有没有报错。",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>怎么看变化，怎么看历史</span>"
+    ]
+  },
+  {
+    "objectID": "04-history-and-diff.html#git-log-在解决什么问题",
+    "href": "04-history-and-diff.html#git-log-在解决什么问题",
+    "title": "4  怎么看变化，怎么看历史",
+    "section": "4.7 git log 在解决什么问题",
+    "text": "4.7 git log 在解决什么问题\n它不只是让你“看看过去发生过什么”，更是在帮你回答几个很实际的问题：\n\n这个项目最近改了什么\n这段改动是谁加进去的\n哪一次提交引入了某个变化\n如果我要回头找一版内容，该往哪里看\n\n所以 git log 不是一个可有可无的命令，它是你读项目历史的入口。",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>怎么看变化，怎么看历史</span>"
+    ]
+  },
+  {
+    "objectID": "04-history-and-diff.html#第三部分怎么写比较像样的提交信息",
+    "href": "04-history-and-diff.html#第三部分怎么写比较像样的提交信息",
+    "title": "4  怎么看变化，怎么看历史",
+    "section": "4.8 第三部分：怎么写比较像样的提交信息",
+    "text": "4.8 第三部分：怎么写比较像样的提交信息\n很多人刚开始写提交信息时，会写成：\n\nupdate\nfix\nchange file\nagain\n\n这些信息不是完全不能用，但问题是：三天以后你几乎看不出当时做了什么。\n比较像样的提交说明，至少应该做到一件事：让未来的你一眼知道这笔提交在解决什么。\n例如下面这些就更清楚：\n\n添加 README 初稿\n补充练习目标说明\n修正文档中的命令示例\n添加基础忽略规则\n\n\n4.8.1 什么样的提交信息算成功\n算成功：\n\n只看提交说明，大致就知道这次做了什么\n说明和实际改动能对得上\n\n算失败：\n\n提交说明空泛到几乎没有信息\n一条说明里混了太多不相干的事情\n\n比如你同时修了错字、改了结构、加了新例子，却只写一个 update，以后就很难回头查。",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>怎么看变化，怎么看历史</span>"
+    ]
+  },
+  {
+    "objectID": "04-history-and-diff.html#一个最小对比实验",
+    "href": "04-history-and-diff.html#一个最小对比实验",
+    "title": "4  怎么看变化，怎么看历史",
+    "section": "4.9 一个最小对比实验",
+    "text": "4.9 一个最小对比实验\n你可以现在自己做个实验，连续做两笔提交。\n第一笔故意写差一点：\nprintf \"\\n临时补一句话。\\n\" &gt;&gt; README.md\ngit add README.md\ngit commit -m \"update\"\n第二笔写清楚一点：\nprintf \"\\n再补一行，说明这一章在练习 diff。\\n\" &gt;&gt; README.md\ngit add README.md\ngit commit -m \"补充 diff 练习说明\"\ngit log --oneline\n\n4.9.1 你现在应该看到什么\n日志里这两笔提交都会存在，但可读性差别会很明显。\n当你几分钟后回头看：\n\nupdate 很难帮助你回忆当时做了什么\n补充 diff 练习说明 一眼就知道这笔提交在干嘛\n\n这就是提交信息质量的差别。",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>怎么看变化，怎么看历史</span>"
+    ]
+  },
+  {
+    "objectID": "04-history-and-diff.html#第四部分怎么看一笔提交具体改了什么",
+    "href": "04-history-and-diff.html#第四部分怎么看一笔提交具体改了什么",
+    "title": "4  怎么看变化，怎么看历史",
+    "section": "4.10 第四部分：怎么看一笔提交具体改了什么",
+    "text": "4.10 第四部分：怎么看一笔提交具体改了什么\n光知道“有一笔提交”还不够，你还需要能深入看某一笔到底动了什么。\n先执行：\ngit log --oneline\n找一笔你刚做的提交编号，假设是：\nabc1234 补充 diff 练习说明\n然后执行：\ngit show abc1234\n\n4.10.1 你现在应该看到什么\ngit show 会把这笔提交的说明和具体差异一起展开。你通常能看到：\n\n这笔提交的标题\n修改了哪个文件\n增加了哪些行，删除了哪些行\n\n\n\n4.10.2 这一步怎样算成功\n算成功：\n\n你能从 git show 里读出这笔提交到底改了什么\n你知道怎么从日志跳到具体改动\n\n算失败：\n\n你只会看日志标题，不会检查具体内容\n你看见提交编号，却不知道怎么追进去看细节",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>怎么看变化，怎么看历史</span>"
+    ]
+  },
+  {
+    "objectID": "04-history-and-diff.html#到这里你应该形成什么习惯",
+    "href": "04-history-and-diff.html#到这里你应该形成什么习惯",
+    "title": "4  怎么看变化，怎么看历史",
+    "section": "4.11 到这里你应该形成什么习惯",
+    "text": "4.11 到这里你应该形成什么习惯\n这一章最想帮你养成的，不是多记几条命令，而是一个很实际的习惯：\n提交之前先看差异，提交之后会看历史。\n这两步一旦养成，很多混乱会自然减少。因为你不再是“改完就交”，而是会先确认自己到底要交什么；交完以后，也能马上检查历史是否长成你预期的样子。",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>怎么看变化，怎么看历史</span>"
+    ]
+  },
+  {
+    "objectID": "04-history-and-diff.html#本章练习",
+    "href": "04-history-and-diff.html#本章练习",
+    "title": "4  怎么看变化，怎么看历史",
+    "section": "4.12 本章练习",
+    "text": "4.12 本章练习\n\n4.12.1 练习 1：看工作区和暂存区的差异\n在一个已有仓库里做下面的事：\n\n修改一个文件\n运行 git diff\n执行 git add\n再次运行 git diff\n运行 git diff --staged\n\n算成功：\n\n你能解释为什么三次看到的结果不同\n你知道修改此刻在工作区、暂存区还是历史\n\n算失败：\n\n你只会机械照抄命令，却说不清每条命令在比较哪两层\n\n\n\n4.12.2 练习 2：检查一笔历史\n做一笔新提交，然后执行：\ngit log --oneline\ngit show &lt;提交编号&gt;\n算成功：\n\n你能从日志里找到刚才那笔提交\n你能从 git show 看出它具体动了什么\n\n算失败：\n\n你知道有提交，但不会定位到某一笔具体差异\n\n\n\n4.12.3 练习 3：判断提交说明写得好不好\n回头看你自己最近三笔提交，问自己两个问题：\n\n只看标题，我知不知道它们分别在做什么\n如果三天后回来，我还能不能靠这些标题快速定位问题\n\n如果答案大多是否定的，就说明提交说明还需要继续练。\n算成功：\n\n你只看提交说明，大致就知道每一笔在处理什么\n你能分辨哪些说明具体，哪些说明只是空泛地写了 update 或 fix\n\n算失败：\n\n你回头看自己的提交历史，还是只能靠猜\n你知道提交做过什么，但标题本身几乎帮不上你",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>怎么看变化，怎么看历史</span>"
+    ]
+  },
+  {
+    "objectID": "05-daily-workflow.html",
+    "href": "05-daily-workflow.html",
+    "title": "5  日常修改流程",
+    "section": "",
+    "text": "5.1 为什么要把流程固定下来\n大多数时候，我们用 Git 不是在做什么复杂操作，而是在重复几个很朴素的动作：改文件、看状态、确认修改、提交。\n这一章会把这条最常见的工作流讲顺。你不需要每次都想“接下来该敲什么”，而是让这套顺序变成自然动作。\n本章会围绕一个固定节奏展开：\n这一章的目标不是增加新命令，而是让你把前面学过的东西真正串成日常习惯。\n很多人学 Git 时，前几次操作都还算顺，一旦开始频繁修改，节奏就容易乱掉。常见情况包括：\n这些问题不是因为 Git 太难，而是因为日常流程没有固定。\n最稳的做法很朴素：\n只要这四步稳定下来，很多错误会在提交前就被挡住。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>日常修改流程</span>"
+    ]
+  },
+  {
+    "objectID": "05-daily-workflow.html#为什么要把流程固定下来",
+    "href": "05-daily-workflow.html#为什么要把流程固定下来",
+    "title": "5  日常修改流程",
+    "section": "",
+    "text": "改完就急着提交，没先看差异\n一口气把一堆不相干的东西一起提交\n提交以后才发现漏了一个文件\n工作区里一直堆着没处理的改动，自己也搞不清现在到哪一步了\n\n\n\n\n先改\n再看\n再挑\n最后交",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>日常修改流程</span>"
+    ]
+  },
+  {
+    "objectID": "05-daily-workflow.html#先记住这条最小工作流",
+    "href": "05-daily-workflow.html#先记住这条最小工作流",
+    "title": "5  日常修改流程",
+    "section": "5.2 先记住这条最小工作流",
+    "text": "5.2 先记住这条最小工作流\n平时最常用的节奏，可以先压缩成下面五步：\ngit status\ngit diff\ngit add &lt;文件&gt;\ngit status\ngit commit -m \"提交说明\"\n它看起来很简单，但其实把几个关键问题都覆盖了：\n\n我现在改了什么\n我要提交哪些东西\n还有没有漏掉的文件\n这笔提交要怎么命名",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>日常修改流程</span>"
+    ]
+  },
+  {
+    "objectID": "05-daily-workflow.html#现在做一遍完整日常流程",
+    "href": "05-daily-workflow.html#现在做一遍完整日常流程",
+    "title": "5  日常修改流程",
+    "section": "5.3 现在做一遍完整日常流程",
+    "text": "5.3 现在做一遍完整日常流程\n请在一个已有提交历史的仓库里操作。为了方便练习，下面假设你当前目录里有个 README.md。\n先追加一段内容：\nprintf \"\\n## 今天的练习\\n这一节练习日常提交流程。\\n\" &gt;&gt; README.md\n这一步之后，先不要急着提交。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>日常修改流程</span>"
+    ]
+  },
+  {
+    "objectID": "05-daily-workflow.html#第一步先看状态不要先猜",
+    "href": "05-daily-workflow.html#第一步先看状态不要先猜",
+    "title": "5  日常修改流程",
+    "section": "5.4 第一步：先看状态，不要先猜",
+    "text": "5.4 第一步：先看状态，不要先猜\n执行：\ngit status\n\n5.4.1 你现在应该看到什么\nGit 会告诉你：\n\n哪些文件被修改了\n哪些文件还没追踪\n有没有已经进暂存区、准备提交的内容\n\n如果你只是改了 README.md，大概率会看到它显示为 modified。\n\n\n5.4.2 这一步怎样算成功\n算成功：\n\n你没有凭感觉判断，而是真的先看了状态\ngit status 的输出和你刚才的操作对得上\n\n算失败：\n\n你其实改了两个文件，却只以为改了一个\n状态里已经混进别的旧改动，但你自己没意识到\n\n这也是为什么 git status 几乎是最值得先养成习惯的一条命令。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>日常修改流程</span>"
+    ]
+  },
+  {
+    "objectID": "05-daily-workflow.html#第二步看差异确认这次到底改了什么",
+    "href": "05-daily-workflow.html#第二步看差异确认这次到底改了什么",
+    "title": "5  日常修改流程",
+    "section": "5.5 第二步：看差异，确认这次到底改了什么",
+    "text": "5.5 第二步：看差异，确认这次到底改了什么\n接着执行：\ngit diff\n这一步的重点不是“形式上跑一下”，而是认真确认：\n\n这一段文字是不是我真的想提交\n有没有误删内容\n有没有顺手改进来的东西其实还不该交\n\n\n5.5.1 这一步怎样算成功\n算成功：\n\ngit diff 显示的内容和你预期一致\n你能明确说出这次改动的目的\n\n算失败：\n\n看到差异以后才发现自己改错地方了\n你原本只想改一行，结果 diff 里冒出很多无关内容\n\n如果出现第二种情况，不要硬着头皮提交。先停下来，把无关改动清掉或拆开，再继续。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>日常修改流程</span>"
+    ]
+  },
+  {
+    "objectID": "05-daily-workflow.html#第三步只把这次要交的内容放进暂存区",
+    "href": "05-daily-workflow.html#第三步只把这次要交的内容放进暂存区",
+    "title": "5  日常修改流程",
+    "section": "5.6 第三步：只把这次要交的内容放进暂存区",
+    "text": "5.6 第三步：只把这次要交的内容放进暂存区\n现在执行：\ngit add README.md\ngit status\n\n5.6.1 你现在应该看到什么\nREADME.md 应该进入 Changes to be committed。这表示：你已经明确选中了这次要提交的内容。\n如果仓库里还有别的修改，但你没有 add 它们，它们应该仍然留在工作区，不会一起被提交。\n\n\n5.6.2 这一步怎样算成功\n算成功：\n\n只有你想交的文件进入暂存区\n你知道这次提交的边界在哪里\n\n算失败：\n\n你把不相干的文件也一起 add 进去了\n你以为自己已经选好了，结果状态里还有该提交的文件没进暂存区\n\n所以这一步之后再看一次 git status 很重要，它是在帮你做提交前的最后检查。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>日常修改流程</span>"
+    ]
+  },
+  {
+    "objectID": "05-daily-workflow.html#第四步提交前再检查一次",
+    "href": "05-daily-workflow.html#第四步提交前再检查一次",
+    "title": "5  日常修改流程",
+    "section": "5.7 第四步：提交前再检查一次",
+    "text": "5.7 第四步：提交前再检查一次\n很多人会觉得：既然已经 git add 了，为什么还要再看一次状态。\n原因很简单：你要确认“准备交出去的内容”是不是刚好就是这次该交的内容。\n这时你可以再执行：\ngit status\ngit diff --staged\n\n5.7.1 你现在应该看到什么\n\ngit status 会告诉你哪些内容已经准备提交\ngit diff --staged 会直接把“这次准备提交的差异”展开给你看\n\n这一步很像寄信前再看一眼收件人和内容。多花十秒，后面能少很多麻烦。\n\n\n5.7.2 这一步怎样算成功\n算成功：\n\n你确认了这次提交只包含你想交的内容\ngit diff --staged 没出现意料外的改动\n\n算失败：\n\n提交以后才发现多带了别的修改\n或者少带了一部分，本来想交的内容其实没进去",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>日常修改流程</span>"
+    ]
+  },
+  {
+    "objectID": "05-daily-workflow.html#第五步提交并马上检查结果",
+    "href": "05-daily-workflow.html#第五步提交并马上检查结果",
+    "title": "5  日常修改流程",
+    "section": "5.8 第五步：提交并马上检查结果",
+    "text": "5.8 第五步：提交并马上检查结果\n确认没问题以后，再执行：\ngit commit -m \"补充日常提交流程示例\"\ngit status\ngit log --oneline -3\n\n5.8.1 你现在应该看到什么\n如果顺利：\n\ngit commit 会成功建立一笔新提交\ngit status 会回到 working tree clean，或者至少不再显示刚才那部分待提交内容\ngit log --oneline -3 能看到最新那笔提交排在最上面\n\n\n\n5.8.2 这一步怎样算成功\n算成功：\n\n你完成了一次完整、干净、边界清楚的提交\n最新历史和你的实际操作对得上\n\n算失败：\n\n提交说明写得太空，不知道这次交了什么\n历史里有新提交，但混进了不相干内容\n提交后状态仍然乱成一团\n\n最后一种情况通常说明：你仓库里本来就积着旧改动，没有先整理干净。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>日常修改流程</span>"
+    ]
+  },
+  {
+    "objectID": "05-daily-workflow.html#一个常见失败场景把所有东西一起交掉",
+    "href": "05-daily-workflow.html#一个常见失败场景把所有东西一起交掉",
+    "title": "5  日常修改流程",
+    "section": "5.9 一个常见失败场景：把所有东西一起交掉",
+    "text": "5.9 一个常见失败场景：把所有东西一起交掉\n这是初学者最容易出现的问题之一。\n比如你原本只想提交 README 的说明更新，但仓库里还顺手改了别的文件。结果你图省事，用了：\ngit add .\ngit commit -m \"update\"\n表面上这很快，实际上风险很大，因为你可能顺手把下面这些东西也交进去了：\n\n还没写完的内容\n临时测试文件\n不该进仓库的本地文件\n与当前主题无关的改动\n\n\n5.9.1 这种情况怎样判断成功和失败\n算成功：\n\n你知道 git add . 会把当前目录下大量变化一起纳入\n你只有在非常确定边界清楚时才这样用\n\n算失败：\n\n你用 git add . 只是因为省事\n提交以后才发现混进一堆不该交的东西\n\n对初学者来说，更稳的做法通常是显式写出文件名，先把边界练清楚。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>日常修改流程</span>"
+    ]
+  },
+  {
+    "objectID": "05-daily-workflow.html#一个更像真实工作的例子",
+    "href": "05-daily-workflow.html#一个更像真实工作的例子",
+    "title": "5  日常修改流程",
+    "section": "5.10 一个更像真实工作的例子",
+    "text": "5.10 一个更像真实工作的例子\n现在我们模拟一个稍微真实一点的场景。假设你正在写文档，同时做了两件事：\n\n给 README.md 加了一段练习说明\n在另一个文件里随手记了几句还没整理好的草稿\n\n这时比较稳的做法不是一把全交，而是：\n\n先看状态\n先看 diff\n只把已经整理好的那部分 add\n先提交这一部分\n让另一部分继续留在工作区\n\n这样做的好处是，历史会更清楚。以后你看日志时，一眼就知道这笔提交是“补充练习说明”，而不是“一堆事情都顺手改了”。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>日常修改流程</span>"
+    ]
+  },
+  {
+    "objectID": "05-daily-workflow.html#日常工作里最值得养成的三个习惯",
+    "href": "05-daily-workflow.html#日常工作里最值得养成的三个习惯",
+    "title": "5  日常修改流程",
+    "section": "5.11 日常工作里最值得养成的三个习惯",
+    "text": "5.11 日常工作里最值得养成的三个习惯\n\n5.11.1 提交前一定看一次 git diff\n不要觉得“我自己刚改的，我当然知道内容”。真正开始长期写作或开发以后，人很容易顺手带进多余修改。git diff 是最便宜的一次自查。\n\n\n5.11.2 提交后一定看一次 git status\n这能帮你确认工作区是否真的回到你预期的状态。很多问题不是出在提交动作本身，而是出在提交完以后还有遗留修改，自己却没注意到。\n\n\n5.11.3 提交说明尽量只描述这一笔在做什么\n不要把说明写成空话，也不要一笔提交塞太多主题。提交越聚焦，后面越省事。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>日常修改流程</span>"
+    ]
+  },
+  {
+    "objectID": "05-daily-workflow.html#到这里你应该做到什么",
+    "href": "05-daily-workflow.html#到这里你应该做到什么",
+    "title": "5  日常修改流程",
+    "section": "5.12 到这里你应该做到什么",
+    "text": "5.12 到这里你应该做到什么\n读到这里，你至少应该能稳定跑完这条节奏：\n\n改文件\ngit status\ngit diff\ngit add\ngit status\ngit diff --staged\ngit commit\ngit log --oneline\n\n如果这八步你已经能顺着走，后面的撤销、分支和冲突都会容易很多，因为你的基本节奏已经稳了。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>日常修改流程</span>"
+    ]
+  },
+  {
+    "objectID": "05-daily-workflow.html#本章练习",
+    "href": "05-daily-workflow.html#本章练习",
+    "title": "5  日常修改流程",
+    "section": "5.13 本章练习",
+    "text": "5.13 本章练习\n\n5.13.1 练习 1：做一次干净提交\n在一个已有仓库里，只修改一个文件，然后完整走一遍：\ngit status\ngit diff\ngit add &lt;文件名&gt;\ngit status\ngit diff --staged\ngit commit -m \"...\"\ngit log --oneline -3\n算成功：\n\n这笔提交只有一个清楚主题\n日志标题和实际改动对得上\n提交后状态回到干净\n\n算失败：\n\n你没有检查 diff 就直接提交\n提交后才发现多交或漏交\n\n\n\n5.13.2 练习 2：故意制造一个“边界不清”的情况\n同时改两个文件，但只提交其中一个。\n然后观察：\n\ngit status 会怎么显示\n哪个文件进了暂存区\n哪个文件还留在工作区\n\n算成功：\n\n你能清楚分辨“已经准备提交”和“还没准备提交”的内容\n\n算失败：\n\n你一旦同时改两个文件，就分不清 Git 现在记录到了哪一步\n\n\n\n5.13.3 练习 3：检查自己的习惯\n回想你刚才那次提交，问自己：\n\n我是不是先看了状态\n我是不是先看了 diff\n我是不是在提交前确认过 staged 内容\n我是不是在提交后看了日志\n\n如果这四个问题里有两个以上答不上“是”，说明你的日常节奏还没真正稳定下来。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>日常修改流程</span>"
+    ]
+  },
+  {
+    "objectID": "06-undo-and-recover.html",
+    "href": "06-undo-and-recover.html",
+    "title": "6  撤销、改错与找回",
+    "section": "",
+    "text": "6.1 先记住一个总原则\n很多人学 Git 时最怕的，不是提交，而是改错以后不知道怎么退。文件删了怎么办？刚才那次提交写错了怎么办？不小心把东西加进暂存区又怎么办？\n这一章专门处理这些“做错了以后怎么办”的场景。重点不是教你一招万能回退，而是教你先分辨：你现在想撤销的是工作区、暂存区，还是已经提交进历史的内容。\n本章会讲：\n这一章读完以后，你对 Git 的恐惧会下降很多，因为你会知道，大多数错误都不是世界末日。\nGit 里很多“回退”操作看起来很像，真正的区别在于：你到底想动哪一层。\n先把问题拆成三类：\n这三类情况，用的命令不一样。如果还没先分清楚自己现在在哪一类，就很容易乱按命令。",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>撤销、改错与找回</span>"
+    ]
+  },
+  {
+    "objectID": "06-undo-and-recover.html#先记住一个总原则",
+    "href": "06-undo-and-recover.html#先记住一个总原则",
+    "title": "6  撤销、改错与找回",
+    "section": "",
+    "text": "工作区改错了，但还没准备提交\n已经 add 进暂存区了，但还没提交\n已经提交进历史了，现在后悔了",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>撤销、改错与找回</span>"
+    ]
+  },
+  {
+    "objectID": "06-undo-and-recover.html#先准备一个练习仓库",
+    "href": "06-undo-and-recover.html#先准备一个练习仓库",
+    "title": "6  撤销、改错与找回",
+    "section": "6.2 先准备一个练习仓库",
+    "text": "6.2 先准备一个练习仓库\n为了安全起见，这一章最好在测试仓库里练，不要一开始就在正式项目上尝试。\n先进入一个已有提交历史的仓库，然后执行：\ngit status\ngit log --oneline -3\n\n6.2.1 这一步怎样算成功\n算成功：\n\ngit status 能正常执行\ngit log --oneline -3 能看到最近几笔提交\n\n算失败：\n\n你还不在 Git 仓库里\n仓库里还没有任何提交，后面的历史相关操作就没法练",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>撤销、改错与找回</span>"
+    ]
+  },
+  {
+    "objectID": "06-undo-and-recover.html#第一类工作区改错了还没-add",
+    "href": "06-undo-and-recover.html#第一类工作区改错了还没-add",
+    "title": "6  撤销、改错与找回",
+    "section": "6.3 第一类：工作区改错了，还没 add",
+    "text": "6.3 第一类：工作区改错了，还没 add\n这是最轻的一种情况。假设你打开 README.md，加了一段内容，后来发现完全写错了。\n先执行：\ngit status\ngit diff\n如果你确认这段修改不要了，可以执行：\ngit restore README.md\ngit status\n\n6.3.1 git restore 在做什么\n这条命令的意思是：把工作区里的这个文件，恢复成暂存区或上一次提交里记录的样子。对初学者来说，先把它理解成“撤销还没提交的工作区修改”就够了。\n\n\n6.3.2 你现在应该看到什么\n如果这次修改还没 add，执行完 git restore README.md 以后：\n\ngit status 里不该再显示这个文件是 modified\n你刚才那段没保存到历史的修改会消失\n\n\n\n6.3.3 这一步怎样算成功\n算成功：\n\n你确认了工作区改动真的被撤销\n文件回到之前那一版\ngit status 不再显示这次修改\n\n算失败：\n\n你其实还没看 diff，就把改动直接撤掉了\n你以为是在撤销一小部分，结果整份文件未提交修改都被恢复了\n\n这也是为什么我一直建议先看 git diff 再做撤销。先确认不要，再动手。",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>撤销、改错与找回</span>"
+    ]
+  },
+  {
+    "objectID": "06-undo-and-recover.html#第二类已经-add-了但还没提交",
+    "href": "06-undo-and-recover.html#第二类已经-add-了但还没提交",
+    "title": "6  撤销、改错与找回",
+    "section": "6.4 第二类：已经 add 了，但还没提交",
+    "text": "6.4 第二类：已经 add 了，但还没提交\n这是更常见的场景。你刚才手快执行了：\ngit add README.md\ngit status\n然后才发现：这次修改还不想交，或者这一版还没整理好。\n这时问题分两层：\n\n我想先把它从暂存区拿出来\n我想不想连工作区内容一起丢掉\n\n这两件事不是一回事。\n\n6.4.1 只想撤销暂存，不想丢掉文件内容\n如果你只是想把它从“准备提交”改回“还在修改中”，可以执行：\ngit restore --staged README.md\ngit status\n\n\n6.4.2 你现在应该看到什么\n执行完以后，常见情况会变成：\n\nREADME.md 不再位于 Changes to be committed\n它重新出现在“还没暂存的修改”里\n\n也就是说，内容还在，只有“准备提交”这个状态被撤回了。\n\n\n6.4.3 这一步怎样算成功\n算成功：\n\n你成功把文件从暂存区拿出来\n文件内容没有丢\ngit diff 还能看到你的修改\n\n算失败：\n\n你本来只想撤销暂存，却把工作区内容也一起清掉了\n你分不清“内容还在”和“已经准备提交”这两件事\n\n对初学者来说，这一步非常重要，因为它能帮助你真正把工作区和暂存区分开。\n\n\n6.4.4 想连工作区内容一起不要\n如果你既不想让它留在暂存区，也不想保留工作区里的内容，可以这样做：\ngit restore --staged README.md\ngit restore README.md\ngit status\n先把它从暂存区拿出来，再把工作区恢复掉。分两步做，最不容易混乱。",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>撤销、改错与找回</span>"
+    ]
+  },
+  {
+    "objectID": "06-undo-and-recover.html#第三类已经提交了但提交说明写错了",
+    "href": "06-undo-and-recover.html#第三类已经提交了但提交说明写错了",
+    "title": "6  撤销、改错与找回",
+    "section": "6.5 第三类：已经提交了，但提交说明写错了",
+    "text": "6.5 第三类：已经提交了，但提交说明写错了\n这是很常见、也相对安全的一种情况。比如你刚提交了：\ngit commit -m \"update\"\n结果马上觉得这个说明太空，想改成更清楚一点。\n这时可以执行：\ngit commit --amend -m \"补充练习说明\"\ngit log --oneline -1\n\n6.5.1 --amend 在做什么\n它的作用是：修改最后一笔提交。最常见用途有两个：\n\n改最后一次提交说明\n把刚才漏掉的少量内容补进最后一次提交\n\n\n\n6.5.2 你现在应该看到什么\n执行成功后：\n\ngit log --oneline -1 会显示新的提交说明\n最后一笔提交的编号通常也会变化\n\n\n\n6.5.3 这一步怎样算成功\n算成功：\n\n你成功改掉了最后一次提交说明\n日志里最新一笔已经变成新的标题\n\n算失败：\n\n你以为只是改标题，结果其实把别的内容也混进去\n你在已经推送给别人协作的提交上随意改写历史\n\n这里要先提醒一件事：git commit --amend 会改写最后一笔提交历史。自己本地刚做完、还没共享出去时通常问题不大；如果这笔提交已经推送给别人，后面要更小心。",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>撤销、改错与找回</span>"
+    ]
+  },
+  {
+    "objectID": "06-undo-and-recover.html#第四类已经提交了内容但现在想撤回一笔提交",
+    "href": "06-undo-and-recover.html#第四类已经提交了内容但现在想撤回一笔提交",
+    "title": "6  撤销、改错与找回",
+    "section": "6.6 第四类：已经提交了内容，但现在想“撤回一笔提交”",
+    "text": "6.6 第四类：已经提交了内容，但现在想“撤回一笔提交”\n这里要非常分清楚：你到底是想“改写历史”，还是“保留历史，但再做一笔反向修改”。\n对初学者来说，先学稳 git revert，比急着碰复杂的重写历史更安全。\n\n6.6.1 用 git revert 撤回一笔提交\n先看最近日志：\ngit log --oneline -3\n假设最近一笔提交编号是：\nabc1234 补充练习说明\n现在执行：\ngit revert abc1234\ngit log --oneline -4\n\n\n6.6.2 git revert 在做什么\n它不是把那笔提交从历史里抹掉，而是新增一笔“反向提交”，把那次改动抵消掉。\n这点很重要，因为它比粗暴改写历史更安全，也更适合已经共享出去的历史。\n\n\n6.6.3 你现在应该看到什么\n执行成功后：\n\n日志里不会少掉原来的那笔提交\n反而会多出一笔新的“revert”提交\n文件内容会回到那笔提交之前的状态\n\n\n\n6.6.4 这一步怎样算成功\n算成功：\n\n你成功撤销了某次提交带来的效果\n历史仍然完整，没有直接消失\ngit log 里能看到原提交和新的撤销提交\n\n算失败：\n\n你以为 revert 会让历史直接消失\n你看到多了一笔新提交，就误以为操作失败\n\n很多初学者第一次看到“怎么又多一笔提交”会疑惑，但这正是 revert 的正常行为。",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>撤销、改错与找回</span>"
+    ]
+  },
+  {
+    "objectID": "06-undo-and-recover.html#git-reset-应该怎么理解",
+    "href": "06-undo-and-recover.html#git-reset-应该怎么理解",
+    "title": "6  撤销、改错与找回",
+    "section": "6.7 git reset 应该怎么理解",
+    "text": "6.7 git reset 应该怎么理解\ngit reset 的功能更宽，也更容易让人混乱。初学阶段，你可以先把它拆成两种最常见用途：\n\n把暂存区退回去\n把分支指针退回到更早的提交\n\n前一种你前面已经通过 git restore --staged 练过了。后一种如果直接配合 --hard 用，风险会高很多。\n所以对初学者来说，先记住这个原则：\n\n日常撤销暂存，优先用 git restore --staged\n想安全撤销一笔已提交改动，优先用 git revert\ngit reset --hard 不要在还没完全看懂前乱用",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>撤销、改错与找回</span>"
+    ]
+  },
+  {
+    "objectID": "06-undo-and-recover.html#一个高风险命令为什么要小心",
+    "href": "06-undo-and-recover.html#一个高风险命令为什么要小心",
+    "title": "6  撤销、改错与找回",
+    "section": "6.8 一个高风险命令为什么要小心",
+    "text": "6.8 一个高风险命令为什么要小心\n像下面这种命令：\ngit reset --hard HEAD~1\n它的效果通常是：\n\n把当前分支直接退回上一笔提交\n同时把工作区和暂存区也一起重置过去\n\n这很强，也很危险。因为如果你还没想清楚自己在做什么，工作区里没保存的内容可能会直接消失。\n\n6.8.1 这类操作怎样判断成功和失败\n算成功：\n\n你非常明确自己是在测试仓库或可承受场景里操作\n你知道它会同时影响历史、暂存区和工作区\n\n算失败：\n\n你把它当成“万能撤销键”\n你还没看清当前状态就直接运行\n运行完才发现本地未保存内容没了\n\n这本书后面会再讲更细的历史整理，但在入门阶段，我更希望你先形成安全直觉，而不是先学最猛的命令。",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>撤销、改错与找回</span>"
+    ]
+  },
+  {
+    "objectID": "06-undo-and-recover.html#一个更稳的判断顺序",
+    "href": "06-undo-and-recover.html#一个更稳的判断顺序",
+    "title": "6  撤销、改错与找回",
+    "section": "6.9 一个更稳的判断顺序",
+    "text": "6.9 一个更稳的判断顺序\n每次想“回退”时，先不要急着敲命令，先问自己下面三个问题：\n\n我想撤销的是工作区、暂存区，还是历史\n我是想把内容留着，只改状态，还是连内容一起不要\n这笔历史是不是已经共享给别人了\n\n很多 Git 错误，本质上不是命令不会，而是没先回答这三个问题。",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>撤销、改错与找回</span>"
+    ]
+  },
+  {
+    "objectID": "06-undo-and-recover.html#本章练习",
+    "href": "06-undo-and-recover.html#本章练习",
+    "title": "6  撤销、改错与找回",
+    "section": "6.10 本章练习",
+    "text": "6.10 本章练习\n\n6.10.1 练习 1：撤销工作区改动\n\n修改一个文件\ngit status\ngit diff\ngit restore &lt;文件名&gt;\ngit status\n\n算成功：\n\n你能撤销未暂存的改动\n你知道文件为什么恢复了\n\n算失败：\n\n你没先确认内容，就直接把修改丢掉\n\n\n\n6.10.2 练习 2：撤销暂存但保留内容\n\n修改一个文件\ngit add &lt;文件名&gt;\ngit status\ngit restore --staged &lt;文件名&gt;\ngit status\ngit diff\n\n算成功：\n\n文件从暂存区退回工作区\n内容还在\n\n算失败：\n\n你想保留内容，却把内容也一起清掉了\n\n\n\n6.10.3 练习 3：修改最后一次提交说明\n\n做一笔提交，故意写个不好的说明\ngit commit --amend -m \"新的说明\"\ngit log --oneline -1\n\n算成功：\n\n你能看见最后一次提交说明被改掉\n\n算失败：\n\n你不知道 amend 改的是哪一笔提交\n\n\n\n6.10.4 练习 4：用 revert 撤销一笔提交\n\n新做一笔简单提交\n记录它的提交编号\n执行 git revert &lt;提交编号&gt;\n查看 git log --oneline -4\n\n算成功：\n\n你能看到原提交还在\n新增了一笔撤销提交\n内容效果被抵消了\n\n算失败：\n\n你以为撤销就是把历史抹掉\n看到多出一笔提交就以为出错",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>撤销、改错与找回</span>"
+    ]
+  },
+  {
+    "objectID": "07-branches.html",
+    "href": "07-branches.html",
+    "title": "7  分支是什么",
+    "section": "",
+    "text": "7.1 为什么一直在主线上改会出问题\n分支常常是 Git 真正开始变难的地方。不是因为命令特别复杂，而是因为很多人从一开始就没想清楚：分支到底是什么，它为什么能让多人协作变得更顺。\n这一章不会把分支讲成抽象名词，而是从一个很直接的问题开始：如果你想改到一半、又不想把半成品放到主线里，该怎么办？\n本章会讲清楚：\n分支一旦理解，Git 就会从“个人备份工具”变成真正能支撑开发流程的工具。\n如果你所有修改都一直堆在主分支上，短期看起来很省事，长期通常会出现这些问题：\n分支的出现，就是为了让你能把“正在试的东西”和“当前稳定主线”分开。",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>分支是什么</span>"
+    ]
+  },
+  {
+    "objectID": "07-branches.html#为什么一直在主线上改会出问题",
+    "href": "07-branches.html#为什么一直在主线上改会出问题",
+    "title": "7  分支是什么",
+    "section": "",
+    "text": "改到一半的功能也混在主线里\n两件不同主题的工作互相打架\n你想试一个想法，却怕把当前稳定版本弄乱\n多人协作时，大家都挤在同一条线上改，冲突会明显增多",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>分支是什么</span>"
+    ]
+  },
+  {
+    "objectID": "07-branches.html#分支不是复制出一整个项目",
+    "href": "07-branches.html#分支不是复制出一整个项目",
+    "title": "7  分支是什么",
+    "section": "7.2 分支不是复制出一整个项目",
+    "text": "7.2 分支不是复制出一整个项目\n这是最容易误会的地方。\n很多初学者第一次听到分支，会以为它像是“复制一个新的文件夹出来”。更准确的理解是：\n分支是一条独立向前推进的提交线。\n你可以先把它想成：\n\nmain 是当前默认主线\n你从某个提交点上切出去一条新线\n后面在这条线上做的新提交，先不会影响主线\n\n也就是说，分支的重点不是“多一个副本”，而是“我可以先在旁边推进一条新历史”。",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>分支是什么</span>"
+    ]
+  },
+  {
+    "objectID": "07-branches.html#先看当前有哪些分支",
+    "href": "07-branches.html#先看当前有哪些分支",
+    "title": "7  分支是什么",
+    "section": "7.3 先看当前有哪些分支",
+    "text": "7.3 先看当前有哪些分支\n先在你的测试仓库里执行：\ngit branch\n\n7.3.1 你现在应该看到什么\n如果你现在只有一个默认分支，通常会看到类似：\n* main\n或者：\n* master\n前面的 * 表示你当前正站在这个分支上。\n\n\n7.3.2 这一步怎样算成功\n算成功：\n\n你能看懂当前仓库有哪些分支\n你能看出自己现在在哪一条分支上\n\n算失败：\n\n你看到输出，却不知道 * 是什么意思\n你以为自己在新分支上，其实一直没切出去",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>分支是什么</span>"
+    ]
+  },
+  {
+    "objectID": "07-branches.html#建一个新分支来做新工作",
+    "href": "07-branches.html#建一个新分支来做新工作",
+    "title": "7  分支是什么",
+    "section": "7.4 建一个新分支来做新工作",
+    "text": "7.4 建一个新分支来做新工作\n假设你现在想给文档加一节“常见问题”，但还不想马上把半成品放到主线。\n可以执行：\ngit switch -c faq-section\ngit branch\n\n7.4.1 git switch -c 在做什么\n这条命令一次做了两件事：\n\n建立一个新分支 faq-section\n立刻切换到这个新分支\n\n\n\n7.4.2 你现在应该看到什么\n执行完 git branch 以后，通常会看到类似：\n* faq-section\n  main\n这表示：\n\n新分支已经建立成功\n你当前正站在 faq-section\n\n\n\n7.4.3 这一步怎样算成功\n算成功：\n\n新分支真的建立起来了\n* 已经移动到新分支上\n\n算失败：\n\n你以为自己已经切换，但 * 还在 main\n你分支名打错了，后面一直在错误分支上工作",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>分支是什么</span>"
+    ]
+  },
+  {
+    "objectID": "07-branches.html#在新分支上做一次修改",
+    "href": "07-branches.html#在新分支上做一次修改",
+    "title": "7  分支是什么",
+    "section": "7.5 在新分支上做一次修改",
+    "text": "7.5 在新分支上做一次修改\n现在在这个新分支上改一个文件。比如给 README.md 补一段：\nprintf \"\\n## 常见问题\\n这里以后会补常见问题。\\n\" &gt;&gt; README.md\ngit status\ngit add README.md\ngit commit -m \"添加常见问题小节骨架\"\ngit log --oneline -3\n\n7.5.1 你现在应该看到什么\n这时你应该能看到：\n\n新提交已经出现在日志里\n但这笔提交目前只属于 faq-section 这条分支\n\n\n\n7.5.2 这一步怎样算成功\n算成功：\n\n你在新分支上完成了一笔独立提交\n你知道这笔提交还没并回主线\n\n算失败：\n\n你根本没切到新分支，就直接在主线上做了修改\n你以为分支能自动帮你隔离，但实际操作一直还在 main",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>分支是什么</span>"
+    ]
+  },
+  {
+    "objectID": "07-branches.html#切回主分支观察差异",
+    "href": "07-branches.html#切回主分支观察差异",
+    "title": "7  分支是什么",
+    "section": "7.6 切回主分支，观察差异",
+    "text": "7.6 切回主分支，观察差异\n现在执行：\ngit switch main\ngit log --oneline -3\n如果你的默认分支叫 master，这里就把 main 换成 master。\n\n7.6.1 你现在应该看到什么\n切回主分支以后，你通常会发现：\n\n刚才那笔“添加常见问题小节骨架”的提交不在主线日志顶端\nREADME.md 也会回到主分支当前的状态\n\n这就是分支隔离的效果。\n\n\n7.6.2 这一步怎样算成功\n算成功：\n\n你能看到切分支以后，历史视角发生了变化\n你理解为什么同一个仓库里，不同分支可以看到不同的最新提交\n\n算失败：\n\n你以为文件应该一直保持刚才那样，结果一切回主线就慌了\n你没有理解“当前工作区会跟着当前分支所指向的提交变化”\n\n第一次看到文件内容跟着分支切换而变化，很多人会有点不习惯，但这是正常现象。",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>分支是什么</span>"
+    ]
+  },
+  {
+    "objectID": "07-branches.html#把新分支合并回主线",
+    "href": "07-branches.html#把新分支合并回主线",
+    "title": "7  分支是什么",
+    "section": "7.7 把新分支合并回主线",
+    "text": "7.7 把新分支合并回主线\n如果你确认 faq-section 上那笔工作已经准备好了，就可以把它合并回主分支。\n先执行：\ngit switch main\ngit merge faq-section\ngit log --oneline -4\n\n7.7.1 git merge 在做什么\n它的作用是：把 faq-section 分支上的改动，合并到当前所在分支。因为你现在站在 main 上，所以它会把 faq-section 的工作带回主线。\n\n\n7.7.2 你现在应该看到什么\n如果这次合并比较简单，没有和主线产生冲突，常见情况会是：\n\n合并顺利完成\nmain 上也能看到那笔新工作了\nREADME.md 现在包含“常见问题”这一节\n\n\n\n7.7.3 这一步怎样算成功\n算成功：\n\n你确认自己是在主分支上执行 merge\n新分支的修改成功进入主线\n日志能反映这次合并后的结果\n\n算失败：\n\n你站错分支，在错误位置执行了 merge\n合并后效果和预期不一致，却没有立刻检查日志和文件内容",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>分支是什么</span>"
+    ]
+  },
+  {
+    "objectID": "07-branches.html#合并后怎么检查自己有没有真的做对",
+    "href": "07-branches.html#合并后怎么检查自己有没有真的做对",
+    "title": "7  分支是什么",
+    "section": "7.8 合并后怎么检查自己有没有真的做对",
+    "text": "7.8 合并后怎么检查自己有没有真的做对\n合并完成以后，不要只看命令有没有报错。至少检查三件事：\ngit status\ngit log --oneline -5\ngit branch\n\n7.8.1 检查重点\n\ngit status：当前工作区是不是干净\ngit log --oneline -5：主线最近历史里有没有包含刚才的工作\ngit branch：你现在是不是确实站在预期分支上\n\n\n\n7.8.2 这一步怎样算成功\n算成功：\n\n主线已经包含新修改\n仓库状态正常\n你知道自己当前在哪条分支上\n\n算失败：\n\n合并做完后，你其实不知道最后结果长什么样\n你只看命令没报错，却没验证历史和文件内容",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>分支是什么</span>"
+    ]
+  },
+  {
+    "objectID": "07-branches.html#为什么分支对单人也有用",
+    "href": "07-branches.html#为什么分支对单人也有用",
+    "title": "7  分支是什么",
+    "section": "7.9 为什么分支对单人也有用",
+    "text": "7.9 为什么分支对单人也有用\n很多人会说：我一个人写东西，也需要分支吗？\n需要，而且很有用。因为分支不只是为多人准备的，它也在帮你把不同阶段的工作隔开。\n例如这些场景都很适合：\n\n你想试一个新写法，但不确定要不要保留\n你想重构一段内容，但还不想影响当前稳定版本\n你要同时处理“补充新内容”和“修错字”两类事情\n\n没有分支时，你只能把这些东西混在一起。用了分支以后，你就能更从容地试。",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>分支是什么</span>"
+    ]
+  },
+  {
+    "objectID": "07-branches.html#初学者最容易踩的几个坑",
+    "href": "07-branches.html#初学者最容易踩的几个坑",
+    "title": "7  分支是什么",
+    "section": "7.10 初学者最容易踩的几个坑",
+    "text": "7.10 初学者最容易踩的几个坑\n\n7.10.1 以为自己已经切分支了，其实没有\n所以每次切完都值得跑一下：\ngit branch\n看看 * 到底在哪。\n\n\n7.10.2 在主线上做了一堆实验性改动\n这会让主线变得很乱，也让后面整理历史更麻烦。\n\n\n7.10.3 合并后不检查结果\n命令成功，不代表内容一定就是你想要的。日志、状态和文件内容都值得看一眼。",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>分支是什么</span>"
+    ]
+  },
+  {
+    "objectID": "07-branches.html#到这里你应该做到什么",
+    "href": "07-branches.html#到这里你应该做到什么",
+    "title": "7  分支是什么",
+    "section": "7.11 到这里你应该做到什么",
+    "text": "7.11 到这里你应该做到什么\n这一章结束时，你至少应该能独立完成：\n\n查看当前分支\n建立一个新分支并切过去\n在新分支上完成修改和提交\n切回主分支\n把新分支合并回主线\n\n如果这些动作你已经能顺着做，后面理解 Pull Request 和多人协作时会轻松很多，因为它们基本上都是建立在“分支隔离工作，再并回主线”这条思路上。",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>分支是什么</span>"
+    ]
+  },
+  {
+    "objectID": "07-branches.html#本章练习",
+    "href": "07-branches.html#本章练习",
+    "title": "7  分支是什么",
+    "section": "7.12 本章练习",
+    "text": "7.12 本章练习\n\n7.12.1 练习 1：建立并切换分支\n\ngit branch\ngit switch -c test-branch\ngit branch\n\n算成功：\n\n新分支建立成功\n* 出现在 test-branch 前面\n\n算失败：\n\n你以为建好了，但其实还站在原分支\n\n\n\n7.12.2 练习 2：在新分支上做一笔独立提交\n\n修改一个文件\ngit add &lt;文件&gt;\ngit commit -m \"...\"\ngit log --oneline -3\n\n算成功：\n\n你在新分支上留下一笔清楚的提交\n\n算失败：\n\n你没有先确认当前分支，就直接开始改\n\n\n\n7.12.3 练习 3：切回主线并合并\n\ngit switch main\ngit merge test-branch\ngit log --oneline -5\n\n如果默认分支不是 main，请替换成你的实际分支名。\n算成功：\n\n主线已经包含 test-branch 的工作\n你能从日志看出合并后的结果\n\n算失败：\n\n你切错分支\n合并完以后没检查历史和文件",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>分支是什么</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html",
+    "href": "08-conflicts.html",
+    "title": "8  冲突怎么解决",
+    "section": "",
+    "text": "8.1 冲突到底是什么\n冲突几乎是每个 Git 初学者都会怕的一关。屏幕上突然出现一堆标记，看起来像哪里坏掉了，于是很多人第一反应是紧张，甚至想直接关掉。\n冲突并不神秘。它只是 Git 在提醒你：同一个地方同时出现了两种修改，现在需要你来决定留下哪一种，或者怎么把两边合起来。\n这一章会一步一步拆开这个过程：\n只要你第一次在讲解下把冲突走完一遍，之后再看到它，心里就会稳很多。\n先把最重要的一句话放在前面：冲突不是 Git 坏了，也不是你的仓库炸了。\n冲突的意思只是：\n如果两个人改的是不同位置，Git 通常能自动合并。真正麻烦的，是你们碰到了同一段内容，而且改法互不兼容。",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html#冲突到底是什么",
+    "href": "08-conflicts.html#冲突到底是什么",
+    "title": "8  冲突怎么解决",
+    "section": "",
+    "text": "两边都改了同一个位置\nGit 没法替你判断最后该保留哪一种",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html#为什么会有冲突",
+    "href": "08-conflicts.html#为什么会有冲突",
+    "title": "8  冲突怎么解决",
+    "section": "8.2 为什么会有冲突",
+    "text": "8.2 为什么会有冲突\n冲突最常见于两种场景：\n\n你在分支 A 改了一段文字，主分支后来也改了同一段\n两个人分别在不同分支上改了同一文件里的同一区域\n\n所以冲突不是“只要合并就一定会发生”，而是“同一位置有竞争修改时才会发生”。",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html#先自己制造一次最小冲突",
+    "href": "08-conflicts.html#先自己制造一次最小冲突",
+    "title": "8  冲突怎么解决",
+    "section": "8.3 先自己制造一次最小冲突",
+    "text": "8.3 先自己制造一次最小冲突\n这一章最值得做的，不是只看说明，而是亲手走一遍。第一次自己在练习仓库里制造冲突，后面在真实项目里遇到时，心里会稳很多。\n请在一个测试仓库里操作，先确保当前在主分支，并且工作区是干净的：\ngit status\ngit branch\n\n8.3.1 这一步怎样算成功\n算成功：\n\ngit status 显示当前没有待处理修改\n你知道自己现在站在哪个分支上\n\n算失败：\n\n仓库里本来就堆着旧改动\n你还没确认当前分支，就直接开始做冲突实验\n\n如果工作区不干净，建议先处理掉旧改动，再开始。不然待会儿很难分清哪些变化是冲突实验带来的。",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html#第一步先在主分支准备一个基础文件",
+    "href": "08-conflicts.html#第一步先在主分支准备一个基础文件",
+    "title": "8  冲突怎么解决",
+    "section": "8.4 第一步：先在主分支准备一个基础文件",
+    "text": "8.4 第一步：先在主分支准备一个基础文件\n先建立一个文件，并做一笔提交：\nprintf \"第一行：Git 可以帮助我们管理修改。\\n第二行：这一段稍后会被改动。\\n\" &gt; conflict-demo.txt\ngit add conflict-demo.txt\ngit commit -m \"添加冲突练习文件\"\n\n8.4.1 这一步怎样算成功\n算成功：\n\n仓库里已经有一个 conflict-demo.txt\n这份文件已经提交进历史\n\n算失败：\n\n文件只建出来了，但还没提交\n你后面切分支时，其实没有一个共同起点",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html#第二步从主分支切出一个新分支",
+    "href": "08-conflicts.html#第二步从主分支切出一个新分支",
+    "title": "8  冲突怎么解决",
+    "section": "8.5 第二步：从主分支切出一个新分支",
+    "text": "8.5 第二步：从主分支切出一个新分支\n执行：\ngit switch -c conflict-branch\n然后把第二行改成：\n第二行：这是分支版本的改动。\n可以直接执行：\nprintf \"第一行：Git 可以帮助我们管理修改。\\n第二行：这是分支版本的改动。\\n\" &gt; conflict-demo.txt\ngit add conflict-demo.txt\ngit commit -m \"在分支上修改第二行\"\n\n8.5.1 这一步怎样算成功\n算成功：\n\nconflict-branch 已经建立成功\n你在这个分支上完成了一笔提交\n\n算失败：\n\n你以为自己在新分支上，实际上还在主分支\n你修改了文件，但忘了提交",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html#第三步切回主分支改同一行",
+    "href": "08-conflicts.html#第三步切回主分支改同一行",
+    "title": "8  冲突怎么解决",
+    "section": "8.6 第三步：切回主分支，改同一行",
+    "text": "8.6 第三步：切回主分支，改同一行\n现在回到主分支：\ngit switch main\n如果你的默认分支是 master，这里就改成 master。\n然后把同一行改成另一个版本：\nprintf \"第一行：Git 可以帮助我们管理修改。\\n第二行：这是主分支版本的改动。\\n\" &gt; conflict-demo.txt\ngit add conflict-demo.txt\ngit commit -m \"在主分支上修改第二行\"\n\n8.6.1 这一步怎样算成功\n算成功：\n\n主分支上也完成了一笔对同一行的修改\n两个分支现在各自有不同版本\n\n算失败：\n\n你改的不是同一行，结果后面不会产生真正的冲突\n你修改后没提交，导致后面的场景不成立",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html#第四步开始合并制造冲突",
+    "href": "08-conflicts.html#第四步开始合并制造冲突",
+    "title": "8  冲突怎么解决",
+    "section": "8.7 第四步：开始合并，制造冲突",
+    "text": "8.7 第四步：开始合并，制造冲突\n现在在主分支上执行：\ngit merge conflict-branch\n\n8.7.1 你现在应该看到什么\n这时 Git 很可能不会直接合并成功，而是给出类似下面的提示：\nCONFLICT (content): Merge conflict in conflict-demo.txt\nAutomatic merge failed; fix conflicts and then commit the result.\n不同 Git 版本的文案可能略有差异，但关键信息通常有两点：\n\n某个文件发生了冲突\n自动合并失败，需要你手动处理\n\n\n\n8.7.2 这一步怎样算成功\n算成功：\n\n你真的制造出了一个冲突\n你知道这不是仓库损坏，而是 Git 在等你决定内容\n\n算失败：\n\n你本来想做冲突实验，却没有出现冲突\n你一看到报错就以为整个仓库坏掉了\n\n如果没有冲突，多半是因为你们改的不是同一位置，或者某一边的修改没提交成功。",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html#第五步看懂冲突标记",
+    "href": "08-conflicts.html#第五步看懂冲突标记",
+    "title": "8  冲突怎么解决",
+    "section": "8.8 第五步：看懂冲突标记",
+    "text": "8.8 第五步：看懂冲突标记\n现在打开 conflict-demo.txt，你通常会看到类似下面的内容：\n第一行：Git 可以帮助我们管理修改。\n&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD\n第二行：这是主分支版本的改动。\n=======\n第二行：这是分支版本的改动。\n&gt;&gt;&gt;&gt;&gt;&gt;&gt; conflict-branch\n这几个标记一定要看懂：\n\n&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD 下面的是你当前分支的版本\n======= 是分隔线\n&gt;&gt;&gt;&gt;&gt;&gt;&gt; conflict-branch 下面的是被合并进来的那个分支版本\n\n也就是说，这不是乱码，而是 Git 把两个候选版本都摆出来让你选。\n\n8.8.1 这一步怎样算成功\n算成功：\n\n你能指出哪一段来自当前分支\n你能指出哪一段来自另一条分支\n你知道真正需要留下的是“处理完后的最终文本”，不是这些标记本身\n\n算失败：\n\n你把这些标记也一起保留进最终文件\n你没搞清楚哪一边是谁的修改",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html#第六步手动解决冲突",
+    "href": "08-conflicts.html#第六步手动解决冲突",
+    "title": "8  冲突怎么解决",
+    "section": "8.9 第六步：手动解决冲突",
+    "text": "8.9 第六步：手动解决冲突\n现在你要做的，不是选边站这么简单，而是决定最终文件到底该长什么样。\n比如你决定把两边意思合起来，改成：\n第一行：Git 可以帮助我们管理修改。\n第二行：这里同时吸收主分支和分支版本的改动。\n注意：解决冲突时，你要把那几行标记全部删掉，只留下你真正想保留的结果。\n改完以后执行：\ngit status\ngit add conflict-demo.txt\ngit status\n\n8.9.1 你现在应该看到什么\n冲突刚出现时，git status 往往会显示类似：\n\nboth modified\nunmerged paths\n\n当你把文件内容整理好，并且重新 git add 以后，它会从“未合并状态”进入“准备提交”的状态。\n\n\n8.9.2 这一步怎样算成功\n算成功：\n\n文件里已经没有冲突标记\n最终文本是你确认过的版本\ngit add 之后，Git 知道这个冲突已经被你处理了\n\n算失败：\n\n你只是删掉了一边内容，但没认真确认最后文本\n文件里还残留 &lt;&lt;&lt;&lt;&lt;&lt;&lt;、=======、&gt;&gt;&gt;&gt;&gt;&gt;&gt;\n你以为保存文件就算完成，实际上还没 git add\n\n最后一点非常常见。解决冲突不是只改文件，还要重新告诉 Git：“我已经处理完了。”",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html#第七步完成这次合并",
+    "href": "08-conflicts.html#第七步完成这次合并",
+    "title": "8  冲突怎么解决",
+    "section": "8.10 第七步：完成这次合并",
+    "text": "8.10 第七步：完成这次合并\n处理完以后，再执行：\ngit commit\ngit log --oneline -5\n很多时候，Git 会自动生成一条默认的合并说明。你可以保留它，也可以顺手改得更清楚一点。\n\n8.10.1 你现在应该看到什么\n如果流程顺利：\n\n合并提交已经建立起来\ngit log --oneline -5 里能看到这次 merge 的结果\n工作区会回到干净状态\n\n\n\n8.10.2 这一步怎样算成功\n算成功：\n\n你真的完成了整个冲突处理流程\n合并后的仓库状态正常\n历史里能看见这次合并\n\n算失败：\n\n你以为改完文件就结束了，没有做最后的提交\n你解决完冲突后，没有检查最终历史",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html#为什么解决冲突后还要再提交",
+    "href": "08-conflicts.html#为什么解决冲突后还要再提交",
+    "title": "8  冲突怎么解决",
+    "section": "8.11 为什么解决冲突后还要再提交",
+    "text": "8.11 为什么解决冲突后还要再提交\n因为“解决冲突”本身就是一次新的决定。\n在这个决定里，你做的事不是简单选一边，而是明确告诉 Git：\n\n这两条线上冲突的地方，我已经整理好了\n现在请把这个结果记进历史\n\n所以最后那笔提交，不是多余步骤，而是整个合并流程的收尾。",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html#怎样减少无谓冲突",
+    "href": "08-conflicts.html#怎样减少无谓冲突",
+    "title": "8  冲突怎么解决",
+    "section": "8.12 怎样减少无谓冲突",
+    "text": "8.12 怎样减少无谓冲突\n冲突不可能完全消失，但很多无谓冲突是可以减少的。\n\n8.12.1 尽量不要长期让分支悬着不合\n分支拖得越久，主线变化越多，后面碰撞的机会就越大。\n\n\n8.12.2 一次只处理一个清楚主题\n如果一笔分支里同时混着重构、修错字、加新内容，后面就更容易和别人的修改打架。\n\n\n8.12.3 经常同步主线变化\n如果你知道主线已经变了很多，不要拖到最后一天才去合并。\n\n\n8.12.4 改动前先看最近别人动了哪里\n尤其是多人协作时，先看日志和最近提交，能减少很多无谓撞车。",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html#遇到冲突时最容易犯的错",
+    "href": "08-conflicts.html#遇到冲突时最容易犯的错",
+    "title": "8  冲突怎么解决",
+    "section": "8.13 遇到冲突时最容易犯的错",
+    "text": "8.13 遇到冲突时最容易犯的错\n\n8.13.1 看到冲突标记就慌\n其实它只是提示，不是损坏。\n\n\n8.13.2 没看清内容就随手删掉一边\n有时两边修改都值得保留，不能机械地只留一边。\n\n\n8.13.3 改完文件却忘了 git add\n这样 Git 还不知道你已经处理完。\n\n\n8.13.4 解决完不检查最终文件\n冲突处理的目标不是“让 Git 不报错”，而是让最终内容真的正确。",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "08-conflicts.html#本章练习",
+    "href": "08-conflicts.html#本章练习",
+    "title": "8  冲突怎么解决",
+    "section": "8.14 本章练习",
+    "text": "8.14 本章练习\n\n8.14.1 练习 1：亲手制造一次冲突\n按本章步骤，在测试仓库里完整做一遍：\n\n准备基础文件\n切分支并修改同一行\n回主分支修改同一行\n执行 git merge\n\n算成功：\n\n你真的制造出了冲突\n你没有把冲突误解成仓库损坏\n\n算失败：\n\n你没有在同一位置制造不同修改，结果练习没形成冲突\n\n\n\n8.14.2 练习 2：手动解决并完成提交\n\n打开冲突文件\n删除标记，写出最终版本\ngit add &lt;文件&gt;\ngit commit\ngit log --oneline -5\n\n算成功：\n\n冲突标记全部消失\n最终内容是你确认过的\n历史里出现合并结果\n\n算失败：\n\n文件里还残留冲突标记\n你改完了却忘了 git add 或 git commit",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>冲突怎么解决</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html",
+    "href": "09-tags-and-release.html",
+    "title": "9  标签、版本与发布",
+    "section": "",
+    "text": "9.1 为什么要给某个时间点起名字\n当一个项目逐渐稳定下来，我们往往会希望把某个时间点明确标出来。比如这是第一版、这是修复 bug 后的版本、这是可以交付给别人的版本。\n这一章要讲的，就是标签和版本的作用。标签不是每天都会用到，但一旦项目进入发布节奏，它就会变得很有用。\n本章会包括：\n这一章也会顺手把“版本”这件事讲清楚，让 Git 的历史不只是看得见，还能拿来发布。\n前面几章里，我们一直在做提交。提交能把每一次修改记录下来，但当项目慢慢成形以后，你通常还会有另一个需要：\n这时，标签就有用了。",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#为什么要给某个时间点起名字",
+    "href": "09-tags-and-release.html#为什么要给某个时间点起名字",
+    "title": "9  标签、版本与发布",
+    "section": "",
+    "text": "我想把“这个可以交付的状态”明确标出来\n我想知道“第一版”对应的是哪一笔提交\n我想回到某个发布版本，而不是只记得那是一串提交编号",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#标签和提交有什么不同",
+    "href": "09-tags-and-release.html#标签和提交有什么不同",
+    "title": "9  标签、版本与发布",
+    "section": "9.2 标签和提交有什么不同",
+    "text": "9.2 标签和提交有什么不同\n先把最核心的一点说清楚：\n\n提交是在记录修改\n标签是在给某个提交起一个更容易识别的名字\n\n也就是说，标签本身通常不承载新改动。它更像一个路标，告诉你：\n\n这里是 v1.0\n这里是修完某个问题后的版本\n这里是一个适合发给别人用的节点",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#什么时候值得打标签",
+    "href": "09-tags-and-release.html#什么时候值得打标签",
+    "title": "9  标签、版本与发布",
+    "section": "9.3 什么时候值得打标签",
+    "text": "9.3 什么时候值得打标签\n不是每次提交都要打标签。更常见的做法是，在这些时刻考虑打标签：\n\n完成一个明确版本\n修完一个重要问题，准备重新交付\n项目进入一个稳定节点，准备交付或回看\n你想给未来的自己留一个清楚的回看点\n\n如果你的项目还在快速试验阶段，标签可能不需要太频繁。可一旦开始有“版本”意识，标签会非常省事。",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#先准备一个练习仓库",
+    "href": "09-tags-and-release.html#先准备一个练习仓库",
+    "title": "9  标签、版本与发布",
+    "section": "9.4 先准备一个练习仓库",
+    "text": "9.4 先准备一个练习仓库\n这一章最好也在一个已有几笔提交的测试仓库里练。先执行：\ngit status\ngit log --oneline -5\n\n9.4.1 这一步怎样算成功\n算成功：\n\n当前仓库状态正常\n至少已经有几笔提交可供练习\n\n算失败：\n\n你还没在 Git 仓库里\n仓库里根本没有历史，没法给某个节点打标签",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#第一步先看现在的历史长什么样",
+    "href": "09-tags-and-release.html#第一步先看现在的历史长什么样",
+    "title": "9  标签、版本与发布",
+    "section": "9.5 第一步：先看现在的历史长什么样",
+    "text": "9.5 第一步：先看现在的历史长什么样\n执行：\ngit log --oneline\n\n9.5.1 你现在应该看到什么\n你会看到一串提交记录。现在先不要急着打标签，先看清楚：\n\n哪一笔提交是当前最新的\n你想把哪一笔当作“版本节点”\n\n\n\n9.5.2 这一步怎样算成功\n算成功：\n\n你知道标签最终会落在哪一笔提交上\n你不是闭着眼随便打一个标签\n\n算失败：\n\n你还没看清历史，就先乱打标签\n打完以后自己都说不清为什么标签会落在那里",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#第二步给当前提交打一个简单标签",
+    "href": "09-tags-and-release.html#第二步给当前提交打一个简单标签",
+    "title": "9  标签、版本与发布",
+    "section": "9.6 第二步：给当前提交打一个简单标签",
+    "text": "9.6 第二步：给当前提交打一个简单标签\n如果你想给当前最新提交打上 v1.0，可以执行：\ngit tag v1.0\ngit tag\n\n9.6.1 你现在应该看到什么\ngit tag 会列出当前仓库里的标签。如果这是你第一个标签，通常会看到：\nv1.0\n\n\n9.6.2 这一步怎样算成功\n算成功：\n\n仓库里成功出现一个名为 v1.0 的标签\n你知道它现在指向当前最新提交\n\n算失败：\n\n你以为标签会自动生成说明，但其实只是给某个提交起了名字\n你没确认标签是否真的建成功",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#第三步验证标签到底指到了哪里",
+    "href": "09-tags-and-release.html#第三步验证标签到底指到了哪里",
+    "title": "9  标签、版本与发布",
+    "section": "9.7 第三步：验证标签到底指到了哪里",
+    "text": "9.7 第三步：验证标签到底指到了哪里\n只看到标签名字还不够，你最好确认它具体指向哪一笔提交。\n执行：\ngit show v1.0\n\n9.7.1 你现在应该看到什么\nGit 会把这个标签对应的提交信息展开给你看。你通常能看到：\n\n这笔提交的说明\n它改了什么\n它的提交编号\n\n\n\n9.7.2 这一步怎样算成功\n算成功：\n\n你能确认 v1.0 确实指向你预期的那笔提交\n你知道标签不是悬空名字，而是指向具体历史节点\n\n算失败：\n\n你建了标签，却不知道它实际落在哪\n你把标签和分支混在一起，不清楚它们的区别",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#标签和分支有什么不同",
+    "href": "09-tags-and-release.html#标签和分支有什么不同",
+    "title": "9  标签、版本与发布",
+    "section": "9.8 标签和分支有什么不同",
+    "text": "9.8 标签和分支有什么不同\n这两个概念很容易混。\n\n分支会继续往前走\n标签通常停在某个固定点上\n\n换句话说：\n\n你在分支上继续提交，分支指向会前进\n标签打在哪个提交上，通常就固定在那里，不会自己往前移动\n\n这也是为什么标签很适合表示“某一版已经定稿”。",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#第四步继续做一笔提交看看标签会不会动",
+    "href": "09-tags-and-release.html#第四步继续做一笔提交看看标签会不会动",
+    "title": "9  标签、版本与发布",
+    "section": "9.9 第四步：继续做一笔提交，看看标签会不会动",
+    "text": "9.9 第四步：继续做一笔提交，看看标签会不会动\n现在故意再做一笔新提交：\nprintf \"\\n## 版本说明\\n这里补一段版本说明。\\n\" &gt;&gt; README.md\ngit add README.md\ngit commit -m \"补充版本说明\"\ngit log --oneline -3\ngit show v1.0\n\n9.9.1 你现在应该看到什么\n这时你会看到：\n\n最新历史已经往前多了一笔提交\n但 v1.0 仍然指向原来的那个节点\n\n这一步非常重要，因为它能帮你真正看出标签不是“会自动跟着最新状态走”的东西。\n\n\n9.9.2 这一步怎样算成功\n算成功：\n\n你看到新提交出现了\n你也看到 v1.0 仍然停在原来的位置\n\n算失败：\n\n你以为打了标签以后，它会永远代表最新状态\n你分不清“当前分支最新提交”和“某个固定版本节点”",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#第五步给更早的某笔提交打标签",
+    "href": "09-tags-and-release.html#第五步给更早的某笔提交打标签",
+    "title": "9  标签、版本与发布",
+    "section": "9.10 第五步：给更早的某笔提交打标签",
+    "text": "9.10 第五步：给更早的某笔提交打标签\n标签不一定只能打在当前最新提交上。你也可以给历史里的某一笔提交补标签。\n先执行：\ngit log --oneline\n找一笔较早的提交，比如：\nabc1234 初始化仓库并添加 README\n然后执行：\ngit tag v0.1 abc1234\ngit tag\n\n9.10.1 你现在应该看到什么\n现在标签列表里应该会多一个：\n\nv0.1\nv1.0\n\n其中 v0.1 会指向较早那笔提交，v1.0 指向较新的版本节点。\n\n\n9.10.2 这一步怎样算成功\n算成功：\n\n你能给历史里的指定提交打标签\n你知道标签不一定非得打在当前最新提交上\n\n算失败：\n\n你把提交编号写错，结果标签落在错误位置\n你没有核对标签对应的提交内容",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#标签名该怎么起",
+    "href": "09-tags-and-release.html#标签名该怎么起",
+    "title": "9  标签、版本与发布",
+    "section": "9.11 标签名该怎么起",
+    "text": "9.11 标签名该怎么起\n标签名没有绝对唯一的标准，但有一些很常见的习惯。\n比如：\n\nv1.0\nv1.1\nv2.0\ndraft-2026-04-19\n\n如果你是在写书或文档，也可以用更贴近自己项目的命名方式，但有两个原则很值得守住：\n\n名字要看得懂\n同一项目尽量保持同一套规则\n\n\n9.11.1 这一步怎样算成功\n算成功：\n\n你看到标签名就大致知道它表示什么\n项目里的标签命名风格比较一致\n\n算失败：\n\n标签名杂乱无章，后来根本看不懂\n同一个项目里一会儿 release-final，一会儿 version2-new，一会儿 ok-this-one",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#发布到底在说什么",
+    "href": "09-tags-and-release.html#发布到底在说什么",
+    "title": "9  标签、版本与发布",
+    "section": "9.12 发布到底在说什么",
+    "text": "9.12 发布到底在说什么\n“发布”这个词有时会让初学者觉得很大，其实先可以理解成一件朴素的事：\n\n把某个你认可的版本明确标出来，准备拿去给别人用、给别人看，或者给未来的自己回头找\n\n所以发布不一定非得是软件上线。对一本书、一个教程、一个文档项目来说，也完全可以有自己的版本节点。",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#在书稿或文档里标签有什么实际用处",
+    "href": "09-tags-and-release.html#在书稿或文档里标签有什么实际用处",
+    "title": "9  标签、版本与发布",
+    "section": "9.13 在书稿或文档里，标签有什么实际用处",
+    "text": "9.13 在书稿或文档里，标签有什么实际用处\n比如你在写一本书时，可以这样用：\n\n章节骨架完成后打一个 v0.1\n前五章写完并自查后打一个 v0.5\n第一轮完整通读后打一个 v1.0\n\n这样做的好处是：\n\n你回头找某个阶段很方便\n你知道“哪个状态是能拿给别人看的”\n你不需要靠模糊印象记“好像上周那版比较稳”",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#如果标签打错了怎么办",
+    "href": "09-tags-and-release.html#如果标签打错了怎么办",
+    "title": "9  标签、版本与发布",
+    "section": "9.14 如果标签打错了怎么办",
+    "text": "9.14 如果标签打错了怎么办\n初学阶段，先知道有这个情况就够了：标签也不是神圣不可碰的。如果你打错了，后面可以删掉重来。\n比如：\ngit tag -d v1.0\ngit tag\n\n9.14.1 你现在应该看到什么\n执行成功后，v1.0 会从本地标签列表里消失。\n\n\n9.14.2 这一步怎样算成功\n算成功：\n\n你知道标签并不是一旦建立就永远不能改\n删除后会重新检查列表，而不是靠猜\n\n算失败：\n\n你以为删标签会顺带删掉那笔提交\n你把“删标签”和“删历史”混为一谈\n\n标签删掉，不等于那笔提交消失。它只是少了一个名字。",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#本章最值得养成的习惯",
+    "href": "09-tags-and-release.html#本章最值得养成的习惯",
+    "title": "9  标签、版本与发布",
+    "section": "9.15 本章最值得养成的习惯",
+    "text": "9.15 本章最值得养成的习惯\n到这里，这一章最希望你养成的不是“会敲 git tag”，而是这两个习惯：\n\n发布节点要明确标出来\n标签打完以后要检查它到底指向哪一笔提交\n\n只要这两件事形成习惯，后面无论是写代码、做网站还是维护文档，版本都会清楚很多。",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#本章练习",
+    "href": "09-tags-and-release.html#本章练习",
+    "title": "9  标签、版本与发布",
+    "section": "9.16 本章练习",
+    "text": "9.16 本章练习\n\n9.16.1 练习 1：给当前版本打一个标签\n\ngit log --oneline\ngit tag v1.0\ngit tag\ngit show v1.0\n\n算成功：\n\n你成功建立标签\n你能确认它对应的是哪一笔提交\n\n算失败：\n\n你只建了标签，却没确认它到底指向哪\n\n\n\n9.16.2 练习 2：做一笔新提交，观察标签不会自动移动\n\n修改一个文件并提交\ngit log --oneline -3\ngit show v1.0\n\n算成功：\n\n你看见历史往前走了\n你也看见旧标签仍然停在原来的节点\n\n算失败：\n\n你以为标签总是代表当前最新状态\n\n\n\n9.16.3 练习 3：给旧提交补标签\n\ngit log --oneline\n选一笔较早提交\ngit tag v0.1 &lt;提交编号&gt;\ngit tag\n\n算成功：\n\n你能把标签打到历史中的某一笔提交上\n\n算失败：\n\n你把标签、分支、提交编号三者混在一起",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html",
+    "href": "10-git-vs-github.html",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "",
+    "text": "10.1 先把两个名字拆开\n很多人把 Git 和 GitHub 当成同一件事，所以一开始就会混乱。其实 Git 是版本控制工具，主要在本地工作；GitHub 是托管远端仓库、支撑协作的平台。两者关系很紧，但不是同一个东西。\n这一章的任务，就是把这层关系理清楚。你要知道哪些动作发生在自己电脑上，哪些动作是在和远端同步，哪些事情又是 GitHub 提供的协作功能。\n本章会讲：\n把这一层分清楚以后，后面接 GitHub 时会顺很多。\n如果只用一句话来区分：\n这两个东西经常一起出现，所以很容易被混成一个概念。但它们处理的问题并不相同。",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#先把两个名字拆开",
+    "href": "10-git-vs-github.html#先把两个名字拆开",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "",
+    "text": "Git 是你本地用来记录历史的工具\nGitHub 是用来托管远端仓库和做协作的平台",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#哪些事情是-git-在做",
+    "href": "10-git-vs-github.html#哪些事情是-git-在做",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.2 哪些事情是 Git 在做",
+    "text": "10.2 哪些事情是 Git 在做\n下面这些动作，就算完全不上 GitHub，你也照样可以在自己电脑上完成：\n\ngit init\ngit add\ngit commit\ngit diff\ngit log\ngit branch\ngit merge\n\n也就是说，前面几章你学的那些核心操作，本质上都属于 Git 本地能力。哪怕你断网、哪怕你还没注册 GitHub 账号，Git 仍然能工作。",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#哪些事情是-github-在做",
+    "href": "10-git-vs-github.html#哪些事情是-github-在做",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.3 哪些事情是 GitHub 在做",
+    "text": "10.3 哪些事情是 GitHub 在做\nGitHub 主要处理的是另外一类事情：\n\n托管远端仓库\n让别人也能访问这个仓库\n提供 Pull Request、Issue、Code Review 这些协作功能\n让你的项目放到线上，方便同步和分享\n\n所以更准确的理解不是“GitHub 就是 Git”，而是：\n\nGit 是底层版本控制工具\nGitHub 是围绕 Git 仓库搭建出来的协作平台",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#一个最常见的误会",
+    "href": "10-git-vs-github.html#一个最常见的误会",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.4 一个最常见的误会",
+    "text": "10.4 一个最常见的误会\n很多初学者会说：“我还没上传到 GitHub，所以还没开始用 Git。”\n这句话其实不对。只要你已经在本地做了这些事：\n\n建仓库\n提交历史\n切分支\n查看差异\n\n你就已经在用 Git 了。只是你还没有把这个本地仓库接到 GitHub 而已。",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#什么叫远端仓库",
+    "href": "10-git-vs-github.html#什么叫远端仓库",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.5 什么叫远端仓库",
+    "text": "10.5 什么叫远端仓库\n当你只在自己电脑上工作时，你手里的是一个本地仓库。它的历史、分支和文件状态都保存在你当前这台机器上。\n所谓远端仓库，可以先简单理解成：\n\n放在别处的一份仓库副本\n你可以和它同步历史\n别人也可能从那里拿到同一个项目\n\nGitHub 上的仓库，最常见的就是这种远端仓库。",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#本地仓库和远端仓库是什么关系",
+    "href": "10-git-vs-github.html#本地仓库和远端仓库是什么关系",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.6 本地仓库和远端仓库是什么关系",
+    "text": "10.6 本地仓库和远端仓库是什么关系\n它们不是“一个真，一个假”，也不是“本地只是临时，远端才算正式”。\n更准确地说，它们是：\n\n两个可以彼此同步的仓库\n本地负责你正在做的改动\n远端负责共享、备份和协作入口\n\n所以最稳的理解是：你平时主要在本地做 Git 操作，等到合适的时候，再把本地历史同步到远端。",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#现在用一个最小例子来想象",
+    "href": "10-git-vs-github.html#现在用一个最小例子来想象",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.7 现在用一个最小例子来想象",
+    "text": "10.7 现在用一个最小例子来想象\n假设你在自己电脑上已经有一个仓库，里面做了三笔提交。\n这时：\n\ngit log 能看到三笔历史\n但 GitHub 上还什么都没有\n\n一旦你在 GitHub 新建仓库，并把本地仓库连过去：\n\n你的本地仓库还是原来那个\nGitHub 上会多出一个远端副本\n\n以后你们之间就会通过“同步”来保持更新。",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#push-在做什么",
+    "href": "10-git-vs-github.html#push-在做什么",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.8 push 在做什么",
+    "text": "10.8 push 在做什么\npush 的意思可以先理解成：\n\n把本地已经存在的提交，送到远端仓库去\n\n注意这句话的重点是：push 发送的是“已经提交过的历史”，不是你工作区里还没提交的半成品。\n所以如果你只改了文件，但还没 git commit，直接 push 往往不会得到你以为的结果，因为你其实没有新的历史可推。\n\n10.8.1 这一步怎样算理解成功\n算成功：\n\n你知道 push 不是上传当前目录所有现状\n你知道它推送的是已经提交的历史\n\n算失败：\n\n你把 push 理解成“保存一下现在电脑上的东西”\n你以为没 commit 也能靠 push 把未整理好的修改传上去",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#pull-在做什么",
+    "href": "10-git-vs-github.html#pull-在做什么",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.9 pull 在做什么",
+    "text": "10.9 pull 在做什么\npull 可以先理解成：\n\n把远端的新变化拿下来，并尝试合并到本地\n\n也就是说，它通常不是单纯“下载”，而是“取回并整合”。\n这也是为什么 pull 有时会带来合并，甚至可能带来冲突。\n\n10.9.1 这一步怎样算理解成功\n算成功：\n\n你知道 pull 可能会改变你本地当前分支的状态\n你知道它不只是“看一下远端”\n\n算失败：\n\n你把 pull 想成纯粹只读动作\n你不知道为什么 pull 之后本地内容会变化",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#fetch-又是什么",
+    "href": "10-git-vs-github.html#fetch-又是什么",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.10 fetch 又是什么",
+    "text": "10.10 fetch 又是什么\nfetch 和 pull 经常一起被提到，但它更克制一些。\n你可以先把它理解成：\n\n先把远端的新历史拿到本地\n但先不自动合并进你当前正在工作的分支\n\n所以很多人会把它看成更安全的第一步：先取回来看看，再决定怎么合。\n\n10.10.1 fetch 和 pull 的差别\n\nfetch：先拿回来，不自动并进当前工作\npull：拿回来，并尝试合进当前工作\n\n\n\n10.10.2 这一步怎样算理解成功\n算成功：\n\n你知道 fetch 更像“先同步信息”\n你知道 pull 比 fetch 多了一步整合\n\n算失败：\n\n你把两者完全当成同一件事\n你不知道为什么有些人习惯先 fetch 再决定下一步",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#clone-又属于哪一类",
+    "href": "10-git-vs-github.html#clone-又属于哪一类",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.11 clone 又属于哪一类",
+    "text": "10.11 clone 又属于哪一类\n虽然这一章还没正式进入 GitHub 实操，但可以先顺手把 clone 放进图里。\nclone 的意思是：\n\n根据一个现成远端仓库，复制出一份本地仓库\n\n也就是说：\n\ninit 常用于从零开始建本地仓库\nclone 常用于从已有远端仓库拿下一份本地副本\n\n这两个起点不同，别混在一起。",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#现在做一个理解检查",
+    "href": "10-git-vs-github.html#现在做一个理解检查",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.12 现在做一个理解检查",
+    "text": "10.12 现在做一个理解检查\n先不要急着接 GitHub 网站界面，先问自己下面几个问题：\n\n如果我断网了，还能不能 git commit\n如果我只改了文件还没提交，push 能不能把这些改动送上去\n为什么 pull 有时会带来冲突\n为什么有人先 fetch 再手动决定下一步\n\n如果这四个问题你已经能答稳，Git 和 GitHub 的边界就开始清楚了。",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#一个最小命令观察实验",
+    "href": "10-git-vs-github.html#一个最小命令观察实验",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.13 一个最小命令观察实验",
+    "text": "10.13 一个最小命令观察实验\n如果你现在已经有一个连到远端的仓库，可以做一个很小的观察：\ngit remote -v\n\n10.13.1 你现在应该看到什么\n如果这个仓库已经配置过远端，通常会看到类似：\norigin  https://github.com/...\norigin  https://github.com/...\n这里的 origin 是远端名字，后面是远端地址。\n\n\n10.13.2 这一步怎样算成功\n算成功：\n\n你知道当前仓库有没有配置远端\n你知道远端不一定非叫 origin，但 origin 很常见\n\n算失败：\n\n你看到远端地址，却不知道它代表什么\n你把远端名字和分支名字混为一谈\n\n如果这里没有任何输出，也不代表仓库有问题，只说明这个本地仓库还没连到远端。",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#初学者最容易混乱的几个点",
+    "href": "10-git-vs-github.html#初学者最容易混乱的几个点",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.14 初学者最容易混乱的几个点",
+    "text": "10.14 初学者最容易混乱的几个点\n\n10.14.1 把 Git 和 GitHub 当成同义词\n这样一来，你会误以为“没上 GitHub 就等于没在用 Git”。\n\n\n10.14.2 把 push 理解成“上传当前文件夹”\n实际上，它推的是提交历史，不是未提交的工作区现状。\n\n\n10.14.3 把 pull 理解成纯下载\n实际上，它往往还会试着整合远端变化。\n\n\n10.14.4 忽略本地仓库本身的重要性\n很多人把 GitHub 想得太重，结果反而忽略了真正每天在你手边工作的，是本地 Git 仓库。",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#到这里你应该做到什么",
+    "href": "10-git-vs-github.html#到这里你应该做到什么",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.15 到这里你应该做到什么",
+    "text": "10.15 到这里你应该做到什么\n这一章结束时，你至少应该能稳定区分：\n\n哪些操作属于本地 Git\n哪些功能属于 GitHub\n本地仓库和远端仓库分别在做什么\npush、pull、fetch 的大致角色差别\n\n一旦这层分清楚，后面真正接 GitHub 时，你就不会把网站按钮和本地历史搅在一起。",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "10-git-vs-github.html#本章练习",
+    "href": "10-git-vs-github.html#本章练习",
+    "title": "10  Git 和 GitHub 不是一回事",
+    "section": "10.16 本章练习",
+    "text": "10.16 本章练习\n\n10.16.1 练习 1：观察远端信息是不是已经配好\n如果你手边已经有一个连到 GitHub 的仓库，先执行：\ngit remote -v\n然后回答两件事：\n\n当前仓库有没有远端\n这个远端地址是不是你预期的那个仓库\n\n算成功：\n\n你能从输出里认出远端名字和远端地址\n你知道自己现在面对的是本地仓库，还是“本地加远端”的仓库\n\n算失败：\n\n你看到 origin 和地址，却不知道它们分别代表什么\n你仓库其实没连远端，却误以为已经和 GitHub 建立同步关系\n\n\n\n10.16.2 练习 2：只用自己的话区分 Git 和 GitHub\n试着不用书里的原句，自己回答：\n\nGit 是什么\nGitHub 是什么\n它们为什么常常一起出现\n\n算成功：\n\n你能清楚说出“工具”和“平台”的区别\n\n算失败：\n\n你还是把它们说成同一个东西\n\n\n\n10.16.3 练习 3：判断下面几件事是谁在做\n请判断这些动作更属于 Git 还是 GitHub：\n\n本地做一笔提交\n建立 Pull Request\n查看 git diff\n在网页上 review 别人的改动\n切换分支\n\n算成功：\n\n你能把本地版本控制和平台协作功能分开\n\n算失败：\n\n你看到和项目协作有关，就统统算成 GitHub\n\n\n\n10.16.4 练习 4：做一次最小观察，区分 fetch 和 pull\n如果你手边已经有一个连到远端的测试仓库，可以做下面这组最小观察：\n\n先执行 git status\n再执行 git fetch\n再看一次 git status\n最后执行 git branch -r\n\n这组动作的重点不是“做出新改动”，而是观察：\n\nfetch 之后，本地当前文件通常不会立刻变化\n但 Git 已经把远端分支信息取回来了\n\n如果之后你再执行 git pull，它就不只是“拿回来看看”，而是会尝试把远端变化整合进当前分支。\n算成功：\n\n你知道 fetch 之后为什么工作区通常不会立刻变\n你知道 pull 比 fetch 多了一步整合\n你不会再把两者都看成“差不多的下载命令”\n\n算失败：\n\n你执行完 fetch，发现文件没变，就以为命令没生效\n你仍然说不清 fetch 和 pull 的差别到底落在哪一步\n\n\n\n10.16.5 练习 5：判断 push、pull、fetch\n试着回答：\n\n哪一个是在把本地历史送到远端\n哪一个是在取回远端变化并尝试整合\n哪一个是先拿回来但先不自动并进当前工作\n\n算成功：\n\n你能分清三者的大致职责\n\n算失败：\n\n你仍然把它们当成三个差不多的“同步命令”",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Git 和 GitHub 不是一回事</span>"
+    ]
+  },
+  {
+    "objectID": "11-publish-to-github.html",
+    "href": "11-publish-to-github.html",
+    "title": "11  把本地项目放到 GitHub",
+    "section": "",
+    "text": "11.1 这一章真正要做成什么\n这一章会带你走完第一次把项目发布到 GitHub 的流程。从本地已有仓库开始，到建立远端仓库，再到完成第一次推送，整个过程尽量按真实顺序来。\n你会在这一章学到：\n这一章结束后，你手上的项目就不只存在于自己电脑里，而是已经能放到线上继续协作。\n这一章的目标很具体。做完之后，你手上的本地仓库应该变成这样：\n如果这四件事都成立，就说明你不是“知道怎么上传”，而是真的把本地仓库接到了 GitHub。",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>把本地项目放到 GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-publish-to-github.html#这一章真正要做成什么",
+    "href": "11-publish-to-github.html#这一章真正要做成什么",
+    "title": "11  把本地项目放到 GitHub",
+    "section": "",
+    "text": "本地已经有正常提交历史\nGitHub 上已经有一个对应远端仓库\n你的本地仓库已经连上那个远端\n你已经成功完成第一次 push",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>把本地项目放到 GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-publish-to-github.html#开始前先确认本地条件",
+    "href": "11-publish-to-github.html#开始前先确认本地条件",
+    "title": "11  把本地项目放到 GitHub",
+    "section": "11.2 开始前先确认本地条件",
+    "text": "11.2 开始前先确认本地条件\n先在本地仓库里执行：\ngit status\ngit log --oneline -5\ngit remote -v\n\n11.2.1 你现在应该看到什么\n开始之前，比较理想的状态是：\n\ngit status 显示工作区干净，或者至少你自己知道还有哪些改动\ngit log --oneline -5 能看到已有历史\ngit remote -v 还没有任何输出，说明这个仓库可能还没连上远端\n\n\n\n11.2.2 这一步怎样算成功\n算成功：\n\n你确定自己手上有一个正常工作的本地仓库\n你知道这个仓库目前有没有远端\n\n算失败：\n\n你连本地提交历史都还没有，就急着接 GitHub\n你其实已经配过远端，却没先看清楚\n\n如果 git remote -v 已经有输出，不代表不能继续，但你得先看清楚你是不是已经连过某个远端，避免重复配置。",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>把本地项目放到 GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-publish-to-github.html#第一步在-github-上建立一个新仓库",
+    "href": "11-publish-to-github.html#第一步在-github-上建立一个新仓库",
+    "title": "11  把本地项目放到 GitHub",
+    "section": "11.3 第一步：在 GitHub 上建立一个新仓库",
+    "text": "11.3 第一步：在 GitHub 上建立一个新仓库\n这一步主要在网页上完成。进入 GitHub 后，新建一个仓库。\n第一次接本地仓库时，比较稳的做法是：\n\n先建一个空仓库\n不要勾选自动生成 README\n不要先加 .gitignore\n不要先加 license\n\n这样做的原因很简单：你本地已经有一套历史了。如果远端一开始就多出自己的初始提交，第一次对接时反而更容易让初学者混乱。\n\n11.3.1 这一步怎样算成功\n算成功：\n\n你在 GitHub 上得到了一个新的空仓库页面\n页面上能看到仓库地址\n\n算失败：\n\n你先让 GitHub 自动生成了额外文件，却没意识到远端已经有自己的初始提交\n你还没确认仓库地址，就匆忙回到终端继续",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>把本地项目放到 GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-publish-to-github.html#第二步把远端地址连到本地仓库",
+    "href": "11-publish-to-github.html#第二步把远端地址连到本地仓库",
+    "title": "11  把本地项目放到 GitHub",
+    "section": "11.4 第二步：把远端地址连到本地仓库",
+    "text": "11.4 第二步：把远端地址连到本地仓库\nGitHub 新仓库页面通常会给你一个地址，常见形式像这样：\nhttps://github.com/yourname/your-repo.git\n现在在本地仓库里执行：\ngit remote add origin https://github.com/yourname/your-repo.git\ngit remote -v\n\n11.4.1 git remote add origin 在做什么\n它的意思是：\n\n给这个本地仓库登记一个远端\n这个远端的名字叫 origin\n对应的地址是你刚才 GitHub 仓库的地址\n\norigin 只是常见名字，不是魔法关键字，但大多数教程和项目都会这么叫。\n\n\n11.4.2 你现在应该看到什么\n执行完 git remote -v，通常会看到类似：\norigin  https://github.com/yourname/your-repo.git (fetch)\norigin  https://github.com/yourname/your-repo.git (push)\n\n\n11.4.3 这一步怎样算成功\n算成功：\n\n本地仓库已经记住了一个名为 origin 的远端\ngit remote -v 能正确显示地址\n\n算失败：\n\n你把远端地址粘错了\n你重复添加同名远端，结果 Git 报错\n你没有检查远端地址是否真的是目标仓库\n\n如果提示 remote origin already exists，不要慌，先说明这个仓库里已经有个叫 origin 的远端了。先用 git remote -v 看清楚它指向哪里，再决定下一步。",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>把本地项目放到 GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-publish-to-github.html#第三步确认当前分支名",
+    "href": "11-publish-to-github.html#第三步确认当前分支名",
+    "title": "11  把本地项目放到 GitHub",
+    "section": "11.5 第三步：确认当前分支名",
+    "text": "11.5 第三步：确认当前分支名\n在第一次推送前，最好先确认自己当前分支叫什么。\n执行：\ngit branch\n\n11.5.1 你现在应该看到什么\n你通常会看到：\n* main\n或者：\n* master\n\n\n11.5.2 这一步怎样算成功\n算成功：\n\n你知道当前分支到底叫 main 还是 master\n你不会在推送时凭印象乱写分支名\n\n算失败：\n\n你默认以为一定是 main\n结果命令里写错分支名，后面推送报错",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>把本地项目放到 GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-publish-to-github.html#第四步第一次把本地历史推到-github",
+    "href": "11-publish-to-github.html#第四步第一次把本地历史推到-github",
+    "title": "11  把本地项目放到 GitHub",
+    "section": "11.6 第四步：第一次把本地历史推到 GitHub",
+    "text": "11.6 第四步：第一次把本地历史推到 GitHub\n现在可以开始第一次推送了。假设当前分支是 main，执行：\ngit push -u origin main\n如果你的当前分支是 master，就把最后一个 main 改成 master。\n\n11.6.1 -u 在做什么\n这里的 -u 很值得顺手记住。它的作用是：\n\n把本地当前分支和远端对应分支建立跟踪关系\n\n这样以后你再在这个分支上 git push 或 git pull，通常就不用每次都把远端名和分支名写全。\n\n\n11.6.2 你现在应该看到什么\n第一次推送成功后，终端通常会告诉你：\n\n发送了哪些对象\n新分支已经推到远端\n当前分支开始跟踪远端对应分支\n\n然后你回到 GitHub 页面刷新，通常会看到：\n\n仓库不再是空的\n你的文件和提交历史已经出现在网页上\n\n\n\n11.6.3 这一步怎样算成功\n算成功：\n\ngit push -u origin main 或 master 成功执行\nGitHub 页面上已经能看到你的项目文件\n远端分支和本地分支已经建立跟踪关系\n\n算失败：\n\n推送报错，提示分支名不对\n推送报错，提示认证失败\n命令执行完了，但 GitHub 页面刷新后还是空的\n\n最后一种情况说明：你以为推上去了，但实际上并没有成功完成远端更新。",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>把本地项目放到 GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-publish-to-github.html#第五步验证这次连接是不是真的建好了",
+    "href": "11-publish-to-github.html#第五步验证这次连接是不是真的建好了",
+    "title": "11  把本地项目放到 GitHub",
+    "section": "11.7 第五步：验证这次连接是不是真的建好了",
+    "text": "11.7 第五步：验证这次连接是不是真的建好了\n第一次推送成功以后，最好再做几个检查，不要只看一条命令是否报错。\n执行：\ngit remote -v\ngit branch -vv\ngit status\n\n11.7.1 你现在应该看到什么\n\ngit remote -v：还能看到远端地址\ngit branch -vv：当前分支后面通常会显示它正在跟踪哪个远端分支\ngit status：通常会告诉你当前分支和远端分支已经同步\n\n\n\n11.7.2 这一步怎样算成功\n算成功：\n\n你确认本地和远端的连接已经稳定建立\n你知道当前分支在跟踪哪一个远端分支\n\n算失败：\n\n你只知道“刚才好像推成功了”\n但说不清当前分支和远端是什么关系",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>把本地项目放到 GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-publish-to-github.html#如果第一次推送时遇到常见问题",
+    "href": "11-publish-to-github.html#如果第一次推送时遇到常见问题",
+    "title": "11  把本地项目放到 GitHub",
+    "section": "11.8 如果第一次推送时遇到常见问题",
+    "text": "11.8 如果第一次推送时遇到常见问题\n\n11.8.1 情况 1：分支名写错\n比如你当前分支其实叫 master，却执行了：\ngit push -u origin main\n这时 Git 往往会报找不到对应本地分支。\n更稳的做法始终是先跑一次：\ngit branch\n看清楚再推。\n\n\n11.8.2 情况 2：远端已经不是空仓库\n如果你在 GitHub 建仓库时已经让它自动生成了 README 或别的初始文件，远端就不再是空的。\n这时第一次推送可能不会像空仓库那样简单。对初学者来说，最稳的方式还是一开始就先建空仓库，减少第一轮混乱。\n\n\n11.8.3 情况 3：认证失败\n如果 GitHub 拒绝了你的推送，常见原因包括：\n\n账号没有登录好\n权限不对\n认证方式没设置好\n\n这类问题不是 Git 逻辑本身出错，而是本地和 GitHub 账号之间的认证还没配好。",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>把本地项目放到 GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-publish-to-github.html#第六步以后日常怎么同步",
+    "href": "11-publish-to-github.html#第六步以后日常怎么同步",
+    "title": "11  把本地项目放到 GitHub",
+    "section": "11.9 第六步：以后日常怎么同步",
+    "text": "11.9 第六步：以后日常怎么同步\n第一次连接完成以后，后面的日常节奏就会简单很多。最常见的顺序是：\n\n本地继续修改\ngit add\ngit commit\ngit push\n\n如果别人也在远端改了东西，或者你换了一台机器继续工作，常见流程就会变成：\n\n先 git pull 或先 git fetch\n看远端有没有新变化\n再决定怎么整合\n\n也就是说，GitHub 的加入并没有推翻前面学过的 Git 节奏，只是在本地历史之外，多了一层和远端同步的动作。",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>把本地项目放到 GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-publish-to-github.html#本章最值得确认的不是会不会推而是推的是什么",
+    "href": "11-publish-to-github.html#本章最值得确认的不是会不会推而是推的是什么",
+    "title": "11  把本地项目放到 GitHub",
+    "section": "11.10 本章最值得确认的不是“会不会推”，而是“推的是什么”",
+    "text": "11.10 本章最值得确认的不是“会不会推”，而是“推的是什么”\n这一章里最容易出现的误会是：\n\n以为 push 推的是当前文件夹现状\n\n实际上，push 推的是已经提交好的历史。所以如果本地工作区还在乱、提交边界还没整理好，就算推上去了，远端也不会变得更清楚。\n这也是为什么前面几章要先把本地节奏练稳。GitHub 不是帮你替代整理过程，而是把你已经整理好的历史同步出去。",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>把本地项目放到 GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "11-publish-to-github.html#本章练习",
+    "href": "11-publish-to-github.html#本章练习",
+    "title": "11  把本地项目放到 GitHub",
+    "section": "11.11 本章练习",
+    "text": "11.11 本章练习\n\n11.11.1 练习 1：检查一个本地仓库有没有远端\n执行：\ngit remote -v\n算成功：\n\n你能判断这个仓库现在有没有远端\n你能看懂 origin 和地址分别是什么\n\n算失败：\n\n你看到输出，却不知道它表示什么\n\n\n\n11.11.2 练习 2：把本地仓库连到远端\n\n在 GitHub 建一个空仓库\ngit remote add origin &lt;远端地址&gt;\ngit remote -v\n\n算成功：\n\n远端已经正确登记在本地仓库里\n\n算失败：\n\n地址写错，或者重复添加远端却没发现\n\n\n\n11.11.3 练习 3：完成第一次推送\n\ngit branch\ngit push -u origin &lt;当前分支名&gt;\n刷新 GitHub 页面\ngit branch -vv\n\n算成功：\n\nGitHub 页面已经能看到你的项目\n当前分支已经在跟踪远端分支\n\n算失败：\n\n终端命令跑了，但远端其实没有成功更新\n你推错分支，或者根本没确认当前分支名",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>把本地项目放到 GitHub</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html",
+    "href": "12-collaboration.html",
+    "title": "12  用 Pull Request 协作",
+    "section": "",
+    "text": "12.1 为什么协作时不直接改主分支\n真正进入团队协作之后，Git 的重点就不再只是“我怎么保存自己的修改”，而是“我怎么把修改有条理地交给别人看，再安全地合并回去”。\n这一章会围绕 Pull Request 展开，因为它几乎就是 GitHub 协作的中心动作。你会看到一个改动从分支开始，到提交、推送、发起 PR、接受 review、最后合并的完整过程。\n本章重点包括：\n这一章读完，GitHub 对你来说就不只是备份网站，而会开始像一个协作平台。\n一个人自己写小东西时，偶尔直接在主分支上改，未必马上出事。可一旦进入协作，这样做很快就会出问题：\n所以更稳的做法通常是：",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html#为什么协作时不直接改主分支",
+    "href": "12-collaboration.html#为什么协作时不直接改主分支",
+    "title": "12  用 Pull Request 协作",
+    "section": "",
+    "text": "半成品会直接出现在主线\n别人还没来得及看，你的修改就已经进去了\n两个人同时改主线，冲突和混乱都会变多\n很难区分“正在做的工作”和“已经确认可以合并的工作”\n\n\n\n主分支保持相对稳定\n每个任务开一个分支\n分支完成以后，用 Pull Request 交给别人看",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html#pull-request-在解决什么问题",
+    "href": "12-collaboration.html#pull-request-在解决什么问题",
+    "title": "12  用 Pull Request 协作",
+    "section": "12.2 Pull Request 在解决什么问题",
+    "text": "12.2 Pull Request 在解决什么问题\n如果只用一句话来讲，Pull Request 解决的是这件事：\n\n我已经在一个分支上整理好改动了，现在请你看一眼，再决定要不要合并进主线\n\n所以 Pull Request 不是单纯的“发通知”，它实际上把几件事绑在了一起：\n\n展示这次改了什么\n给别人评论和 review 的位置\n提供合并入口\n留下这次协作的记录",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html#先准备一个最小协作场景",
+    "href": "12-collaboration.html#先准备一个最小协作场景",
+    "title": "12  用 Pull Request 协作",
+    "section": "12.3 先准备一个最小协作场景",
+    "text": "12.3 先准备一个最小协作场景\n为了练这一章，你至少需要有一个已经连到 GitHub 的仓库。开始前先执行：\ngit status\ngit branch\ngit remote -v\n\n12.3.1 这一步怎样算成功\n算成功：\n\n当前仓库状态正常\n你知道自己现在站在哪个分支上\n这个仓库已经连上 GitHub 远端\n\n算失败：\n\n你还没有远端仓库，却直接跳进 Pull Request\n你还没确认当前分支，就开始做协作流程\n\n如果还没连远端，先回到上一章，把 GitHub 对接那一步补上。",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html#第一步为一个具体任务建分支",
+    "href": "12-collaboration.html#第一步为一个具体任务建分支",
+    "title": "12  用 Pull Request 协作",
+    "section": "12.4 第一步：为一个具体任务建分支",
+    "text": "12.4 第一步：为一个具体任务建分支\n假设你现在要补一节“常见错误”，不要直接在 main 上写。先切一个新分支：\ngit switch -c add-common-mistakes\ngit branch\n\n12.4.1 你现在应该看到什么\n你通常会看到：\n* add-common-mistakes\n  main\n或者主分支名是 master。\n\n\n12.4.2 这一步怎样算成功\n算成功：\n\n你已经站在新分支上\n这次工作和主分支隔开了\n\n算失败：\n\n你以为切过去了，其实还在主分支\n你后面所有修改其实都直接做在主线上",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html#第二步在分支上完成一笔清楚的修改",
+    "href": "12-collaboration.html#第二步在分支上完成一笔清楚的修改",
+    "title": "12  用 Pull Request 协作",
+    "section": "12.5 第二步：在分支上完成一笔清楚的修改",
+    "text": "12.5 第二步：在分支上完成一笔清楚的修改\n现在修改一个文件，比如 README.md 或某个章节文件：\nprintf \"\\n## 常见错误\\n这里补一节常见错误。\\n\" &gt;&gt; README.md\ngit status\ngit diff\ngit add README.md\ngit commit -m \"补充常见错误小节\"\n\n12.5.1 你现在应该看到什么\n这一步结束后，你应该已经在 add-common-mistakes 分支上留下了一笔独立提交。\n\n\n12.5.2 这一步怎样算成功\n算成功：\n\n你在任务分支上完成了一笔主题明确的提交\n提交说明和改动内容能对得上\n\n算失败：\n\n你一边改这个主题，一边顺手塞进别的无关修改\n提交后自己也说不清这笔提交到底在做什么",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html#第三步把任务分支推到远端",
+    "href": "12-collaboration.html#第三步把任务分支推到远端",
+    "title": "12  用 Pull Request 协作",
+    "section": "12.6 第三步：把任务分支推到远端",
+    "text": "12.6 第三步：把任务分支推到远端\n现在把这个分支推到 GitHub：\ngit push -u origin add-common-mistakes\n\n12.6.1 你现在应该看到什么\n推送成功后，终端通常会告诉你：\n\n这个新分支已经推到远端\n本地分支开始跟踪远端对应分支\n\n很多时候，终端还会给出一个 GitHub 页面链接，方便你直接去发 Pull Request。\n\n\n12.6.2 这一步怎样算成功\n算成功：\n\n远端已经出现 add-common-mistakes 这个分支\n本地和远端分支建立了跟踪关系\n\n算失败：\n\n你没确认当前分支名，就把错误分支推上去了\n推送失败，却以为网页上已经有这次改动",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html#第四步在-github-上发起-pull-request",
+    "href": "12-collaboration.html#第四步在-github-上发起-pull-request",
+    "title": "12  用 Pull Request 协作",
+    "section": "12.7 第四步：在 GitHub 上发起 Pull Request",
+    "text": "12.7 第四步：在 GitHub 上发起 Pull Request\n现在回到 GitHub 页面。你通常会看到提示，告诉你刚推上来的分支可以发起 Pull Request。\n这一步在网页上完成。发 PR 时，通常要确认几件事：\n\nbase 分支是不是 main 或你的主分支\ncompare 分支是不是 add-common-mistakes\n标题能不能让人一眼看懂这次改了什么\n描述里有没有交代这次修改的目的\n\n\n12.7.1 一个最小可用的 PR 标题和描述\n比如：\n\n标题：补充常见错误小节\n描述：新增一节常见错误，帮助读者更快定位初学阶段的常见问题。\n\n\n\n12.7.2 这一步怎样算成功\n算成功：\n\nPR 指向了正确的主分支\n标题和描述清楚说明了改动内容\nGitHub 页面上能直接看到这次差异\n\n算失败：\n\nbase 分支选错\ncompare 分支选错\nPR 标题写得太空，看不出这次在改什么",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html#第五步review-时到底在看什么",
+    "href": "12-collaboration.html#第五步review-时到底在看什么",
+    "title": "12  用 Pull Request 协作",
+    "section": "12.8 第五步：review 时到底在看什么",
+    "text": "12.8 第五步：review 时到底在看什么\nPull Request 打开以后，review 不只是“看一眼能不能过”。更稳的检查顺序通常包括：\n\n这次改动的目标清不清楚\n改动范围是不是和目标一致\n有没有把不相干内容混进来\n文本、代码或结构有没有明显问题\n\n对写书、写文档这类项目来说，review 时尤其值得看：\n\n这段话有没有讲清楚\n例子顺不顺\n有没有和前文重复或矛盾\n有没有顺手把别的半成品一起带进来",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html#第六步根据-review-调整再继续推送",
+    "href": "12-collaboration.html#第六步根据-review-调整再继续推送",
+    "title": "12  用 Pull Request 协作",
+    "section": "12.9 第六步：根据 review 调整，再继续推送",
+    "text": "12.9 第六步：根据 review 调整，再继续推送\n如果 review 里有人提了修改意见，不需要重开一个新 PR。通常你只要继续在同一个分支上改，再 push 一次就可以。\n比如：\nprintf \"\\n补一行说明，回应 review 意见。\\n\" &gt;&gt; README.md\ngit add README.md\ngit commit -m \"根据 review 补充说明\"\ngit push\n\n12.9.1 你现在应该看到什么\n如果这个分支已经和远端建立过跟踪关系，直接 git push 就可以把新提交送上去。GitHub 上同一个 PR 页面会自动更新。\n\n\n12.9.2 这一步怎样算成功\n算成功：\n\n你在原分支上继续补充修改\nPR 页面自动出现新的提交和差异\n\n算失败：\n\n你以为 review 后必须重开一个新 PR\n你把修改做到别的分支上，结果当前 PR 根本没更新",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html#第七步合并-pull-request",
+    "href": "12-collaboration.html#第七步合并-pull-request",
+    "title": "12  用 Pull Request 协作",
+    "section": "12.10 第七步：合并 Pull Request",
+    "text": "12.10 第七步：合并 Pull Request\n当这次改动已经确认没问题，就可以在 GitHub 上执行合并。\n合并以后，通常会发生两件事：\n\n主分支吸收了这个任务分支的工作\n这个任务分支可能就可以删掉了\n\n\n12.10.1 这一步怎样算成功\n算成功：\n\n主分支已经包含本次改动\nPR 在 GitHub 上显示为已合并\n\n算失败：\n\n你以为 PR 开出来就等于已经合并\n你没有确认主分支是否真的吸收了这次修改",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html#第八步合并后把本地整理干净",
+    "href": "12-collaboration.html#第八步合并后把本地整理干净",
+    "title": "12  用 Pull Request 协作",
+    "section": "12.11 第八步：合并后把本地整理干净",
+    "text": "12.11 第八步：合并后把本地整理干净\n很多人做到“网页上点了 merge”就停了，但本地也要跟着整理。\n先回到主分支并同步：\ngit switch main\ngit pull\ngit branch\n如果主分支叫 master，这里就换成 master。\n然后如果你确认本地任务分支已经不再需要，可以删掉：\ngit branch -d add-common-mistakes\ngit branch\n\n12.11.1 你现在应该看到什么\n整理完成后，理想状态通常是：\n\n你已经回到主分支\n主分支已经包含刚才合并进来的工作\n本地不再留着没必要的旧任务分支\n\n\n\n12.11.2 这一步怎样算成功\n算成功：\n\n本地主分支已经同步到最新状态\n已完成的任务分支被清理掉\n\n算失败：\n\n远端已经合并了，本地主分支却还停在旧状态\n你积了一堆过期分支，自己也分不清哪些还在用",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html#为什么-pull-request-对一个人写书也有用",
+    "href": "12-collaboration.html#为什么-pull-request-对一个人写书也有用",
+    "title": "12  用 Pull Request 协作",
+    "section": "12.12 为什么 Pull Request 对一个人写书也有用",
+    "text": "12.12 为什么 Pull Request 对一个人写书也有用\n很多人会觉得，PR 好像只是团队开发才需要。其实一个人写书、写文档时，它也有价值。\n比如你可以这样用：\n\n每个章节大改开一个分支\n写完以后从网页上看一次整段 diff\n把 PR 当成一次正式自查入口\n\n这样做的好处是，你会更容易把“正在写”和“准备收进主线”的状态分开。",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html#协作时最容易犯的几个错",
+    "href": "12-collaboration.html#协作时最容易犯的几个错",
+    "title": "12  用 Pull Request 协作",
+    "section": "12.13 协作时最容易犯的几个错",
+    "text": "12.13 协作时最容易犯的几个错\n\n12.13.1 直接在主分支上改\n这样会让 review 和回看都变得很乱。\n\n\n12.13.2 一个 PR 混太多主题\n如果一个 PR 同时改结构、改措辞、补案例、修格式，review 会很吃力。\n\n\n12.13.3 发了 PR 但不检查 base 分支\n这会导致改动送到错误目标上。\n\n\n12.13.4 合并后不整理本地\n网页上已经合并了，不代表你本地就自动跟上了。",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "12-collaboration.html#本章练习",
+    "href": "12-collaboration.html#本章练习",
+    "title": "12  用 Pull Request 协作",
+    "section": "12.14 本章练习",
+    "text": "12.14 本章练习\n\n12.14.1 练习 1：为一个小任务发起 PR\n\ngit switch -c &lt;任务分支&gt;\n修改一个文件并提交\ngit push -u origin &lt;任务分支&gt;\n在 GitHub 页面发起 PR\n\n算成功：\n\n你完成了从分支到 PR 的整条流程\nPR 标题和修改目标能对得上\n\n算失败：\n\n你没有从分支开始，而是直接在主分支上改\n\n\n\n12.14.2 练习 2：在同一个 PR 里继续补修改\n\n在原分支继续修改\ngit add\ngit commit\ngit push\n刷新 PR 页面\n\n算成功：\n\n原 PR 页面自动更新\n你知道 review 后的补改通常还在同一个分支里继续\n\n算失败：\n\n你把修改做到别的地方，导致 PR 没更新\n\n\n\n12.14.3 练习 3：合并后整理本地\n\n在 GitHub 上完成 merge\ngit switch main\ngit pull\ngit branch -d &lt;任务分支&gt;\n\n算成功：\n\n本地主分支已经同步到最新\n已完成分支被清理掉\n\n算失败：\n\n远端已经合并，本地却还停在旧状态",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>用 Pull Request 协作</span>"
+    ]
+  },
+  {
+    "objectID": "13-fork-and-contribute.html",
+    "href": "13-fork-and-contribute.html",
+    "title": "13  Fork 与参与别人的项目",
+    "section": "",
+    "text": "13.1 Fork 适合什么场景\n前面讲的是同一个仓库里的协作，这一章会进入另一种常见场景：你没有某个项目的直接写入权限，但还是想参与修改。\n这时就会用到 Fork。它让你先把别人的仓库复制到自己的账号下，再从自己的副本开始修改，最后把改动送回原项目。\n本章会讲：\n如果你想参与开源项目，这一章会是很实用的起点。\n如果你参与的是自己的团队仓库，通常会直接在同一个远端里建分支、发 PR。可如果你没有原仓库的写入权限，情况就不一样了。\n这时更常见的流程是：\n所以 Fork 最适合的，就是“我想参与，但我没有直接写权限”的场景。",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Fork 与参与别人的项目</span>"
+    ]
+  },
+  {
+    "objectID": "13-fork-and-contribute.html#fork-适合什么场景",
+    "href": "13-fork-and-contribute.html#fork-适合什么场景",
+    "title": "13  Fork 与参与别人的项目",
+    "section": "",
+    "text": "先 Fork 原项目到自己的 GitHub 账号下\n从自己的副本开始改\n最后从自己的 Fork 向原项目发 Pull Request",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Fork 与参与别人的项目</span>"
+    ]
+  },
+  {
+    "objectID": "13-fork-and-contribute.html#先把三个仓库关系想清楚",
+    "href": "13-fork-and-contribute.html#先把三个仓库关系想清楚",
+    "title": "13  Fork 与参与别人的项目",
+    "section": "13.2 先把三个仓库关系想清楚",
+    "text": "13.2 先把三个仓库关系想清楚\n这一章最容易乱的地方，不是命令，而是仓库关系。你最好先把这三个角色分清楚：\n\n原项目仓库，也常叫上游仓库\n你自己账号下的 Fork 仓库\n你电脑里的本地仓库\n\n后面很多命令之所以让人乱，往往不是命令本身难，而是没先想清楚自己现在在和哪一个仓库说话。",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Fork 与参与别人的项目</span>"
+    ]
+  },
+  {
+    "objectID": "13-fork-and-contribute.html#第一步在-github-上-fork-一个项目",
+    "href": "13-fork-and-contribute.html#第一步在-github-上-fork-一个项目",
+    "title": "13  Fork 与参与别人的项目",
+    "section": "13.3 第一步：在 GitHub 上 Fork 一个项目",
+    "text": "13.3 第一步：在 GitHub 上 Fork 一个项目\n先在 GitHub 页面上对目标项目执行 Fork。\n完成以后，你会得到：\n\n原项目还在原来的组织或账号下\n你自己的账号下多出一个同名副本\n\n\n13.3.1 这一步怎样算成功\n算成功：\n\n你已经拥有一个属于自己账号的 Fork 仓库\n你知道原项目和 Fork 不是同一个地址\n\n算失败：\n\n你以为 Fork 完以后就直接获得了原项目写权限\n你分不清哪个是原项目，哪个是自己的副本",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Fork 与参与别人的项目</span>"
+    ]
+  },
+  {
+    "objectID": "13-fork-and-contribute.html#第二步把自己的-fork-克隆到本地",
+    "href": "13-fork-and-contribute.html#第二步把自己的-fork-克隆到本地",
+    "title": "13  Fork 与参与别人的项目",
+    "section": "13.4 第二步：把自己的 Fork 克隆到本地",
+    "text": "13.4 第二步：把自己的 Fork 克隆到本地\n现在应该从你自己的 Fork 地址来 clone，而不是直接从原项目地址 clone。\n执行时大致会像这样：\ngit clone https://github.com/yourname/project.git\ncd project\ngit remote -v\n\n13.4.1 你现在应该看到什么\n如果你是从自己的 Fork clone，下来的本地仓库里，默认远端通常会指向你的 Fork：\norigin  https://github.com/yourname/project.git (fetch)\norigin  https://github.com/yourname/project.git (push)\n\n\n13.4.2 这一步怎样算成功\n算成功：\n\n本地仓库已经从你的 Fork 拉下来\n默认远端 origin 指向的是你的 Fork，而不是原项目\n\n算失败：\n\n你 clone 的是原项目地址，却以为那是自己的 Fork\n后面一推送才发现自己根本没权限",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Fork 与参与别人的项目</span>"
+    ]
+  },
+  {
+    "objectID": "13-fork-and-contribute.html#第三步把原项目登记为上游仓库",
+    "href": "13-fork-and-contribute.html#第三步把原项目登记为上游仓库",
+    "title": "13  Fork 与参与别人的项目",
+    "section": "13.5 第三步：把原项目登记为上游仓库",
+    "text": "13.5 第三步：把原项目登记为上游仓库\n现在还差一个关键步骤：你要把原项目也登记进本地仓库，通常名字叫 upstream。\n执行：\ngit remote add upstream https://github.com/original-owner/project.git\ngit remote -v\n\n13.5.1 你现在应该看到什么\n理想状态下，你会同时看到两组远端：\norigin    https://github.com/yourname/project.git (fetch)\norigin    https://github.com/yourname/project.git (push)\nupstream  https://github.com/original-owner/project.git (fetch)\nupstream  https://github.com/original-owner/project.git (push)\n\n\n13.5.2 这一步怎样算成功\n算成功：\n\norigin 指向你的 Fork\nupstream 指向原项目\n你能清楚分辨这两个远端分别是干什么的\n\n算失败：\n\n你把 origin 和 upstream 配反了\n你根本没登记上游仓库，后面却想同步原项目变化",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Fork 与参与别人的项目</span>"
+    ]
+  },
+  {
+    "objectID": "13-fork-and-contribute.html#第四步从自己的分支开始做修改",
+    "href": "13-fork-and-contribute.html#第四步从自己的分支开始做修改",
+    "title": "13  Fork 与参与别人的项目",
+    "section": "13.6 第四步：从自己的分支开始做修改",
+    "text": "13.6 第四步：从自己的分支开始做修改\n不要直接在本地主分支上乱改。先为这次贡献开一个分支：\ngit switch -c fix-typo\n然后完成你的修改，再提交：\ngit add &lt;文件名&gt;\ngit commit -m \"修正文档错字\"\n\n13.6.1 这一步怎样算成功\n算成功：\n\n你的改动发生在独立任务分支上\n提交主题清楚，边界不乱\n\n算失败：\n\n你直接在主分支上改\n你一笔提交里混了很多不相干事情",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Fork 与参与别人的项目</span>"
+    ]
+  },
+  {
+    "objectID": "13-fork-and-contribute.html#第五步把任务分支推到自己的-fork",
+    "href": "13-fork-and-contribute.html#第五步把任务分支推到自己的-fork",
+    "title": "13  Fork 与参与别人的项目",
+    "section": "13.7 第五步：把任务分支推到自己的 Fork",
+    "text": "13.7 第五步：把任务分支推到自己的 Fork\n现在把这条分支推到你自己的远端：\ngit push -u origin fix-typo\n\n13.7.1 你现在应该看到什么\n推送成功后：\n\n你的 Fork 上会出现 fix-typo 分支\n本地分支开始跟踪远端对应分支\n\n\n\n13.7.2 这一步怎样算成功\n算成功：\n\n这次修改已经出现在你自己的 Fork 上\n你不是在试图直接向原项目推送\n\n算失败：\n\n你推的是错误远端\n你以为自己在推 Fork，实际上在推原项目地址",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Fork 与参与别人的项目</span>"
+    ]
+  },
+  {
+    "objectID": "13-fork-and-contribute.html#第六步从自己的-fork-向原项目发-pull-request",
+    "href": "13-fork-and-contribute.html#第六步从自己的-fork-向原项目发-pull-request",
+    "title": "13  Fork 与参与别人的项目",
+    "section": "13.8 第六步：从自己的 Fork 向原项目发 Pull Request",
+    "text": "13.8 第六步：从自己的 Fork 向原项目发 Pull Request\n现在回到 GitHub 页面，在你自己的 Fork 上发起 Pull Request。\n这时要特别看清两件事：\n\nbase 是原项目主分支\ncompare 是你 Fork 里的任务分支\n\n\n13.8.1 这一步怎样算成功\n算成功：\n\nPR 的目标是原项目，而不是你自己的 Fork 主分支\nPR 标题和描述清楚说明了改动内容\n\n算失败：\n\n你把 PR 发回了自己的 Fork\n你没看清 base 和 compare，结果方向错了",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Fork 与参与别人的项目</span>"
+    ]
+  },
+  {
+    "objectID": "13-fork-and-contribute.html#第七步如果原项目更新了怎么让自己的-fork-跟上",
+    "href": "13-fork-and-contribute.html#第七步如果原项目更新了怎么让自己的-fork-跟上",
+    "title": "13  Fork 与参与别人的项目",
+    "section": "13.9 第七步：如果原项目更新了，怎么让自己的 Fork 跟上",
+    "text": "13.9 第七步：如果原项目更新了，怎么让自己的 Fork 跟上\n这是 Fork 工作流里很常见的一步。原项目继续往前走，而你的 Fork 如果不跟，就会慢慢落后。\n先取回上游变化：\ngit fetch upstream\n然后回到本地主分支：\ngit switch main\n如果你的默认分支是 master，就换成 master。\n然后把上游主分支合进来：\ngit merge upstream/main\n如果上游默认分支是 master，就换成 upstream/master。\n最后再把更新后的主分支推回你自己的 Fork：\ngit push origin main\n\n13.9.1 你现在应该看到什么\n完成后，通常会形成这样一种状态：\n\n本地主分支已经包含原项目最新变化\n你自己的 Fork 主分支也跟上了上游\n\n\n\n13.9.2 这一步怎样算成功\n算成功：\n\n你的 Fork 不再落后太多\n你知道同步上游时，自己是在和 upstream 打交道\n\n算失败：\n\n你只会从自己的 Fork 拉，结果永远同步不到原项目最新变化\n你把同步方向搞反了",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Fork 与参与别人的项目</span>"
+    ]
+  },
+  {
+    "objectID": "13-fork-and-contribute.html#fork-工作流里最容易混乱的地方",
+    "href": "13-fork-and-contribute.html#fork-工作流里最容易混乱的地方",
+    "title": "13  Fork 与参与别人的项目",
+    "section": "13.10 Fork 工作流里最容易混乱的地方",
+    "text": "13.10 Fork 工作流里最容易混乱的地方\n\n13.10.1 把 origin 和 upstream 混为一谈\n这一点最致命。你得始终记住：\n\norigin 通常是你自己的 Fork\nupstream 通常是原项目\n\n\n\n13.10.2 从错误的仓库 clone\n如果你一开始就 clone 错地址，后面整条线都会乱。\n\n\n13.10.3 在主分支上长期堆改动\n这会让后面同步上游和发 PR 都变得更麻烦。\n\n\n13.10.4 PR 发错方向\n你本来是要贡献给原项目，结果 PR 发回了自己的 Fork。",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Fork 与参与别人的项目</span>"
+    ]
+  },
+  {
+    "objectID": "13-fork-and-contribute.html#为什么参与开源时要尽量把改动做小",
+    "href": "13-fork-and-contribute.html#为什么参与开源时要尽量把改动做小",
+    "title": "13  Fork 与参与别人的项目",
+    "section": "13.11 为什么参与开源时要尽量把改动做小",
+    "text": "13.11 为什么参与开源时要尽量把改动做小\n当你给别人的项目提贡献时，越小、越单一、越说得清楚的改动，越容易被接受。\n比如：\n\n修一个错字\n补一条文档说明\n修一个明确的小 bug\n\n这些都比“大改一整套结构”更适合作为前几次贡献。",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Fork 与参与别人的项目</span>"
+    ]
+  },
+  {
+    "objectID": "13-fork-and-contribute.html#一个更稳的贡献顺序",
+    "href": "13-fork-and-contribute.html#一个更稳的贡献顺序",
+    "title": "13  Fork 与参与别人的项目",
+    "section": "13.12 一个更稳的贡献顺序",
+    "text": "13.12 一个更稳的贡献顺序\n如果你是第一次参与别人的项目，比较稳的顺序通常是：\n\n先 Fork\nclone 自己的 Fork\n配上 upstream\n开一个小分支\n做一个小而清楚的改动\n推到自己的 Fork\n再向原项目发 PR\n\n这个顺序不花哨，但很稳。",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Fork 与参与别人的项目</span>"
+    ]
+  },
+  {
+    "objectID": "13-fork-and-contribute.html#本章练习",
+    "href": "13-fork-and-contribute.html#本章练习",
+    "title": "13  Fork 与参与别人的项目",
+    "section": "13.13 本章练习",
+    "text": "13.13 本章练习\n\n13.13.1 练习 1：分清三个仓库角色\n请用自己的话回答：\n\n哪个是原项目\n哪个是你的 Fork\n哪个是你本地仓库\n\n算成功：\n\n你能清楚分出这三者\n\n算失败：\n\n你一直把 Fork 和原项目当成同一个仓库\n\n\n\n13.13.2 练习 2：配置 origin 和 upstream\n\ngit remote -v\ngit remote add upstream &lt;原项目地址&gt;\ngit remote -v\n\n算成功：\n\n你能看到 origin 和 upstream 两组地址\n你知道谁是谁\n\n算失败：\n\n你把两个远端配反了却没发现\n\n\n\n13.13.3 练习 3：完成一次最小贡献流程\n\n开任务分支\n做一个小修改并提交\ngit push -u origin &lt;任务分支&gt;\n从 Fork 向原项目发 PR\n\n算成功：\n\n你完成了一条完整的 Fork 贡献路径\nPR 方向正确，目标是原项目\n\n算失败：\n\n你推送方向或 PR 方向弄错\n你还没分清远端关系就急着提交贡献",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Fork 与参与别人的项目</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html",
+    "href": "14-full-case.html",
+    "title": "14  一个完整案例",
+    "section": "",
+    "text": "14.1 这个案例要做到什么\n前面的章节把工具和概念拆开讲，这一章会把它们重新串起来。我们会用一个完整的小项目走一遍从建立仓库到协作合并的过程，让前面学过的动作不再零散。\n这个案例改用“个人网站”来演示，因为它常见、够轻，也方便把注意力放回 Git 本身。同时，它也能自然覆盖单人修改、分支、GitHub、Pull Request、合并和标签。\n本章会特别强调两件事：\n读完这一章，你会更清楚这些命令不是一颗颗散的珠子，而是一条完整工作流。\n这一章不是再教一批新命令，而是把前面已经学过的东西串成一条完整路线。\n做到最后时，你应该能看清楚这条线：\n如果这一章你能顺着走完，前面那些分散章节就会真正接起来。",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#这个案例要做到什么",
+    "href": "14-full-case.html#这个案例要做到什么",
+    "title": "14  一个完整案例",
+    "section": "",
+    "text": "从零开始建立一个个人网站仓库\n持续提交本地修改\n用分支处理新任务\n把仓库接到 GitHub\n用 Pull Request 做一次协作\n合并后整理主线\n给一个稳定节点打版本标签",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#场景设定",
+    "href": "14-full-case.html#场景设定",
+    "title": "14  一个完整案例",
+    "section": "14.2 场景设定",
+    "text": "14.2 场景设定\n我们现在假设你正在做一个个人网站，目录里有这些文件：\n\nindex.html\nabout.html\nstyle.css\n\n你一开始是一个人做，后来请朋友帮你补一个“项目经历”页面。这正好能把 Git 和 GitHub 的主线都串起来。",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#第一阶段自己先把项目立起来",
+    "href": "14-full-case.html#第一阶段自己先把项目立起来",
+    "title": "14  一个完整案例",
+    "section": "14.3 第一阶段：自己先把项目立起来",
+    "text": "14.3 第一阶段：自己先把项目立起来\n先在本地准备一个目录：\nmkdir personal-site-demo\ncd personal-site-demo\ngit init\nprintf \"&lt;h1&gt;我的个人主页&lt;/h1&gt;\\n\" &gt; index.html\nprintf \"&lt;h1&gt;关于我&lt;/h1&gt;\\n\" &gt; about.html\nprintf \"body { font-family: sans-serif; }\\n\" &gt; style.css\ngit status\n\n14.3.1 这一步在解决什么问题\n这一段不是为了“先敲几条命令”，而是为了把一个普通网站项目正式交给 Git 管。你要从“普通文件夹”进入“有历史的仓库”。\n\n\n14.3.2 你现在应该看到什么\n你通常会看到：\n\n当前目录已经是 Git 仓库\nindex.html、about.html、style.css 这些文件还没被追踪\n\n\n\n14.3.3 这一步怎样算成功\n算成功：\n\n个人网站目录已经初始化为仓库\nGit 能看到这几个新文件\n\n算失败：\n\n文件建出来了，但你其实没在仓库目录里\ngit status 里根本看不到刚才建的文件",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#第二阶段做第一笔提交让项目有起点",
+    "href": "14-full-case.html#第二阶段做第一笔提交让项目有起点",
+    "title": "14  一个完整案例",
+    "section": "14.4 第二阶段：做第一笔提交，让项目有起点",
+    "text": "14.4 第二阶段：做第一笔提交，让项目有起点\n现在把这批初始文件交进去：\ngit add index.html about.html style.css\ngit commit -m \"建立个人网站骨架\"\ngit log --oneline -3\n\n14.4.1 这一步在解决什么问题\n到这里，你不是单纯把文件存一下，而是给这个项目留下了一个明确起点。以后不管改成什么样，你都知道“最早的骨架”是哪一笔提交。\n\n\n14.4.2 这一步怎样算成功\n算成功：\n\n仓库里已经有第一笔正式历史\ngit log --oneline 能看到 建立个人网站骨架\n\n算失败：\n\n你以为提交成功了，其实日志里并没有这笔记录\n你没有建立历史，就直接往后堆修改",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#第三阶段日常写作保持小步提交",
+    "href": "14-full-case.html#第三阶段日常写作保持小步提交",
+    "title": "14  一个完整案例",
+    "section": "14.5 第三阶段：日常写作，保持小步提交",
+    "text": "14.5 第三阶段：日常写作，保持小步提交\n现在你继续写书。比如补充前言和第一章：\nprintf \"\\n这本书帮助初学者学会 Git 和 GitHub。\\n\" &gt;&gt; index.qmd\nprintf \"\\n这一章介绍 Git 的基本概念。\\n\" &gt;&gt; 01-intro.qmd\ngit status\ngit diff\n然后把这次修改整理成一笔提交：\ngit add index.qmd 01-intro.qmd\ngit commit -m \"补充前言和第一章简介\"\ngit log --oneline -3\n\n14.5.1 这一步在解决什么问题\n这里体现的是最基本也最重要的节奏：改完以后先看，再决定这次提交交什么。不是写很久才一次性交，而是小步、清楚地往前走。\n\n\n14.5.2 这一步怎样算成功\n算成功：\n\n本地历史里又多了一笔主题明确的提交\n你能说清楚这一笔提交在做什么\n\n算失败：\n\n你一口气把一堆互不相干的修改全塞进一笔提交\n提交说明太空，过几天自己也看不懂",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#第四阶段遇到新任务时不要直接改主线",
+    "href": "14-full-case.html#第四阶段遇到新任务时不要直接改主线",
+    "title": "14  一个完整案例",
+    "section": "14.6 第四阶段：遇到新任务时，不要直接改主线",
+    "text": "14.6 第四阶段：遇到新任务时，不要直接改主线\n现在朋友建议你加一个“项目经历”页面。这时不要直接在主分支上写，先开分支：\ngit switch -c add-projects-page\nprintf \"&lt;h1&gt;项目经历&lt;/h1&gt;\\n\" &gt; projects.html\ngit add projects.html\ngit commit -m \"新增项目经历页面骨架\"\ngit branch\n\n14.6.1 这一步在解决什么问题\n你现在不是在做“已经确认收进主线”的内容，而是在处理一个新任务。分支的作用，就是把这个任务先隔离出来。\n\n\n14.6.2 这一步怎样算成功\n算成功：\n\n新任务发生在独立分支上\n主分支暂时还保持原状\n\n算失败：\n\n你忘了切分支，结果又把实验性内容直接做进主线\n你以为自己在分支上，其实一直没切出去",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#第五阶段把仓库接到-github",
+    "href": "14-full-case.html#第五阶段把仓库接到-github",
+    "title": "14  一个完整案例",
+    "section": "14.7 第五阶段：把仓库接到 GitHub",
+    "text": "14.7 第五阶段：把仓库接到 GitHub\n现在本地项目已经写到一个像样的阶段了，可以接 GitHub。\n先在 GitHub 上建一个空仓库，然后在本地执行：\ngit remote add origin https://github.com/yourname/personal-site-demo.git\ngit remote -v\ngit branch\n确认远端和当前分支以后，把主分支推上去。假设主分支名是 main：\ngit switch main\ngit push -u origin main\n然后再把任务分支也推上去：\ngit switch add-projects-page\ngit push -u origin add-projects-page\n\n14.7.1 这一步在解决什么问题\n到这里，你就不只是有一个本地网站仓库了。现在这个项目已经有远端副本，可以开始进入协作。\n\n\n14.7.2 这一步怎样算成功\n算成功：\n\nGitHub 页面已经能看到主分支内容\n任务分支也已经出现在远端\n\n算失败：\n\n你只推了主分支，却以为任务分支也已经上去\n你没确认当前分支名，就把错误分支推到了远端",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#第六阶段发-pull-request请别人看",
+    "href": "14-full-case.html#第六阶段发-pull-request请别人看",
+    "title": "14  一个完整案例",
+    "section": "14.8 第六阶段：发 Pull Request，请别人看",
+    "text": "14.8 第六阶段：发 Pull Request，请别人看\n现在回到 GitHub，为 add-projects-page 发一个 Pull Request，目标是主分支。\n一个最小可用的 PR 可以这样写：\n\n标题：新增项目经历页面骨架\n描述：添加项目经历页面，为后续补充作品说明和链接做准备。\n\n\n14.8.1 这一步在解决什么问题\nPR 的作用不是“告诉别人我改完了”，而是把这次改动正式交给 review。别人可以在同一个地方看差异、提意见、讨论是否适合并进主线。\n\n\n14.8.2 这一步怎样算成功\n算成功：\n\nPR 指向了正确的主分支\n标题和描述能说清这次改动在做什么\n\n算失败：\n\nPR 方向错了\n你发了 PR，但别人根本看不懂这次改动的目标",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#第七阶段根据-review-再补一笔修改",
+    "href": "14-full-case.html#第七阶段根据-review-再补一笔修改",
+    "title": "14  一个完整案例",
+    "section": "14.9 第七阶段：根据 review 再补一笔修改",
+    "text": "14.9 第七阶段：根据 review 再补一笔修改\n假设朋友 review 后说：只有页面标题不够，最好再补一段简介。\n你不需要重开分支，也不需要重开一个新 PR。直接在原分支继续改：\nprintf \"\\n&lt;p&gt;这里会继续补充我做过的练习项目。&lt;/p&gt;\\n\" &gt;&gt; projects.html\ngit add projects.html\ngit commit -m \"补充项目经历页面说明\"\ngit push\n\n14.9.1 这一步在解决什么问题\n这一步说明一件很重要的事：PR 不是“一次性发出去就不能动”。review 之后，通常就是在同一个分支上继续补。\n\n\n14.9.2 这一步怎样算成功\n算成功：\n\n原 PR 页面自动更新\n这次补改和前面的任务仍然保持在同一条线上\n\n算失败：\n\n你跑去别的分支修改，导致当前 PR 没有更新\n你以为 review 后必须重开新 PR",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#第八阶段合并后回到主线",
+    "href": "14-full-case.html#第八阶段合并后回到主线",
+    "title": "14  一个完整案例",
+    "section": "14.10 第八阶段：合并后回到主线",
+    "text": "14.10 第八阶段：合并后回到主线\nPR 通过以后，在 GitHub 上完成 merge。然后回到本地整理：\ngit switch main\ngit pull\ngit branch -d add-projects-page\ngit branch\ngit log --oneline -5\n\n14.10.1 这一步在解决什么问题\n合并不只是网页上点一下按钮。真正收尾时，你还要让本地主线跟上远端，并把已经完成的任务分支清掉。\n\n\n14.10.2 这一步怎样算成功\n算成功：\n\n主分支已经包含这次页面新增\n本地主分支和远端保持一致\n已完成分支已经清理掉\n\n算失败：\n\n远端已经合并，本地却还停在旧状态\n你积了一堆旧分支，自己也不清楚哪些已经做完",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#第九阶段给一个稳定节点打标签",
+    "href": "14-full-case.html#第九阶段给一个稳定节点打标签",
+    "title": "14  一个完整案例",
+    "section": "14.11 第九阶段：给一个稳定节点打标签",
+    "text": "14.11 第九阶段：给一个稳定节点打标签\n假设这时你觉得“个人网站骨架 + 首页与关于页简介 + 项目经历页面”已经到了一个能回看的阶段，就可以打一个版本标签：\ngit tag v0.1\ngit tag\ngit show v0.1\n\n14.11.1 这一步在解决什么问题\n标签是在告诉未来的你：这个状态值得记下来。以后你回头找版本，不用靠模糊印象，只要看标签就行。\n\n\n14.11.2 这一步怎样算成功\n算成功：\n\n仓库里出现 v0.1\n你能确认它指向当前这个稳定节点\n\n算失败：\n\n你打了标签，却不知道它落在哪一笔提交上\n你把“最新提交”和“版本节点”混成一回事",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#这条完整工作流里最容易乱的地方",
+    "href": "14-full-case.html#这条完整工作流里最容易乱的地方",
+    "title": "14  一个完整案例",
+    "section": "14.12 这条完整工作流里，最容易乱的地方",
+    "text": "14.12 这条完整工作流里，最容易乱的地方\n把整条线串起来以后，最常见的混乱通常出在下面这些地方：\n\n14.12.1 一开始不建立清楚的本地历史\n后面一旦要协作，就会发现主线本身就很乱。\n\n\n14.12.2 任务来了却不切分支\n这样很快就会把主线和半成品混在一起。\n\n\n14.12.3 发了 PR 却没有继续在原分支上补修改\n结果 review 流程断掉。\n\n\n14.12.4 远端合并后，本地不整理\n网页上看起来已经结束了，本地却还停在旧状态。\n\n\n14.12.5 版本节点不打标签\n以后回头找某个阶段，只能靠猜。",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#这一章真正要带走什么",
+    "href": "14-full-case.html#这一章真正要带走什么",
+    "title": "14  一个完整案例",
+    "section": "14.13 这一章真正要带走什么",
+    "text": "14.13 这一章真正要带走什么\n读完这一章，最重要的不是再多记几条命令，而是看清这件事：\nGit 和 GitHub 不是很多孤立动作的堆叠，而是一条从本地整理，到远端协作，再回到主线收尾的连续流程。\n你只要把这条流程走顺，很多原本零散的命令都会自然找到位置。",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#本章练习",
+    "href": "14-full-case.html#本章练习",
+    "title": "14  一个完整案例",
+    "section": "14.14 本章练习",
+    "text": "14.14 本章练习\n\n14.14.1 练习 1：自己走完一次最小案例\n请用一个测试目录，从头做一遍：\n\n建仓库\n做两笔本地提交\n开一个任务分支\n在分支上做一笔提交\n连接 GitHub\n推送主分支和任务分支\n发 PR\n合并后回主线整理\n打一个版本标签\n\n算成功：\n\n你能把前面学过的动作串成一条连续路线\n你知道每一步分别在解决什么问题\n\n算失败：\n\n单看每一章好像都懂，一串起来就不知道下一步该做什么\n\n\n\n14.14.2 练习 2：检查自己最容易乱在哪一段\n回头问自己：\n\n我最容易乱的是本地提交节奏\n还是分支和主线的关系\n还是远端、PR 和 merge 之后的整理\n\n算成功：\n\n你能指出自己现在最薄弱的那一段\n\n算失败：\n\n你只觉得“Git 很乱”，却说不清到底乱在哪一步",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  },
+  {
+    "objectID": "15-troubleshooting.html",
+    "href": "15-troubleshooting.html",
+    "title": "15  常见问题与排查",
+    "section": "",
+    "text": "15.1 先建立一个排查顺序\n学 Git 的过程里，真正拖慢人的往往不是概念，而是那些突然冒出来的错误信息。明明只是想提交一下，结果出现“有冲突”“分支领先”“远端拒绝推送”之类的提示，很容易一下就乱掉。\n这一章不会追求面面俱到，而是整理初学者最常遇到的几类问题，并教你先判断问题在哪一层，再决定下一步怎么做。\n本章会整理这些场景：\n这一章的重点不是让你死记硬背报错，而是慢慢建立一种排查顺序。\n很多人一看到 Git 报错，就急着搜索一条命令复制过去。这样有时能碰巧解决，但更容易把问题越弄越乱。\n更稳的顺序是先问四个问题：\n这四个问题比任何单条“万能命令”都更重要。",
+    "crumbs": [
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>常见问题与排查</span>"
+    ]
+  },
+  {
+    "objectID": "15-troubleshooting.html#先建立一个排查顺序",
+    "href": "15-troubleshooting.html#先建立一个排查顺序",
+    "title": "15  常见问题与排查",
+    "section": "",
+    "text": "我现在在哪个仓库、哪个分支\n工作区干不干净\n修改停在工作区、暂存区，还是已经进历史了\n问题发生在本地，还是发生在和远端同步时",
+    "crumbs": [
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>常见问题与排查</span>"
+    ]
+  },
+  {
+    "objectID": "15-troubleshooting.html#排查前最值得先跑的几条命令",
+    "href": "15-troubleshooting.html#排查前最值得先跑的几条命令",
+    "title": "15  常见问题与排查",
+    "section": "15.2 排查前最值得先跑的几条命令",
+    "text": "15.2 排查前最值得先跑的几条命令\n遇到问题时，先不要乱动，先跑这几条：\ngit status\ngit branch\ngit log --oneline -5\ngit remote -v\n\n15.2.1 这一步怎样算成功\n算成功：\n\n你先把当前状态看清楚了\n你知道自己在哪个分支上\n你知道最近历史长什么样\n你知道当前仓库有没有远端\n\n算失败：\n\n你还没看状态，就先乱试命令\n你连自己现在在哪个分支上都不清楚",
+    "crumbs": [
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>常见问题与排查</span>"
+    ]
+  },
+  {
+    "objectID": "15-troubleshooting.html#问题-1文件明明改了为什么-git-看不到",
+    "href": "15-troubleshooting.html#问题-1文件明明改了为什么-git-看不到",
+    "title": "15  常见问题与排查",
+    "section": "15.3 问题 1：文件明明改了，为什么 Git 看不到",
+    "text": "15.3 问题 1：文件明明改了，为什么 Git 看不到\n\n15.3.1 常见现象\n你明明修改了一个文件，但：\n\ngit status 里看不到它\n或者你以为改了，git diff 却什么都没显示\n\n\n\n15.3.2 先检查什么\n先检查下面几件事：\npwd\nls\ngit status\n\n\n15.3.3 常见原因\n\n你改的不是当前仓库里的那一份文件\n文件根本还没保存到磁盘\n这个文件被 .gitignore 忽略了\n你已经 git add 过，所以 git diff 看不到工作区变化\n\n\n\n15.3.4 进一步怎么判断\n如果怀疑是被忽略了，可以看看目录里有没有 .gitignore，再检查规则。\n如果怀疑是已经暂存了，可以执行：\ngit diff\ngit diff --staged\n\n\n15.3.5 这类问题怎样算成功解决\n算成功：\n\n你已经找到文件为什么没出现在预期位置\n你知道问题出在路径、保存、忽略规则，还是暂存状态\n\n算失败：\n\n你还没判断原因，就开始怀疑 Git 坏了",
+    "crumbs": [
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>常见问题与排查</span>"
+    ]
+  },
+  {
+    "objectID": "15-troubleshooting.html#问题-2为什么我刚提交的东西不在我以为的分支上",
+    "href": "15-troubleshooting.html#问题-2为什么我刚提交的东西不在我以为的分支上",
+    "title": "15  常见问题与排查",
+    "section": "15.4 问题 2：为什么我刚提交的东西不在我以为的分支上",
+    "text": "15.4 问题 2：为什么我刚提交的东西不在我以为的分支上\n\n15.4.1 常见现象\n你刚做了一笔提交，结果后来发现：\n\n这笔提交不在你以为的任务分支上\n或者它其实进了主分支\n\n\n\n15.4.2 先检查什么\n先执行：\ngit branch\ngit log --oneline -5\n\n\n15.4.3 常见原因\n\n你开始修改前没有先确认当前分支\n你以为已经 git switch 过去了，其实没有\n\n\n\n15.4.4 这类问题怎样算成功解决\n算成功：\n\n你已经确认提交现在到底在哪个分支\n你没有继续在错误分支上追加更多修改\n\n算失败：\n\n你发现站错分支了，却还继续往下做\n\n这种情况下一般不要慌，先停下来，看清楚当前位置，再决定是继续整理、还是把改动移到别处分支上。",
+    "crumbs": [
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>常见问题与排查</span>"
+    ]
+  },
+  {
+    "objectID": "15-troubleshooting.html#问题-3git-diff-为什么什么都不显示",
+    "href": "15-troubleshooting.html#问题-3git-diff-为什么什么都不显示",
+    "title": "15  常见问题与排查",
+    "section": "15.5 问题 3：git diff 为什么什么都不显示",
+    "text": "15.5 问题 3：git diff 为什么什么都不显示\n\n15.5.1 常见现象\n你明明知道自己改了内容，但：\ngit diff\n却没有任何输出。\n\n\n15.5.2 常见原因\n最常见的原因有两个：\n\n你其实还没改成功，文件内容和上次一样\n你已经 git add 过了，工作区和暂存区现在一样\n\n\n\n15.5.3 先怎么判断\n执行：\ngit status\ngit diff\ngit diff --staged\n\n\n15.5.4 这类问题怎样算成功解决\n算成功：\n\n你能判断修改现在到底是在工作区还是暂存区\n你知道为什么某一条 diff 没输出\n\n算失败：\n\n你只看见没输出，就以为改动消失了",
+    "crumbs": [
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>常见问题与排查</span>"
+    ]
+  },
+  {
+    "objectID": "15-troubleshooting.html#问题-4提交时提示没有可提交内容",
+    "href": "15-troubleshooting.html#问题-4提交时提示没有可提交内容",
+    "title": "15  常见问题与排查",
+    "section": "15.6 问题 4：提交时提示没有可提交内容",
+    "text": "15.6 问题 4：提交时提示没有可提交内容\n\n15.6.1 常见现象\n你执行：\ngit commit -m \"...\"\n结果 Git 提示没有内容可提交。\n\n\n15.6.2 常见原因\n\n你改了文件，但还没 git add\n你以为自己改了，实际上文件没保存\n你已经提交过了，现在工作区其实是干净的\n\n\n\n15.6.3 先怎么判断\n执行：\ngit status\ngit diff\ngit diff --staged\n\n\n15.6.4 这类问题怎样算成功解决\n算成功：\n\n你已经看清楚内容到底停在哪一层\n如果需要，你能补上正确的 git add\n\n算失败：\n\n你没看状态，就一遍遍重复敲 git commit",
+    "crumbs": [
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>常见问题与排查</span>"
+    ]
+  },
+  {
+    "objectID": "15-troubleshooting.html#问题-5推送被拒绝",
+    "href": "15-troubleshooting.html#问题-5推送被拒绝",
+    "title": "15  常见问题与排查",
+    "section": "15.7 问题 5：推送被拒绝",
+    "text": "15.7 问题 5：推送被拒绝\n\n15.7.1 常见现象\n你执行：\ngit push\n结果被远端拒绝。\n\n\n15.7.2 先检查什么\n先看：\ngit branch -vv\ngit remote -v\ngit status\n\n\n15.7.3 常见原因\n\n当前分支还没和远端建立跟踪关系\n远端已经有更新，你本地还没同步\n认证失败\n你推错了远端或分支\n\n\n\n15.7.4 这类问题怎样算成功解决\n算成功：\n\n你知道到底是跟踪关系问题、同步问题，还是认证问题\n你不是一看到拒绝就乱换命令\n\n算失败：\n\n你连拒绝发生在哪个层面都没分清楚",
+    "crumbs": [
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>常见问题与排查</span>"
+    ]
+  },
+  {
+    "objectID": "15-troubleshooting.html#问题-6git-pull-之后为什么内容变了甚至出现冲突",
+    "href": "15-troubleshooting.html#问题-6git-pull-之后为什么内容变了甚至出现冲突",
+    "title": "15  常见问题与排查",
+    "section": "15.8 问题 6：git pull 之后为什么内容变了，甚至出现冲突",
+    "text": "15.8 问题 6：git pull 之后为什么内容变了，甚至出现冲突\n\n15.8.1 常见现象\n你只是想同步一下远端，结果：\n\n本地文件变了\n甚至出现冲突\n\n\n\n15.8.2 原因是什么\n因为 pull 通常不是纯下载，它是“取回远端变化，并尝试合并到当前分支”。\n所以一旦远端也改了你本地正在改的地方，就可能带来冲突。\n\n\n15.8.3 先怎么判断\n执行：\ngit status\ngit branch\ngit log --oneline -5\n如果出现冲突，再打开具体文件看有没有这些标记：\n\n&lt;&lt;&lt;&lt;&lt;&lt;&lt;\n=======\n&gt;&gt;&gt;&gt;&gt;&gt;&gt;\n\n\n\n15.8.4 这类问题怎样算成功解决\n算成功：\n\n你知道 pull 之后发生的是“同步并整合”\n遇到冲突时，你能回到冲突章节那套流程去处理\n\n算失败：\n\n你把 pull 理解成只读动作\n一出现冲突就以为仓库坏了",
+    "crumbs": [
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>常见问题与排查</span>"
+    ]
+  },
+  {
+    "objectID": "15-troubleshooting.html#问题-7想撤销但不知道该用-restorerevert-还是别的",
+    "href": "15-troubleshooting.html#问题-7想撤销但不知道该用-restorerevert-还是别的",
+    "title": "15  常见问题与排查",
+    "section": "15.9 问题 7：想撤销，但不知道该用 restore、revert 还是别的",
+    "text": "15.9 问题 7：想撤销，但不知道该用 restore、revert 还是别的\n\n15.9.1 先不要先问命令，先问位置\n你真正该先问的是：\n\n这个改动还在工作区吗\n已经进暂存区了吗\n已经提交进历史了吗\n\n\n\n15.9.2 一个最小判断表\n如果是下面这些情况：\n\n还没 add，只在工作区 常见先看 git restore\n已经 add，但还没 commit 常见先看 git restore --staged\n已经 commit 了，想安全抵消效果 常见先看 git revert\n只是最后一次提交说明写错 常见先看 git commit --amend\n\n\n\n15.9.3 这类问题怎样算成功解决\n算成功：\n\n你先分清当前改动停在哪一层\n然后再选对应工具\n\n算失败：\n\n你一看到“想撤销”，就直接去碰最猛的命令",
+    "crumbs": [
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>常见问题与排查</span>"
+    ]
+  },
+  {
+    "objectID": "15-troubleshooting.html#问题-8远端分支fork-关系全乱了",
+    "href": "15-troubleshooting.html#问题-8远端分支fork-关系全乱了",
+    "title": "15  常见问题与排查",
+    "section": "15.10 问题 8：远端、分支、Fork 关系全乱了",
+    "text": "15.10 问题 8：远端、分支、Fork 关系全乱了\n\n15.10.1 常见现象\n你已经开始用 GitHub 协作，但现在说不清：\n\n当前分支是什么\norigin 指向哪里\nupstream 指向哪里\n当前 PR 到底是往哪边发\n\n\n\n15.10.2 先检查什么\n执行：\ngit branch\ngit branch -vv\ngit remote -v\n\n\n15.10.3 这类问题怎样算成功解决\n算成功：\n\n你重新看清了当前分支和远端关系\n你知道自己现在是在和哪个仓库打交道\n\n算失败：\n\n你关系还没理清，就继续推、继续拉、继续发 PR",
+    "crumbs": [
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>常见问题与排查</span>"
+    ]
+  },
+  {
+    "objectID": "15-troubleshooting.html#一个更稳的排查顺序",
+    "href": "15-troubleshooting.html#一个更稳的排查顺序",
+    "title": "15  常见问题与排查",
+    "section": "15.11 一个更稳的排查顺序",
+    "text": "15.11 一个更稳的排查顺序\n以后再遇到问题时，可以优先按这个顺序来：\n\n先看 git status\n再看 git branch\n再看最近日志 git log --oneline -5\n如果涉及远端，再看 git remote -v\n如果涉及改动内容，再看 git diff 和 git diff --staged\n\n这套顺序不是最快，但对初学者来说通常最稳。",
+    "crumbs": [
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>常见问题与排查</span>"
+    ]
+  },
+  {
+    "objectID": "15-troubleshooting.html#本章练习",
+    "href": "15-troubleshooting.html#本章练习",
+    "title": "15  常见问题与排查",
+    "section": "15.12 本章练习",
+    "text": "15.12 本章练习\n\n15.12.1 练习 1：自己诊断一次“看不到修改”\n故意制造一个小问题，例如：\n\n改一个文件后先 git add\n然后再去看 git diff\n\n接着用下面这些命令判断发生了什么：\ngit status\ngit diff\ngit diff --staged\n算成功：\n\n你能解释为什么某条命令没输出\n\n算失败：\n\n你只会说“Git 没反应”\n\n\n\n15.12.2 练习 2：自己诊断一次“推送失败”\n即使你这次没有真的失败，也请你先回答：\n\n推送失败时我会先看哪几条命令\n我怎么判断是分支问题、远端问题，还是认证问题\n\n算成功：\n\n你已经有一套先看状态、再分类的问题顺序\n\n算失败：\n\n你一想到推送失败，脑子里只有“试试看别的命令”\n\n\n\n15.12.3 练习 3：给自己做一张最小排查卡片\n把下面几条抄成你自己的排查顺序：\ngit status\ngit branch\ngit log --oneline -5\ngit remote -v\ngit diff\ngit diff --staged\n算成功：\n\n你已经不再把 Git 排查理解成“背一堆报错”\n而是知道先看哪里，再决定下一步\n\n算失败：\n\n你仍然希望有一条命令能一次性解决所有 Git 问题",
+    "crumbs": [
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>常见问题与排查</span>"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Git 与 GitHub 入门",
+    "section": "",
+    "text": "前言\n这本书想解决一个很常见的问题：很多人知道 Git 很重要，也听过 GitHub，却一直停在“命令看过一些、概念总觉得模糊、真的要用时还是会怕出错”的阶段。\n我希望你读完这本书后，不只是背过几条命令，而是真的知道自己在做什么。你会知道 Git 为什么存在，提交、分支、合并分别在处理什么问题，也会知道本地的 Git 和线上的 GitHub 怎么接起来。\n这本书的目标不高深，但很务实。读完以后，你应该能做到下面几件事：\n\n自己建立一个 Git 仓库，开始追踪文件变化\n看懂工作区、暂存区、提交历史这几个核心概念\n用分支整理自己的工作，合并修改，处理基本冲突\n把本地项目放到 GitHub，完成 push、pull、Pull Request 这些常见操作\n看懂多人协作的大致流程，知道自己下一步该做什么\n\n这本书不是命令大全，也不是只讲网站按钮的操作手册。它更像一条学习路线：先把观念理顺，再把动作串起来，最后用一个完整案例收尾。你不需要一开始就懂所有术语，也不用把每个命令一次记住。只要跟着书里的顺序往下走，很多原本看起来零碎的东西会慢慢接起来。\n全书大致分成四个部分：\n\n前面几章先讲 Git 在解决什么问题，帮你建立最基本的心智模型\n接着进入一个人使用 Git 的日常流程，包含提交、查看历史、撤销、分支、合并与冲突\n然后把 Git 接到 GitHub，处理远端仓库、同步和协作\n最后用一个完整案例把前面的内容串起来，再补上一章常见问题与排查\n\n这本书默认你是初学者，但不是把你当成只会照抄命令的人。每一章都会先说明“这一步在解决什么”，再带你看“实际上该怎么做”。如果你以前学 Git 时总觉得哪里卡住，通常不是因为你不够细心，而是因为很多教程太快进入命令，却没有把背后的逻辑讲清楚。这本书想做的，就是把那条逻辑线补起来。\n如果你是第一次系统学 Git，建议照顺序读。若你已经会基本提交，也可以从分支、冲突或 GitHub 协作那几章开始补洞。无论你现在在什么位置，希望这本书都能帮你把 Git 和 GitHub 用得更稳。",
+    "crumbs": [
+      "前言"
+    ]
+  },
+  {
+    "objectID": "09-tags-and-release.html#在常见项目里标签有什么实际用处",
+    "href": "09-tags-and-release.html#在常见项目里标签有什么实际用处",
+    "title": "9  标签、版本与发布",
+    "section": "9.13 在常见项目里，标签有什么实际用处",
+    "text": "9.13 在常见项目里，标签有什么实际用处\n比如你在维护一个个人网站时，可以这样用：\n\n网站骨架搭好后打一个 v0.1\n关于页、作品页补齐后打一个 v0.5\n第一轮自查并准备上线前打一个 v1.0\n\n这样做的好处是：\n\n你回头找某个阶段很方便\n你知道“哪个状态是能拿给别人看的”\n你不需要靠模糊印象记“好像上周那版比较稳”",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>标签、版本与发布</span>"
+    ]
+  },
+  {
+    "objectID": "14-full-case.html#第三阶段日常修改保持小步提交",
+    "href": "14-full-case.html#第三阶段日常修改保持小步提交",
+    "title": "14  一个完整案例",
+    "section": "14.5 第三阶段：日常修改，保持小步提交",
+    "text": "14.5 第三阶段：日常修改，保持小步提交\n现在你继续完善网站。比如补充首页和关于页简介：\nprintf \"\\n&lt;p&gt;这里展示我的作品、经历和联系方式。&lt;/p&gt;\\n\" &gt;&gt; index.html\nprintf \"\\n&lt;p&gt;我是一名前端初学者，正在练习 Git 和 GitHub。&lt;/p&gt;\\n\" &gt;&gt; about.html\ngit status\ngit diff\n然后把这次修改整理成一笔提交：\ngit add index.html about.html\ngit commit -m \"补充首页和关于页简介\"\ngit log --oneline -3\n\n14.5.1 这一步在解决什么问题\n这里体现的是最基本也最重要的节奏：改完以后先看，再决定这次提交交什么。不是写很久才一次性交，而是小步、清楚地往前走。\n\n\n14.5.2 这一步怎样算成功\n算成功：\n\n本地历史里又多了一笔主题明确的提交\n你能说清楚这一笔提交在做什么\n\n算失败：\n\n你一口气把一堆互不相干的修改全塞进一笔提交\n提交说明太空，过几天自己也看不懂",
+    "crumbs": [
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>一个完整案例</span>"
+    ]
+  }
+]

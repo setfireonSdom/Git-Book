@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; Git 是怎么想的 – Git 与 GitHub 入门</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03-first-repo.html" rel="next">
+<link href="./01-why-git.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-how-git-thinks.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Git 是怎么想的</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Git 与 GitHub 入门</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">前言</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-why-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">为什么需要 Git</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-how-git-thinks.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Git 是怎么想的</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-first-repo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">第一次建立仓库</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-history-and-diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">怎么看变化，怎么看历史</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-daily-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">日常修改流程</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-undo-and-recover.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">撤销、改错与找回</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-branches.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">分支是什么</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-conflicts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">冲突怎么解决</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-tags-and-release.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">标签、版本与发布</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-git-vs-github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Git 和 GitHub 不是一回事</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-publish-to-github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">把本地项目放到 GitHub</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-collaboration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">用 Pull Request 协作</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-fork-and-contribute.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Fork 与参与别人的项目</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-full-case.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">一个完整案例</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">常见问题与排查</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">参考资料</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#先把这张图装进脑子里" id="toc-先把这张图装进脑子里" class="nav-link active" data-scroll-target="#先把这张图装进脑子里"><span class="header-section-number">2.1</span> 先把这张图装进脑子里</a>
+  <ul class="collapse">
+  <li><a href="#工作区" id="toc-工作区" class="nav-link" data-scroll-target="#工作区"><span class="header-section-number">2.1.1</span> 工作区</a></li>
+  <li><a href="#暂存区" id="toc-暂存区" class="nav-link" data-scroll-target="#暂存区"><span class="header-section-number">2.1.2</span> 暂存区</a></li>
+  <li><a href="#仓库历史" id="toc-仓库历史" class="nav-link" data-scroll-target="#仓库历史"><span class="header-section-number">2.1.3</span> 仓库历史</a></li>
+  </ul></li>
+  <li><a href="#为什么-git-add-和-git-commit-要分开" id="toc-为什么-git-add-和-git-commit-要分开" class="nav-link" data-scroll-target="#为什么-git-add-和-git-commit-要分开"><span class="header-section-number">2.2</span> 为什么 <code>git add</code> 和 <code>git commit</code> 要分开</a></li>
+  <li><a href="#一次提交到底保存了什么" id="toc-一次提交到底保存了什么" class="nav-link" data-scroll-target="#一次提交到底保存了什么"><span class="header-section-number">2.3</span> 一次提交到底保存了什么</a></li>
+  <li><a href="#用一个具体场景来理解三层" id="toc-用一个具体场景来理解三层" class="nav-link" data-scroll-target="#用一个具体场景来理解三层"><span class="header-section-number">2.4</span> 用一个具体场景来理解三层</a></li>
+  <li><a href="#现在就来做一次最小实操" id="toc-现在就来做一次最小实操" class="nav-link" data-scroll-target="#现在就来做一次最小实操"><span class="header-section-number">2.5</span> 现在就来做一次最小实操</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么" id="toc-你现在应该看到什么" class="nav-link" data-scroll-target="#你现在应该看到什么"><span class="header-section-number">2.5.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功" id="toc-这一步怎样算成功" class="nav-link" data-scroll-target="#这一步怎样算成功"><span class="header-section-number">2.5.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#从工作区走到暂存区" id="toc-从工作区走到暂存区" class="nav-link" data-scroll-target="#从工作区走到暂存区"><span class="header-section-number">2.6</span> 从工作区走到暂存区</a>
+  <ul class="collapse">
+  <li><a href="#这一步怎样算成功-1" id="toc-这一步怎样算成功-1" class="nav-link" data-scroll-target="#这一步怎样算成功-1"><span class="header-section-number">2.6.1</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#从暂存区走到历史" id="toc-从暂存区走到历史" class="nav-link" data-scroll-target="#从暂存区走到历史"><span class="header-section-number">2.7</span> 从暂存区走到历史</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么-1" id="toc-你现在应该看到什么-1" class="nav-link" data-scroll-target="#你现在应该看到什么-1"><span class="header-section-number">2.7.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-2" id="toc-这一步怎样算成功-2" class="nav-link" data-scroll-target="#这一步怎样算成功-2"><span class="header-section-number">2.7.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#再做一次修改观察三层重新分开" id="toc-再做一次修改观察三层重新分开" class="nav-link" data-scroll-target="#再做一次修改观察三层重新分开"><span class="header-section-number">2.8</span> 再做一次修改，观察三层重新分开</a>
+  <ul class="collapse">
+  <li><a href="#现在分别在看什么" id="toc-现在分别在看什么" class="nav-link" data-scroll-target="#现在分别在看什么"><span class="header-section-number">2.8.1</span> 现在分别在看什么</a></li>
+  </ul></li>
+  <li><a href="#为什么理解这件事很重要" id="toc-为什么理解这件事很重要" class="nav-link" data-scroll-target="#为什么理解这件事很重要"><span class="header-section-number">2.9</span> 为什么理解这件事很重要</a></li>
+  <li><a href="#这一章你至少要练到什么程度" id="toc-这一章你至少要练到什么程度" class="nav-link" data-scroll-target="#这一章你至少要练到什么程度"><span class="header-section-number">2.10</span> 这一章你至少要练到什么程度</a></li>
+  <li><a href="#本章练习" id="toc-本章练习" class="nav-link" data-scroll-target="#本章练习"><span class="header-section-number">2.11</span> 本章练习</a>
+  <ul class="collapse">
+  <li><a href="#练习-1亲手走完三层" id="toc-练习-1亲手走完三层" class="nav-link" data-scroll-target="#练习-1亲手走完三层"><span class="header-section-number">2.11.1</span> 练习 1：亲手走完三层</a></li>
+  <li><a href="#练习-2判断成功和失败" id="toc-练习-2判断成功和失败" class="nav-link" data-scroll-target="#练习-2判断成功和失败"><span class="header-section-number">2.11.2</span> 练习 2：判断成功和失败</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Git 是怎么想的</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>很多初学者不是记不住命令，而是脑子里没有画面。只要看不见 Git 在记录什么，<code>add</code>、<code>commit</code>、<code>status</code> 这些命令就会一直像零散按钮。</p>
+<p>这一章要建立的，是 Git 最重要的心智模型。你可以先把 Git 想成一套记录修改历史的方法，但它不是看到文件就自动保存，而是让你分步骤决定：哪些修改要纳入这一次提交，哪些还不要。</p>
+<p>本章重点包括：</p>
+<ul>
+<li>工作区是什么</li>
+<li>暂存区是什么</li>
+<li>仓库里的历史是什么</li>
+<li>一次提交到底保存了什么</li>
+<li>为什么 <code>git add</code> 和 <code>git commit</code> 要分开</li>
+</ul>
+<p>这一章讲清楚后，后面的日常操作会轻松很多，因为你不再只是背命令，而是知道命令分别作用在哪一层。</p>
+<section id="先把这张图装进脑子里" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="先把这张图装进脑子里"><span class="header-section-number">2.1</span> 先把这张图装进脑子里</h2>
+<p>先把 Git 想成三层：</p>
+<ol type="1">
+<li>工作区</li>
+<li>暂存区</li>
+<li>仓库历史</li>
+</ol>
+<p>它们不是三个完全独立的世界，但你每次操作，几乎都在这三层之间移动内容。</p>
+<section id="工作区" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="工作区"><span class="header-section-number">2.1.1</span> 工作区</h3>
+<p>工作区就是你现在手上正在改的文件。你在编辑器里打字、删句子、加代码，改的都是工作区里的内容。</p>
+<p>它的特点是：</p>
+<ul>
+<li>改了就改了</li>
+<li>还没正式进入历史</li>
+<li>改到一半也很正常</li>
+</ul>
+<p>工作区最像你桌上摊开的草稿。</p>
+</section>
+<section id="暂存区" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="暂存区"><span class="header-section-number">2.1.2</span> 暂存区</h3>
+<p>暂存区是很多人第一次学 Git 时最疑惑的地方。它像一个“准备提交清单”。你不是一改文件就直接进入历史，而是先挑出这次准备交出去的修改，放进暂存区。</p>
+<p>它的作用是：让你把一次提交组织得更干净。</p>
+<p>比如你今天同时做了两件事：</p>
+<ul>
+<li>修正了一段错别字</li>
+<li>新增了一个例子</li>
+</ul>
+<p>如果你想把这两件事分成两次提交，就需要暂存区。因为 Git 不是强迫你把手头所有变化一次全交出去。</p>
+</section>
+<section id="仓库历史" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="仓库历史"><span class="header-section-number">2.1.3</span> 仓库历史</h3>
+<p>仓库历史就是已经提交完成的记录。每一次提交，都会成为这条历史上的一个节点。以后你看日志、比较差异、回到旧版本，都是在和这条历史打交道。</p>
+<p>所以可以先这样记：</p>
+<ul>
+<li>工作区：你正在改</li>
+<li>暂存区：你准备交</li>
+<li>仓库历史：你已经交出去并记录下来了</li>
+</ul>
+</section>
+</section>
+<section id="为什么-git-add-和-git-commit-要分开" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="为什么-git-add-和-git-commit-要分开"><span class="header-section-number">2.2</span> 为什么 <code>git add</code> 和 <code>git commit</code> 要分开</h2>
+<p>很多初学者一开始会觉得这设计有点绕，为什么不能改完直接提交。</p>
+<p>因为现实里的修改，往往不是整块整块长得很整齐。你今天可能一边修错字，一边试新写法，一边顺手改了标题。如果改完就自动提交，你会很难把这次修改说清楚。</p>
+<p><code>git add</code> 的作用，就是先挑选“这一次要提交的内容”。</p>
+<p><code>git commit</code> 的作用，则是把已经挑好的内容正式记进历史。</p>
+<p>这两步分开以后，你就能做到：</p>
+<ul>
+<li>把一团修改拆成几笔</li>
+<li>暂时不提交还没整理好的内容</li>
+<li>让提交历史以后更容易读</li>
+</ul>
+<p>如果把这件事再说白一点，就是 Git 不希望你把“我今天手上所有乱七八糟的改动”原封不动扔进历史。它逼你多做一步选择，而这一步选择，恰恰决定了历史后来会不会清楚。</p>
+</section>
+<section id="一次提交到底保存了什么" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="一次提交到底保存了什么"><span class="header-section-number">2.3</span> 一次提交到底保存了什么</h2>
+<p>很多初学者会把提交想成“把整个文件重新存一份”。这个理解不算全错，但还不够准确。</p>
+<p>更贴近的说法是：</p>
+<ul>
+<li>提交会记录当时项目的一个状态</li>
+<li>同时把这次状态和上一笔历史连起来</li>
+</ul>
+<p>所以提交真正有价值的地方，不只是“这里存过一次”，而是“你能知道这个状态是从上一个状态怎么变来的”。</p>
+<p>这也是为什么提交一旦写得清楚，项目历史读起来就像一条有逻辑的变化线；写得乱时，历史就会变成一团很难回看的存档。</p>
+</section>
+<section id="用一个具体场景来理解三层" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="用一个具体场景来理解三层"><span class="header-section-number">2.4</span> 用一个具体场景来理解三层</h2>
+<p>假设你在维护一个个人网站，当前目录里有个 <code>index.html</code>。</p>
+<p>一开始，文件里写的是：</p>
+<pre class="text"><code>&lt;h1&gt;欢迎来到我的网站&lt;/h1&gt;</code></pre>
+<p>你后来把它改成：</p>
+<pre class="text"><code>&lt;h1&gt;欢迎来到我的网站&lt;/h1&gt;
+&lt;p&gt;这里记录我的作品和联系方式。&lt;/p&gt;</code></pre>
+<p>这时事情发生在工作区，还没有进入历史。</p>
+<p>如果你接着执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add index.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>这份修改就会进入暂存区。意思不是“已经永久保存”，而是“这次准备把它交出去”。</p>
+<p>再执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"补充首页简介"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>它才会进入仓库历史，成为一笔正式记录。</p>
+</section>
+<section id="现在就来做一次最小实操" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="现在就来做一次最小实操"><span class="header-section-number">2.5</span> 现在就来做一次最小实操</h2>
+<p>这一章开始，我们正式动手。请在终端进入一个你打算练习的目录。为了不影响现有项目，你可以新建一个测试目录。</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> git-thinking-demo</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> git-thinking-demo</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">"第一版内容\n"</span> <span class="op">&gt;</span> notes.txt</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="你现在应该看到什么" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="你现在应该看到什么"><span class="header-section-number">2.5.1</span> 你现在应该看到什么</h3>
+<p>如果顺利，<code>git init</code> 之后会出现类似“Initialized empty Git repository”的提示。不同系统提示文字可能略有不同，但重点都一样：这里已经变成 Git 仓库了。</p>
+<p><code>git status</code> 这时通常会告诉你：</p>
+<ul>
+<li>当前在某个分支上，常见是 <code>main</code> 或 <code>master</code></li>
+<li>有一个 <code>notes.txt</code> 还没有被追踪</li>
+</ul>
+<p>也就是你大概率会看到类似 <code>Untracked files</code> 的提示。</p>
+</section>
+<section id="这一步怎样算成功" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="这一步怎样算成功"><span class="header-section-number">2.5.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li><code>git init</code> 没有报错</li>
+<li>当前目录里已经有 Git 仓库</li>
+<li><code>git status</code> 能看到 <code>notes.txt</code></li>
+<li>状态里显示它还没被追踪</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>终端提示 <code>git: command not found</code></li>
+<li><code>git status</code> 报错，说当前目录不是 Git 仓库</li>
+<li>你明明建了 <code>notes.txt</code>，状态里却没有看到它</li>
+</ul>
+<p>如果失败，先检查三件事：</p>
+<ol type="1">
+<li>你电脑上有没有安装 Git</li>
+<li>你现在所在的目录是不是刚才初始化仓库的目录</li>
+<li><code>notes.txt</code> 是不是确实建在当前目录里</li>
+</ol>
+</section>
+</section>
+<section id="从工作区走到暂存区" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="从工作区走到暂存区"><span class="header-section-number">2.6</span> 从工作区走到暂存区</h2>
+<p>接着执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add notes.txt</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>这时最关键的变化是：<code>notes.txt</code> 不会再出现在“未追踪文件”那里，而会进入“准备提交”的状态。</p>
+<p>不同界面的提示可能不同，但你应该能看到类似：</p>
+<ul>
+<li><code>Changes to be committed</code></li>
+<li><code>new file: notes.txt</code></li>
+</ul>
+<section id="这一步怎样算成功-1" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="这一步怎样算成功-1"><span class="header-section-number">2.6.1</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li><code>git add</code> 没有报错</li>
+<li><code>git status</code> 里能看到 <code>notes.txt</code> 已进入待提交区域</li>
+<li>它不再显示为 <code>Untracked</code></li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li><code>git add</code> 提示找不到 <code>notes.txt</code></li>
+<li><code>git status</code> 里仍然只有 <code>Untracked files</code></li>
+<li>你在别的目录执行了 <code>git add</code></li>
+</ul>
+<p>如果这一步没成功，通常不是 Git 坏了，而是路径或当前目录不对。</p>
+</section>
+</section>
+<section id="从暂存区走到历史" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="从暂存区走到历史"><span class="header-section-number">2.7</span> 从暂存区走到历史</h2>
+<p>继续执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"添加第一版笔记"</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>第一次提交时，有些电脑会先提示你设置身份信息，例如用户名和邮箱。如果出现这类提示，可以按它给出的命令先设置。</p>
+<p>设置方式通常像这样：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">"你的名字"</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">"你的邮箱"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>然后再重新执行提交命令。</p>
+<section id="你现在应该看到什么-1" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="你现在应该看到什么-1"><span class="header-section-number">2.7.1</span> 你现在应该看到什么</h3>
+<p>提交成功后，Git 通常会输出一小段摘要，告诉你：</p>
+<ul>
+<li>这次提交的编号前几位</li>
+<li>提交说明</li>
+<li>改了几个文件</li>
+</ul>
+<p>接着再跑一次 <code>git status</code>，大多数情况下你会看到类似：</p>
+<pre class="text"><code>nothing to commit, working tree clean</code></pre>
+<p>意思是：工作区里没有还没处理的修改，当前状态是干净的。</p>
+</section>
+<section id="这一步怎样算成功-2" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="这一步怎样算成功-2"><span class="header-section-number">2.7.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li><code>git commit</code> 成功建立一笔提交</li>
+<li><code>git status</code> 显示当前没有待提交内容</li>
+<li>你已经从“未追踪文件”走到“干净历史”</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li><code>git commit</code> 提示没有设置 <code>user.name</code> 或 <code>user.email</code></li>
+<li><code>git commit</code> 提示没有任何内容可提交</li>
+<li>你以为提交成功了，但 <code>git status</code> 仍然显示有未处理修改</li>
+</ul>
+<p>最后一种情况常见于：你改了文件，但没有先 <code>git add</code>。</p>
+</section>
+</section>
+<section id="再做一次修改观察三层重新分开" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="再做一次修改观察三层重新分开"><span class="header-section-number">2.8</span> 再做一次修改，观察三层重新分开</h2>
+<p>现在打开 <code>notes.txt</code>，把内容改成：</p>
+<pre class="text"><code>第一版内容
+第二行补充说明</code></pre>
+<p>然后执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>这时你应该会看到：</p>
+<ul>
+<li><code>git status</code> 告诉你文件被修改了</li>
+<li><code>git diff</code> 直接显示这次加了哪一行</li>
+</ul>
+<p>重点在于：这时修改只在工作区，还没进入暂存区，也没进入历史。</p>
+<p>你可以把这三个状态分别想成：</p>
+<ul>
+<li>工作区：桌上还在改的稿子</li>
+<li>暂存区：已经挑好、准备交出去的部分</li>
+<li>历史：已经正式记档的版本</li>
+</ul>
+<p>这三个位置一旦在脑子里站稳，后面很多命令都会顺很多。</p>
+<p>接着执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add notes.txt</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--staged</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>这里很值得观察，因为它能帮你真正看见三层。</p>
+<section id="现在分别在看什么" class="level3" data-number="2.8.1">
+<h3 data-number="2.8.1" class="anchored" data-anchor-id="现在分别在看什么"><span class="header-section-number">2.8.1</span> 现在分别在看什么</h3>
+<ul>
+<li><code>git diff</code>：看工作区和暂存区之间的差异</li>
+<li><code>git diff --staged</code>：看暂存区和上一笔提交之间的差异</li>
+</ul>
+<p>如果你刚 <code>add</code> 完还没再改文件，常见情况会是：</p>
+<ul>
+<li><code>git diff</code> 没内容</li>
+<li><code>git diff --staged</code> 能看到你刚才加进去的那一行</li>
+</ul>
+<p>这说明修改已经从工作区进入暂存区了。</p>
+<p>这里很多人第一次会有一种“原来是这样”的感觉。因为在没看见 <code>git diff</code> 和 <code>git diff --staged</code> 的区别前，工作区和暂存区很容易只是书上的两个词；一旦亲眼看到两条命令输出不同，这两层才会真正立起来。</p>
+</section>
+</section>
+<section id="为什么理解这件事很重要" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="为什么理解这件事很重要"><span class="header-section-number">2.9</span> 为什么理解这件事很重要</h2>
+<p>很多 Git 初学者会在这里卡很久，因为他们心里其实只有两层：</p>
+<ul>
+<li>文件现在长什么样</li>
+<li>历史里以前长什么样</li>
+</ul>
+<p>但 Git 中间还有一个暂存区。你一旦漏掉这一层，就会觉得很多现象很奇怪，比如：</p>
+<ul>
+<li>明明改了文件，为什么提交时说没有内容</li>
+<li>明明刚 <code>add</code> 过，为什么 <code>git diff</code> 什么都没显示</li>
+<li>为什么有些修改提交了，有些还没有</li>
+</ul>
+<p>一旦把三层看清楚，这些现象都会变得合理。</p>
+</section>
+<section id="这一章你至少要练到什么程度" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="这一章你至少要练到什么程度"><span class="header-section-number">2.10</span> 这一章你至少要练到什么程度</h2>
+<p>到这里，你不需要已经记住所有命令，但至少应该做到下面这些判断。</p>
+<p>如果给你一个文件当前状态，你要能回答：</p>
+<ul>
+<li>它现在只是工作区改了，还是已经进暂存区了</li>
+<li>它有没有进入历史</li>
+<li>下一步该用 <code>git add</code>，还是该用 <code>git commit</code></li>
+</ul>
+<p>如果这三件事你还答不稳，先不要急着往后冲。把这一章的练习多做两遍，比死背命令有效得多。</p>
+<p>学 Git 时，最容易让人着急的地方，就是总想赶快进入更像“高级操作”的部分。但如果这一章没站稳，后面的撤销、分支、合并和远端同步都会显得更乱。这个地基打稳，后面会省很多力气。</p>
+</section>
+<section id="本章练习" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="本章练习"><span class="header-section-number">2.11</span> 本章练习</h2>
+<section id="练习-1亲手走完三层" class="level3" data-number="2.11.1">
+<h3 data-number="2.11.1" class="anchored" data-anchor-id="练习-1亲手走完三层"><span class="header-section-number">2.11.1</span> 练习 1：亲手走完三层</h3>
+<p>在一个测试目录里，从头再做一遍：</p>
+<ol type="1">
+<li><code>git init</code></li>
+<li>新建一个文件</li>
+<li><code>git status</code></li>
+<li><code>git add</code></li>
+<li><code>git status</code></li>
+<li><code>git commit</code></li>
+<li>再次修改文件</li>
+<li><code>git diff</code></li>
+<li><code>git add</code></li>
+<li><code>git diff --staged</code></li>
+</ol>
+</section>
+<section id="练习-2判断成功和失败" class="level3" data-number="2.11.2">
+<h3 data-number="2.11.2" class="anchored" data-anchor-id="练习-2判断成功和失败"><span class="header-section-number">2.11.2</span> 练习 2：判断成功和失败</h3>
+<p>算成功：</p>
+<ul>
+<li>你能说清楚每一步是在处理工作区、暂存区还是历史</li>
+<li>你知道为什么 <code>git add</code> 和 <code>git commit</code> 不是一回事</li>
+<li>你能根据 <code>git status</code> 的结果判断下一步该做什么</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你仍然把 <code>git add</code> 理解成“提交”</li>
+<li>你看不懂 <code>Untracked</code>、<code>Changes to be committed</code>、<code>modified</code> 这些状态</li>
+<li>你不知道 <code>git diff</code> 和 <code>git diff --staged</code> 分别在比什么</li>
+</ul>
+<p>如果还没稳，最值得重做的不是整章重读，而是再做一遍最小实验，边做边看状态变化。Git 很多时候不是“看懂”的，而是“看着状态变一次，就慢慢懂了”。</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01-why-git.html" class="pagination-link" aria-label="为什么需要 Git">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">为什么需要 Git</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03-first-repo.html" class="pagination-link" aria-label="第一次建立仓库">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">第一次建立仓库</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

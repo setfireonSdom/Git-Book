@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>9&nbsp; 标签、版本与发布 – Git 与 GitHub 入门</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./10-git-vs-github.html" rel="next">
+<link href="./08-conflicts.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09-tags-and-release.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">标签、版本与发布</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Git 与 GitHub 入门</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">前言</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-why-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">为什么需要 Git</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-how-git-thinks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Git 是怎么想的</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-first-repo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">第一次建立仓库</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-history-and-diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">怎么看变化，怎么看历史</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-daily-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">日常修改流程</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-undo-and-recover.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">撤销、改错与找回</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-branches.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">分支是什么</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-conflicts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">冲突怎么解决</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-tags-and-release.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">标签、版本与发布</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-git-vs-github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Git 和 GitHub 不是一回事</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-publish-to-github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">把本地项目放到 GitHub</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-collaboration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">用 Pull Request 协作</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-fork-and-contribute.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Fork 与参与别人的项目</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-full-case.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">一个完整案例</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">常见问题与排查</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">参考资料</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#为什么要给某个时间点起名字" id="toc-为什么要给某个时间点起名字" class="nav-link active" data-scroll-target="#为什么要给某个时间点起名字"><span class="header-section-number">9.1</span> 为什么要给某个时间点起名字</a></li>
+  <li><a href="#标签和提交有什么不同" id="toc-标签和提交有什么不同" class="nav-link" data-scroll-target="#标签和提交有什么不同"><span class="header-section-number">9.2</span> 标签和提交有什么不同</a></li>
+  <li><a href="#什么时候值得打标签" id="toc-什么时候值得打标签" class="nav-link" data-scroll-target="#什么时候值得打标签"><span class="header-section-number">9.3</span> 什么时候值得打标签</a></li>
+  <li><a href="#先准备一个练习仓库" id="toc-先准备一个练习仓库" class="nav-link" data-scroll-target="#先准备一个练习仓库"><span class="header-section-number">9.4</span> 先准备一个练习仓库</a>
+  <ul class="collapse">
+  <li><a href="#这一步怎样算成功" id="toc-这一步怎样算成功" class="nav-link" data-scroll-target="#这一步怎样算成功"><span class="header-section-number">9.4.1</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#第一步先看现在的历史长什么样" id="toc-第一步先看现在的历史长什么样" class="nav-link" data-scroll-target="#第一步先看现在的历史长什么样"><span class="header-section-number">9.5</span> 第一步：先看现在的历史长什么样</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么" id="toc-你现在应该看到什么" class="nav-link" data-scroll-target="#你现在应该看到什么"><span class="header-section-number">9.5.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-1" id="toc-这一步怎样算成功-1" class="nav-link" data-scroll-target="#这一步怎样算成功-1"><span class="header-section-number">9.5.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#第二步给当前提交打一个简单标签" id="toc-第二步给当前提交打一个简单标签" class="nav-link" data-scroll-target="#第二步给当前提交打一个简单标签"><span class="header-section-number">9.6</span> 第二步：给当前提交打一个简单标签</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么-1" id="toc-你现在应该看到什么-1" class="nav-link" data-scroll-target="#你现在应该看到什么-1"><span class="header-section-number">9.6.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-2" id="toc-这一步怎样算成功-2" class="nav-link" data-scroll-target="#这一步怎样算成功-2"><span class="header-section-number">9.6.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#第三步验证标签到底指到了哪里" id="toc-第三步验证标签到底指到了哪里" class="nav-link" data-scroll-target="#第三步验证标签到底指到了哪里"><span class="header-section-number">9.7</span> 第三步：验证标签到底指到了哪里</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么-2" id="toc-你现在应该看到什么-2" class="nav-link" data-scroll-target="#你现在应该看到什么-2"><span class="header-section-number">9.7.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-3" id="toc-这一步怎样算成功-3" class="nav-link" data-scroll-target="#这一步怎样算成功-3"><span class="header-section-number">9.7.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#标签和分支有什么不同" id="toc-标签和分支有什么不同" class="nav-link" data-scroll-target="#标签和分支有什么不同"><span class="header-section-number">9.8</span> 标签和分支有什么不同</a></li>
+  <li><a href="#第四步继续做一笔提交看看标签会不会动" id="toc-第四步继续做一笔提交看看标签会不会动" class="nav-link" data-scroll-target="#第四步继续做一笔提交看看标签会不会动"><span class="header-section-number">9.9</span> 第四步：继续做一笔提交，看看标签会不会动</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么-3" id="toc-你现在应该看到什么-3" class="nav-link" data-scroll-target="#你现在应该看到什么-3"><span class="header-section-number">9.9.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-4" id="toc-这一步怎样算成功-4" class="nav-link" data-scroll-target="#这一步怎样算成功-4"><span class="header-section-number">9.9.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#第五步给更早的某笔提交打标签" id="toc-第五步给更早的某笔提交打标签" class="nav-link" data-scroll-target="#第五步给更早的某笔提交打标签"><span class="header-section-number">9.10</span> 第五步：给更早的某笔提交打标签</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么-4" id="toc-你现在应该看到什么-4" class="nav-link" data-scroll-target="#你现在应该看到什么-4"><span class="header-section-number">9.10.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-5" id="toc-这一步怎样算成功-5" class="nav-link" data-scroll-target="#这一步怎样算成功-5"><span class="header-section-number">9.10.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#标签名该怎么起" id="toc-标签名该怎么起" class="nav-link" data-scroll-target="#标签名该怎么起"><span class="header-section-number">9.11</span> 标签名该怎么起</a>
+  <ul class="collapse">
+  <li><a href="#这一步怎样算成功-6" id="toc-这一步怎样算成功-6" class="nav-link" data-scroll-target="#这一步怎样算成功-6"><span class="header-section-number">9.11.1</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#发布到底在说什么" id="toc-发布到底在说什么" class="nav-link" data-scroll-target="#发布到底在说什么"><span class="header-section-number">9.12</span> 发布到底在说什么</a></li>
+  <li><a href="#在常见项目里标签有什么实际用处" id="toc-在常见项目里标签有什么实际用处" class="nav-link" data-scroll-target="#在常见项目里标签有什么实际用处"><span class="header-section-number">9.13</span> 在常见项目里，标签有什么实际用处</a></li>
+  <li><a href="#如果标签打错了怎么办" id="toc-如果标签打错了怎么办" class="nav-link" data-scroll-target="#如果标签打错了怎么办"><span class="header-section-number">9.14</span> 如果标签打错了怎么办</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么-5" id="toc-你现在应该看到什么-5" class="nav-link" data-scroll-target="#你现在应该看到什么-5"><span class="header-section-number">9.14.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-7" id="toc-这一步怎样算成功-7" class="nav-link" data-scroll-target="#这一步怎样算成功-7"><span class="header-section-number">9.14.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#本章最值得养成的习惯" id="toc-本章最值得养成的习惯" class="nav-link" data-scroll-target="#本章最值得养成的习惯"><span class="header-section-number">9.15</span> 本章最值得养成的习惯</a></li>
+  <li><a href="#本章练习" id="toc-本章练习" class="nav-link" data-scroll-target="#本章练习"><span class="header-section-number">9.16</span> 本章练习</a>
+  <ul class="collapse">
+  <li><a href="#练习-1给当前版本打一个标签" id="toc-练习-1给当前版本打一个标签" class="nav-link" data-scroll-target="#练习-1给当前版本打一个标签"><span class="header-section-number">9.16.1</span> 练习 1：给当前版本打一个标签</a></li>
+  <li><a href="#练习-2做一笔新提交观察标签不会自动移动" id="toc-练习-2做一笔新提交观察标签不会自动移动" class="nav-link" data-scroll-target="#练习-2做一笔新提交观察标签不会自动移动"><span class="header-section-number">9.16.2</span> 练习 2：做一笔新提交，观察标签不会自动移动</a></li>
+  <li><a href="#练习-3给旧提交补标签" id="toc-练习-3给旧提交补标签" class="nav-link" data-scroll-target="#练习-3给旧提交补标签"><span class="header-section-number">9.16.3</span> 练习 3：给旧提交补标签</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">标签、版本与发布</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>当一个项目逐渐稳定下来，我们往往会希望把某个时间点明确标出来。比如这是第一版、这是修复 bug 后的版本、这是可以交付给别人的版本。</p>
+<p>这一章要讲的，就是标签和版本的作用。标签不是每天都会用到，但一旦项目进入发布节奏，它就会变得很有用。</p>
+<p>本章会包括：</p>
+<ul>
+<li>为什么需要标签</li>
+<li><code>git tag</code> 的基本用法</li>
+<li>标签和普通提交有什么不同</li>
+<li>怎么用标签整理版本</li>
+</ul>
+<p>这一章也会顺手把“版本”这件事讲清楚，让 Git 的历史不只是看得见，还能拿来发布。</p>
+<section id="为什么要给某个时间点起名字" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="为什么要给某个时间点起名字"><span class="header-section-number">9.1</span> 为什么要给某个时间点起名字</h2>
+<p>前面几章里，我们一直在做提交。提交能把每一次修改记录下来，但当项目慢慢成形以后，你通常还会有另一个需要：</p>
+<ul>
+<li>我想把“这个可以交付的状态”明确标出来</li>
+<li>我想知道“第一版”对应的是哪一笔提交</li>
+<li>我想回到某个发布版本，而不是只记得那是一串提交编号</li>
+</ul>
+<p>这时，标签就有用了。</p>
+</section>
+<section id="标签和提交有什么不同" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="标签和提交有什么不同"><span class="header-section-number">9.2</span> 标签和提交有什么不同</h2>
+<p>先把最核心的一点说清楚：</p>
+<ul>
+<li>提交是在记录修改</li>
+<li>标签是在给某个提交起一个更容易识别的名字</li>
+</ul>
+<p>也就是说，标签本身通常不承载新改动。它更像一个路标，告诉你：</p>
+<ul>
+<li>这里是 <code>v1.0</code></li>
+<li>这里是修完某个问题后的版本</li>
+<li>这里是一个适合发给别人用的节点</li>
+</ul>
+</section>
+<section id="什么时候值得打标签" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="什么时候值得打标签"><span class="header-section-number">9.3</span> 什么时候值得打标签</h2>
+<p>不是每次提交都要打标签。更常见的做法是，在这些时刻考虑打标签：</p>
+<ul>
+<li>完成一个明确版本</li>
+<li>修完一个重要问题，准备重新交付</li>
+<li>项目进入一个稳定节点，准备交付或回看</li>
+<li>你想给未来的自己留一个清楚的回看点</li>
+</ul>
+<p>如果你的项目还在快速试验阶段，标签可能不需要太频繁。可一旦开始有“版本”意识，标签会非常省事。</p>
+</section>
+<section id="先准备一个练习仓库" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="先准备一个练习仓库"><span class="header-section-number">9.4</span> 先准备一个练习仓库</h2>
+<p>这一章最好也在一个已有几笔提交的测试仓库里练。先执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">-5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="这一步怎样算成功" class="level3" data-number="9.4.1">
+<h3 data-number="9.4.1" class="anchored" data-anchor-id="这一步怎样算成功"><span class="header-section-number">9.4.1</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>当前仓库状态正常</li>
+<li>至少已经有几笔提交可供练习</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你还没在 Git 仓库里</li>
+<li>仓库里根本没有历史，没法给某个节点打标签</li>
+</ul>
+</section>
+</section>
+<section id="第一步先看现在的历史长什么样" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="第一步先看现在的历史长什么样"><span class="header-section-number">9.5</span> 第一步：先看现在的历史长什么样</h2>
+<p>执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="你现在应该看到什么" class="level3" data-number="9.5.1">
+<h3 data-number="9.5.1" class="anchored" data-anchor-id="你现在应该看到什么"><span class="header-section-number">9.5.1</span> 你现在应该看到什么</h3>
+<p>你会看到一串提交记录。现在先不要急着打标签，先看清楚：</p>
+<ul>
+<li>哪一笔提交是当前最新的</li>
+<li>你想把哪一笔当作“版本节点”</li>
+</ul>
+</section>
+<section id="这一步怎样算成功-1" class="level3" data-number="9.5.2">
+<h3 data-number="9.5.2" class="anchored" data-anchor-id="这一步怎样算成功-1"><span class="header-section-number">9.5.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>你知道标签最终会落在哪一笔提交上</li>
+<li>你不是闭着眼随便打一个标签</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你还没看清历史，就先乱打标签</li>
+<li>打完以后自己都说不清为什么标签会落在那里</li>
+</ul>
+</section>
+</section>
+<section id="第二步给当前提交打一个简单标签" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="第二步给当前提交打一个简单标签"><span class="header-section-number">9.6</span> 第二步：给当前提交打一个简单标签</h2>
+<p>如果你想给当前最新提交打上 <code>v1.0</code>，可以执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag v1.0</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="你现在应该看到什么-1" class="level3" data-number="9.6.1">
+<h3 data-number="9.6.1" class="anchored" data-anchor-id="你现在应该看到什么-1"><span class="header-section-number">9.6.1</span> 你现在应该看到什么</h3>
+<p><code>git tag</code> 会列出当前仓库里的标签。如果这是你第一个标签，通常会看到：</p>
+<pre class="text"><code>v1.0</code></pre>
+</section>
+<section id="这一步怎样算成功-2" class="level3" data-number="9.6.2">
+<h3 data-number="9.6.2" class="anchored" data-anchor-id="这一步怎样算成功-2"><span class="header-section-number">9.6.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>仓库里成功出现一个名为 <code>v1.0</code> 的标签</li>
+<li>你知道它现在指向当前最新提交</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你以为标签会自动生成说明，但其实只是给某个提交起了名字</li>
+<li>你没确认标签是否真的建成功</li>
+</ul>
+</section>
+</section>
+<section id="第三步验证标签到底指到了哪里" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="第三步验证标签到底指到了哪里"><span class="header-section-number">9.7</span> 第三步：验证标签到底指到了哪里</h2>
+<p>只看到标签名字还不够，你最好确认它具体指向哪一笔提交。</p>
+<p>执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> show v1.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="你现在应该看到什么-2" class="level3" data-number="9.7.1">
+<h3 data-number="9.7.1" class="anchored" data-anchor-id="你现在应该看到什么-2"><span class="header-section-number">9.7.1</span> 你现在应该看到什么</h3>
+<p>Git 会把这个标签对应的提交信息展开给你看。你通常能看到：</p>
+<ul>
+<li>这笔提交的说明</li>
+<li>它改了什么</li>
+<li>它的提交编号</li>
+</ul>
+</section>
+<section id="这一步怎样算成功-3" class="level3" data-number="9.7.2">
+<h3 data-number="9.7.2" class="anchored" data-anchor-id="这一步怎样算成功-3"><span class="header-section-number">9.7.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>你能确认 <code>v1.0</code> 确实指向你预期的那笔提交</li>
+<li>你知道标签不是悬空名字，而是指向具体历史节点</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你建了标签，却不知道它实际落在哪</li>
+<li>你把标签和分支混在一起，不清楚它们的区别</li>
+</ul>
+</section>
+</section>
+<section id="标签和分支有什么不同" class="level2" data-number="9.8">
+<h2 data-number="9.8" class="anchored" data-anchor-id="标签和分支有什么不同"><span class="header-section-number">9.8</span> 标签和分支有什么不同</h2>
+<p>这两个概念很容易混。</p>
+<ul>
+<li>分支会继续往前走</li>
+<li>标签通常停在某个固定点上</li>
+</ul>
+<p>换句话说：</p>
+<ul>
+<li>你在分支上继续提交，分支指向会前进</li>
+<li>标签打在哪个提交上，通常就固定在那里，不会自己往前移动</li>
+</ul>
+<p>这也是为什么标签很适合表示“某一版已经定稿”。</p>
+</section>
+<section id="第四步继续做一笔提交看看标签会不会动" class="level2" data-number="9.9">
+<h2 data-number="9.9" class="anchored" data-anchor-id="第四步继续做一笔提交看看标签会不会动"><span class="header-section-number">9.9</span> 第四步：继续做一笔提交，看看标签会不会动</h2>
+<p>现在故意再做一笔新提交：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">"\n## 版本说明\n这里补一段版本说明。\n"</span> <span class="op">&gt;&gt;</span> README.md</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add README.md</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"补充版本说明"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">-3</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> show v1.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="你现在应该看到什么-3" class="level3" data-number="9.9.1">
+<h3 data-number="9.9.1" class="anchored" data-anchor-id="你现在应该看到什么-3"><span class="header-section-number">9.9.1</span> 你现在应该看到什么</h3>
+<p>这时你会看到：</p>
+<ul>
+<li>最新历史已经往前多了一笔提交</li>
+<li>但 <code>v1.0</code> 仍然指向原来的那个节点</li>
+</ul>
+<p>这一步非常重要，因为它能帮你真正看出标签不是“会自动跟着最新状态走”的东西。</p>
+</section>
+<section id="这一步怎样算成功-4" class="level3" data-number="9.9.2">
+<h3 data-number="9.9.2" class="anchored" data-anchor-id="这一步怎样算成功-4"><span class="header-section-number">9.9.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>你看到新提交出现了</li>
+<li>你也看到 <code>v1.0</code> 仍然停在原来的位置</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你以为打了标签以后，它会永远代表最新状态</li>
+<li>你分不清“当前分支最新提交”和“某个固定版本节点”</li>
+</ul>
+</section>
+</section>
+<section id="第五步给更早的某笔提交打标签" class="level2" data-number="9.10">
+<h2 data-number="9.10" class="anchored" data-anchor-id="第五步给更早的某笔提交打标签"><span class="header-section-number">9.10</span> 第五步：给更早的某笔提交打标签</h2>
+<p>标签不一定只能打在当前最新提交上。你也可以给历史里的某一笔提交补标签。</p>
+<p>先执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>找一笔较早的提交，比如：</p>
+<pre class="text"><code>abc1234 初始化仓库并添加 README</code></pre>
+<p>然后执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag v0.1 abc1234</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="你现在应该看到什么-4" class="level3" data-number="9.10.1">
+<h3 data-number="9.10.1" class="anchored" data-anchor-id="你现在应该看到什么-4"><span class="header-section-number">9.10.1</span> 你现在应该看到什么</h3>
+<p>现在标签列表里应该会多一个：</p>
+<ul>
+<li><code>v0.1</code></li>
+<li><code>v1.0</code></li>
+</ul>
+<p>其中 <code>v0.1</code> 会指向较早那笔提交，<code>v1.0</code> 指向较新的版本节点。</p>
+</section>
+<section id="这一步怎样算成功-5" class="level3" data-number="9.10.2">
+<h3 data-number="9.10.2" class="anchored" data-anchor-id="这一步怎样算成功-5"><span class="header-section-number">9.10.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>你能给历史里的指定提交打标签</li>
+<li>你知道标签不一定非得打在当前最新提交上</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你把提交编号写错，结果标签落在错误位置</li>
+<li>你没有核对标签对应的提交内容</li>
+</ul>
+</section>
+</section>
+<section id="标签名该怎么起" class="level2" data-number="9.11">
+<h2 data-number="9.11" class="anchored" data-anchor-id="标签名该怎么起"><span class="header-section-number">9.11</span> 标签名该怎么起</h2>
+<p>标签名没有绝对唯一的标准，但有一些很常见的习惯。</p>
+<p>比如：</p>
+<ul>
+<li><code>v1.0</code></li>
+<li><code>v1.1</code></li>
+<li><code>v2.0</code></li>
+<li><code>draft-2026-04-19</code></li>
+</ul>
+<p>如果你是在写书或文档，也可以用更贴近自己项目的命名方式，但有两个原则很值得守住：</p>
+<ul>
+<li>名字要看得懂</li>
+<li>同一项目尽量保持同一套规则</li>
+</ul>
+<section id="这一步怎样算成功-6" class="level3" data-number="9.11.1">
+<h3 data-number="9.11.1" class="anchored" data-anchor-id="这一步怎样算成功-6"><span class="header-section-number">9.11.1</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>你看到标签名就大致知道它表示什么</li>
+<li>项目里的标签命名风格比较一致</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>标签名杂乱无章，后来根本看不懂</li>
+<li>同一个项目里一会儿 <code>release-final</code>，一会儿 <code>version2-new</code>，一会儿 <code>ok-this-one</code></li>
+</ul>
+</section>
+</section>
+<section id="发布到底在说什么" class="level2" data-number="9.12">
+<h2 data-number="9.12" class="anchored" data-anchor-id="发布到底在说什么"><span class="header-section-number">9.12</span> 发布到底在说什么</h2>
+<p>“发布”这个词有时会让初学者觉得很大，其实先可以理解成一件朴素的事：</p>
+<ul>
+<li>把某个你认可的版本明确标出来，准备拿去给别人用、给别人看，或者给未来的自己回头找</li>
+</ul>
+<p>所以发布不一定非得是软件上线。对一本书、一个教程、一个文档项目来说，也完全可以有自己的版本节点。</p>
+</section>
+<section id="在常见项目里标签有什么实际用处" class="level2" data-number="9.13">
+<h2 data-number="9.13" class="anchored" data-anchor-id="在常见项目里标签有什么实际用处"><span class="header-section-number">9.13</span> 在常见项目里，标签有什么实际用处</h2>
+<p>比如你在维护一个个人网站时，可以这样用：</p>
+<ul>
+<li>网站骨架搭好后打一个 <code>v0.1</code></li>
+<li>关于页、作品页补齐后打一个 <code>v0.5</code></li>
+<li>第一轮自查并准备上线前打一个 <code>v1.0</code></li>
+</ul>
+<p>这样做的好处是：</p>
+<ul>
+<li>你回头找某个阶段很方便</li>
+<li>你知道“哪个状态是能拿给别人看的”</li>
+<li>你不需要靠模糊印象记“好像上周那版比较稳”</li>
+</ul>
+</section>
+<section id="如果标签打错了怎么办" class="level2" data-number="9.14">
+<h2 data-number="9.14" class="anchored" data-anchor-id="如果标签打错了怎么办"><span class="header-section-number">9.14</span> 如果标签打错了怎么办</h2>
+<p>初学阶段，先知道有这个情况就够了：标签也不是神圣不可碰的。如果你打错了，后面可以删掉重来。</p>
+<p>比如：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="at">-d</span> v1.0</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="你现在应该看到什么-5" class="level3" data-number="9.14.1">
+<h3 data-number="9.14.1" class="anchored" data-anchor-id="你现在应该看到什么-5"><span class="header-section-number">9.14.1</span> 你现在应该看到什么</h3>
+<p>执行成功后，<code>v1.0</code> 会从本地标签列表里消失。</p>
+</section>
+<section id="这一步怎样算成功-7" class="level3" data-number="9.14.2">
+<h3 data-number="9.14.2" class="anchored" data-anchor-id="这一步怎样算成功-7"><span class="header-section-number">9.14.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>你知道标签并不是一旦建立就永远不能改</li>
+<li>删除后会重新检查列表，而不是靠猜</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你以为删标签会顺带删掉那笔提交</li>
+<li>你把“删标签”和“删历史”混为一谈</li>
+</ul>
+<p>标签删掉，不等于那笔提交消失。它只是少了一个名字。</p>
+</section>
+</section>
+<section id="本章最值得养成的习惯" class="level2" data-number="9.15">
+<h2 data-number="9.15" class="anchored" data-anchor-id="本章最值得养成的习惯"><span class="header-section-number">9.15</span> 本章最值得养成的习惯</h2>
+<p>到这里，这一章最希望你养成的不是“会敲 <code>git tag</code>”，而是这两个习惯：</p>
+<ul>
+<li>发布节点要明确标出来</li>
+<li>标签打完以后要检查它到底指向哪一笔提交</li>
+</ul>
+<p>只要这两件事形成习惯，后面无论是写代码、做网站还是维护文档，版本都会清楚很多。</p>
+</section>
+<section id="本章练习" class="level2" data-number="9.16">
+<h2 data-number="9.16" class="anchored" data-anchor-id="本章练习"><span class="header-section-number">9.16</span> 本章练习</h2>
+<section id="练习-1给当前版本打一个标签" class="level3" data-number="9.16.1">
+<h3 data-number="9.16.1" class="anchored" data-anchor-id="练习-1给当前版本打一个标签"><span class="header-section-number">9.16.1</span> 练习 1：给当前版本打一个标签</h3>
+<ol type="1">
+<li><code>git log --oneline</code></li>
+<li><code>git tag v1.0</code></li>
+<li><code>git tag</code></li>
+<li><code>git show v1.0</code></li>
+</ol>
+<p>算成功：</p>
+<ul>
+<li>你成功建立标签</li>
+<li>你能确认它对应的是哪一笔提交</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你只建了标签，却没确认它到底指向哪</li>
+</ul>
+</section>
+<section id="练习-2做一笔新提交观察标签不会自动移动" class="level3" data-number="9.16.2">
+<h3 data-number="9.16.2" class="anchored" data-anchor-id="练习-2做一笔新提交观察标签不会自动移动"><span class="header-section-number">9.16.2</span> 练习 2：做一笔新提交，观察标签不会自动移动</h3>
+<ol type="1">
+<li>修改一个文件并提交</li>
+<li><code>git log --oneline -3</code></li>
+<li><code>git show v1.0</code></li>
+</ol>
+<p>算成功：</p>
+<ul>
+<li>你看见历史往前走了</li>
+<li>你也看见旧标签仍然停在原来的节点</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你以为标签总是代表当前最新状态</li>
+</ul>
+</section>
+<section id="练习-3给旧提交补标签" class="level3" data-number="9.16.3">
+<h3 data-number="9.16.3" class="anchored" data-anchor-id="练习-3给旧提交补标签"><span class="header-section-number">9.16.3</span> 练习 3：给旧提交补标签</h3>
+<ol type="1">
+<li><code>git log --oneline</code></li>
+<li>选一笔较早提交</li>
+<li><code>git tag v0.1 &lt;提交编号&gt;</code></li>
+<li><code>git tag</code></li>
+</ol>
+<p>算成功：</p>
+<ul>
+<li>你能把标签打到历史中的某一笔提交上</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你把标签、分支、提交编号三者混在一起</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./08-conflicts.html" class="pagination-link" aria-label="冲突怎么解决">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">冲突怎么解决</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./10-git-vs-github.html" class="pagination-link" aria-label="Git 和 GitHub 不是一回事">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Git 和 GitHub 不是一回事</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

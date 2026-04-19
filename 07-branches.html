@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; 分支是什么 – Git 与 GitHub 入门</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./08-conflicts.html" rel="next">
+<link href="./06-undo-and-recover.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-branches.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">分支是什么</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Git 与 GitHub 入门</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">前言</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-why-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">为什么需要 Git</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-how-git-thinks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Git 是怎么想的</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-first-repo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">第一次建立仓库</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-history-and-diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">怎么看变化，怎么看历史</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-daily-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">日常修改流程</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-undo-and-recover.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">撤销、改错与找回</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-branches.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">分支是什么</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-conflicts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">冲突怎么解决</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-tags-and-release.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">标签、版本与发布</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-git-vs-github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Git 和 GitHub 不是一回事</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-publish-to-github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">把本地项目放到 GitHub</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-collaboration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">用 Pull Request 协作</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-fork-and-contribute.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Fork 与参与别人的项目</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-full-case.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">一个完整案例</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">常见问题与排查</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#为什么一直在主线上改会出问题" id="toc-为什么一直在主线上改会出问题" class="nav-link active" data-scroll-target="#为什么一直在主线上改会出问题"><span class="header-section-number">7.1</span> 为什么一直在主线上改会出问题</a></li>
+  <li><a href="#分支不是复制出一整个项目" id="toc-分支不是复制出一整个项目" class="nav-link" data-scroll-target="#分支不是复制出一整个项目"><span class="header-section-number">7.2</span> 分支不是复制出一整个项目</a></li>
+  <li><a href="#先看当前有哪些分支" id="toc-先看当前有哪些分支" class="nav-link" data-scroll-target="#先看当前有哪些分支"><span class="header-section-number">7.3</span> 先看当前有哪些分支</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么" id="toc-你现在应该看到什么" class="nav-link" data-scroll-target="#你现在应该看到什么"><span class="header-section-number">7.3.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功" id="toc-这一步怎样算成功" class="nav-link" data-scroll-target="#这一步怎样算成功"><span class="header-section-number">7.3.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#建一个新分支来做新工作" id="toc-建一个新分支来做新工作" class="nav-link" data-scroll-target="#建一个新分支来做新工作"><span class="header-section-number">7.4</span> 建一个新分支来做新工作</a>
+  <ul class="collapse">
+  <li><a href="#git-switch--c-在做什么" id="toc-git-switch--c-在做什么" class="nav-link" data-scroll-target="#git-switch--c-在做什么"><span class="header-section-number">7.4.1</span> <code>git switch -c</code> 在做什么</a></li>
+  <li><a href="#你现在应该看到什么-1" id="toc-你现在应该看到什么-1" class="nav-link" data-scroll-target="#你现在应该看到什么-1"><span class="header-section-number">7.4.2</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-1" id="toc-这一步怎样算成功-1" class="nav-link" data-scroll-target="#这一步怎样算成功-1"><span class="header-section-number">7.4.3</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#在新分支上做一次修改" id="toc-在新分支上做一次修改" class="nav-link" data-scroll-target="#在新分支上做一次修改"><span class="header-section-number">7.5</span> 在新分支上做一次修改</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么-2" id="toc-你现在应该看到什么-2" class="nav-link" data-scroll-target="#你现在应该看到什么-2"><span class="header-section-number">7.5.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-2" id="toc-这一步怎样算成功-2" class="nav-link" data-scroll-target="#这一步怎样算成功-2"><span class="header-section-number">7.5.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#切回主分支观察差异" id="toc-切回主分支观察差异" class="nav-link" data-scroll-target="#切回主分支观察差异"><span class="header-section-number">7.6</span> 切回主分支，观察差异</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么-3" id="toc-你现在应该看到什么-3" class="nav-link" data-scroll-target="#你现在应该看到什么-3"><span class="header-section-number">7.6.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-3" id="toc-这一步怎样算成功-3" class="nav-link" data-scroll-target="#这一步怎样算成功-3"><span class="header-section-number">7.6.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#把新分支合并回主线" id="toc-把新分支合并回主线" class="nav-link" data-scroll-target="#把新分支合并回主线"><span class="header-section-number">7.7</span> 把新分支合并回主线</a>
+  <ul class="collapse">
+  <li><a href="#git-merge-在做什么" id="toc-git-merge-在做什么" class="nav-link" data-scroll-target="#git-merge-在做什么"><span class="header-section-number">7.7.1</span> <code>git merge</code> 在做什么</a></li>
+  <li><a href="#你现在应该看到什么-4" id="toc-你现在应该看到什么-4" class="nav-link" data-scroll-target="#你现在应该看到什么-4"><span class="header-section-number">7.7.2</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-4" id="toc-这一步怎样算成功-4" class="nav-link" data-scroll-target="#这一步怎样算成功-4"><span class="header-section-number">7.7.3</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#合并后怎么检查自己有没有真的做对" id="toc-合并后怎么检查自己有没有真的做对" class="nav-link" data-scroll-target="#合并后怎么检查自己有没有真的做对"><span class="header-section-number">7.8</span> 合并后怎么检查自己有没有真的做对</a>
+  <ul class="collapse">
+  <li><a href="#检查重点" id="toc-检查重点" class="nav-link" data-scroll-target="#检查重点"><span class="header-section-number">7.8.1</span> 检查重点</a></li>
+  <li><a href="#这一步怎样算成功-5" id="toc-这一步怎样算成功-5" class="nav-link" data-scroll-target="#这一步怎样算成功-5"><span class="header-section-number">7.8.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#为什么分支对单人也有用" id="toc-为什么分支对单人也有用" class="nav-link" data-scroll-target="#为什么分支对单人也有用"><span class="header-section-number">7.9</span> 为什么分支对单人也有用</a></li>
+  <li><a href="#初学者最容易踩的几个坑" id="toc-初学者最容易踩的几个坑" class="nav-link" data-scroll-target="#初学者最容易踩的几个坑"><span class="header-section-number">7.10</span> 初学者最容易踩的几个坑</a>
+  <ul class="collapse">
+  <li><a href="#以为自己已经切分支了其实没有" id="toc-以为自己已经切分支了其实没有" class="nav-link" data-scroll-target="#以为自己已经切分支了其实没有"><span class="header-section-number">7.10.1</span> 以为自己已经切分支了，其实没有</a></li>
+  <li><a href="#在主线上做了一堆实验性改动" id="toc-在主线上做了一堆实验性改动" class="nav-link" data-scroll-target="#在主线上做了一堆实验性改动"><span class="header-section-number">7.10.2</span> 在主线上做了一堆实验性改动</a></li>
+  <li><a href="#合并后不检查结果" id="toc-合并后不检查结果" class="nav-link" data-scroll-target="#合并后不检查结果"><span class="header-section-number">7.10.3</span> 合并后不检查结果</a></li>
+  </ul></li>
+  <li><a href="#到这里你应该做到什么" id="toc-到这里你应该做到什么" class="nav-link" data-scroll-target="#到这里你应该做到什么"><span class="header-section-number">7.11</span> 到这里你应该做到什么</a></li>
+  <li><a href="#本章练习" id="toc-本章练习" class="nav-link" data-scroll-target="#本章练习"><span class="header-section-number">7.12</span> 本章练习</a>
+  <ul class="collapse">
+  <li><a href="#练习-1建立并切换分支" id="toc-练习-1建立并切换分支" class="nav-link" data-scroll-target="#练习-1建立并切换分支"><span class="header-section-number">7.12.1</span> 练习 1：建立并切换分支</a></li>
+  <li><a href="#练习-2在新分支上做一笔独立提交" id="toc-练习-2在新分支上做一笔独立提交" class="nav-link" data-scroll-target="#练习-2在新分支上做一笔独立提交"><span class="header-section-number">7.12.2</span> 练习 2：在新分支上做一笔独立提交</a></li>
+  <li><a href="#练习-3切回主线并合并" id="toc-练习-3切回主线并合并" class="nav-link" data-scroll-target="#练习-3切回主线并合并"><span class="header-section-number">7.12.3</span> 练习 3：切回主线并合并</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">分支是什么</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>分支常常是 Git 真正开始变难的地方。不是因为命令特别复杂，而是因为很多人从一开始就没想清楚：分支到底是什么，它为什么能让多人协作变得更顺。</p>
+<p>这一章不会把分支讲成抽象名词，而是从一个很直接的问题开始：如果你想改到一半、又不想把半成品放到主线里，该怎么办？</p>
+<p>本章会讲清楚：</p>
+<ul>
+<li>为什么需要分支</li>
+<li>分支不是文件副本，而是一条独立的提交线</li>
+<li>怎么建立、切换、查看分支</li>
+<li>修改完成后怎么合并回主线</li>
+</ul>
+<p>分支一旦理解，Git 就会从“个人备份工具”变成真正能支撑开发流程的工具。</p>
+<section id="为什么一直在主线上改会出问题" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="为什么一直在主线上改会出问题"><span class="header-section-number">7.1</span> 为什么一直在主线上改会出问题</h2>
+<p>如果你所有修改都一直堆在主分支上，短期看起来很省事，长期通常会出现这些问题：</p>
+<ul>
+<li>改到一半的功能也混在主线里</li>
+<li>两件不同主题的工作互相打架</li>
+<li>你想试一个想法，却怕把当前稳定版本弄乱</li>
+<li>多人协作时，大家都挤在同一条线上改，冲突会明显增多</li>
+</ul>
+<p>分支的出现，就是为了让你能把“正在试的东西”和“当前稳定主线”分开。</p>
+</section>
+<section id="分支不是复制出一整个项目" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="分支不是复制出一整个项目"><span class="header-section-number">7.2</span> 分支不是复制出一整个项目</h2>
+<p>这是最容易误会的地方。</p>
+<p>很多初学者第一次听到分支，会以为它像是“复制一个新的文件夹出来”。更准确的理解是：</p>
+<p>分支是一条独立向前推进的提交线。</p>
+<p>你可以先把它想成：</p>
+<ul>
+<li><code>main</code> 是当前默认主线</li>
+<li>你从某个提交点上切出去一条新线</li>
+<li>后面在这条线上做的新提交，先不会影响主线</li>
+</ul>
+<p>也就是说，分支的重点不是“多一个副本”，而是“我可以先在旁边推进一条新历史”。</p>
+</section>
+<section id="先看当前有哪些分支" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="先看当前有哪些分支"><span class="header-section-number">7.3</span> 先看当前有哪些分支</h2>
+<p>先在你的测试仓库里执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="你现在应该看到什么" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="你现在应该看到什么"><span class="header-section-number">7.3.1</span> 你现在应该看到什么</h3>
+<p>如果你现在只有一个默认分支，通常会看到类似：</p>
+<pre class="text"><code>* main</code></pre>
+<p>或者：</p>
+<pre class="text"><code>* master</code></pre>
+<p>前面的 <code>*</code> 表示你当前正站在这个分支上。</p>
+</section>
+<section id="这一步怎样算成功" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="这一步怎样算成功"><span class="header-section-number">7.3.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>你能看懂当前仓库有哪些分支</li>
+<li>你能看出自己现在在哪一条分支上</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你看到输出，却不知道 <code>*</code> 是什么意思</li>
+<li>你以为自己在新分支上，其实一直没切出去</li>
+</ul>
+</section>
+</section>
+<section id="建一个新分支来做新工作" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="建一个新分支来做新工作"><span class="header-section-number">7.4</span> 建一个新分支来做新工作</h2>
+<p>假设你现在想给文档加一节“常见问题”，但还不想马上把半成品放到主线。</p>
+<p>可以执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">-c</span> faq-section</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="git-switch--c-在做什么" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="git-switch--c-在做什么"><span class="header-section-number">7.4.1</span> <code>git switch -c</code> 在做什么</h3>
+<p>这条命令一次做了两件事：</p>
+<ul>
+<li>建立一个新分支 <code>faq-section</code></li>
+<li>立刻切换到这个新分支</li>
+</ul>
+</section>
+<section id="你现在应该看到什么-1" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="你现在应该看到什么-1"><span class="header-section-number">7.4.2</span> 你现在应该看到什么</h3>
+<p>执行完 <code>git branch</code> 以后，通常会看到类似：</p>
+<pre class="text"><code>* faq-section
+  main</code></pre>
+<p>这表示：</p>
+<ul>
+<li>新分支已经建立成功</li>
+<li>你当前正站在 <code>faq-section</code></li>
+</ul>
+</section>
+<section id="这一步怎样算成功-1" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="这一步怎样算成功-1"><span class="header-section-number">7.4.3</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>新分支真的建立起来了</li>
+<li><code>*</code> 已经移动到新分支上</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你以为自己已经切换，但 <code>*</code> 还在 <code>main</code></li>
+<li>你分支名打错了，后面一直在错误分支上工作</li>
+</ul>
+</section>
+</section>
+<section id="在新分支上做一次修改" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="在新分支上做一次修改"><span class="header-section-number">7.5</span> 在新分支上做一次修改</h2>
+<p>现在在这个新分支上改一个文件。比如给 <code>README.md</code> 补一段：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">"\n## 常见问题\n这里以后会补常见问题。\n"</span> <span class="op">&gt;&gt;</span> README.md</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add README.md</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"添加常见问题小节骨架"</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">-3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="你现在应该看到什么-2" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="你现在应该看到什么-2"><span class="header-section-number">7.5.1</span> 你现在应该看到什么</h3>
+<p>这时你应该能看到：</p>
+<ul>
+<li>新提交已经出现在日志里</li>
+<li>但这笔提交目前只属于 <code>faq-section</code> 这条分支</li>
+</ul>
+</section>
+<section id="这一步怎样算成功-2" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="这一步怎样算成功-2"><span class="header-section-number">7.5.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>你在新分支上完成了一笔独立提交</li>
+<li>你知道这笔提交还没并回主线</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你根本没切到新分支，就直接在主线上做了修改</li>
+<li>你以为分支能自动帮你隔离，但实际操作一直还在 <code>main</code></li>
+</ul>
+</section>
+</section>
+<section id="切回主分支观察差异" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="切回主分支观察差异"><span class="header-section-number">7.6</span> 切回主分支，观察差异</h2>
+<p>现在执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch main</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">-3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>如果你的默认分支叫 <code>master</code>，这里就把 <code>main</code> 换成 <code>master</code>。</p>
+<section id="你现在应该看到什么-3" class="level3" data-number="7.6.1">
+<h3 data-number="7.6.1" class="anchored" data-anchor-id="你现在应该看到什么-3"><span class="header-section-number">7.6.1</span> 你现在应该看到什么</h3>
+<p>切回主分支以后，你通常会发现：</p>
+<ul>
+<li>刚才那笔“添加常见问题小节骨架”的提交不在主线日志顶端</li>
+<li><code>README.md</code> 也会回到主分支当前的状态</li>
+</ul>
+<p>这就是分支隔离的效果。</p>
+</section>
+<section id="这一步怎样算成功-3" class="level3" data-number="7.6.2">
+<h3 data-number="7.6.2" class="anchored" data-anchor-id="这一步怎样算成功-3"><span class="header-section-number">7.6.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>你能看到切分支以后，历史视角发生了变化</li>
+<li>你理解为什么同一个仓库里，不同分支可以看到不同的最新提交</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你以为文件应该一直保持刚才那样，结果一切回主线就慌了</li>
+<li>你没有理解“当前工作区会跟着当前分支所指向的提交变化”</li>
+</ul>
+<p>第一次看到文件内容跟着分支切换而变化，很多人会有点不习惯，但这是正常现象。</p>
+</section>
+</section>
+<section id="把新分支合并回主线" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="把新分支合并回主线"><span class="header-section-number">7.7</span> 把新分支合并回主线</h2>
+<p>如果你确认 <code>faq-section</code> 上那笔工作已经准备好了，就可以把它合并回主分支。</p>
+<p>先执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch main</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> merge faq-section</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">-4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="git-merge-在做什么" class="level3" data-number="7.7.1">
+<h3 data-number="7.7.1" class="anchored" data-anchor-id="git-merge-在做什么"><span class="header-section-number">7.7.1</span> <code>git merge</code> 在做什么</h3>
+<p>它的作用是：把 <code>faq-section</code> 分支上的改动，合并到当前所在分支。因为你现在站在 <code>main</code> 上，所以它会把 <code>faq-section</code> 的工作带回主线。</p>
+</section>
+<section id="你现在应该看到什么-4" class="level3" data-number="7.7.2">
+<h3 data-number="7.7.2" class="anchored" data-anchor-id="你现在应该看到什么-4"><span class="header-section-number">7.7.2</span> 你现在应该看到什么</h3>
+<p>如果这次合并比较简单，没有和主线产生冲突，常见情况会是：</p>
+<ul>
+<li>合并顺利完成</li>
+<li><code>main</code> 上也能看到那笔新工作了</li>
+<li><code>README.md</code> 现在包含“常见问题”这一节</li>
+</ul>
+</section>
+<section id="这一步怎样算成功-4" class="level3" data-number="7.7.3">
+<h3 data-number="7.7.3" class="anchored" data-anchor-id="这一步怎样算成功-4"><span class="header-section-number">7.7.3</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>你确认自己是在主分支上执行 <code>merge</code></li>
+<li>新分支的修改成功进入主线</li>
+<li>日志能反映这次合并后的结果</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你站错分支，在错误位置执行了 <code>merge</code></li>
+<li>合并后效果和预期不一致，却没有立刻检查日志和文件内容</li>
+</ul>
+</section>
+</section>
+<section id="合并后怎么检查自己有没有真的做对" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="合并后怎么检查自己有没有真的做对"><span class="header-section-number">7.8</span> 合并后怎么检查自己有没有真的做对</h2>
+<p>合并完成以后，不要只看命令有没有报错。至少检查三件事：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span> <span class="at">-5</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="检查重点" class="level3" data-number="7.8.1">
+<h3 data-number="7.8.1" class="anchored" data-anchor-id="检查重点"><span class="header-section-number">7.8.1</span> 检查重点</h3>
+<ul>
+<li><code>git status</code>：当前工作区是不是干净</li>
+<li><code>git log --oneline -5</code>：主线最近历史里有没有包含刚才的工作</li>
+<li><code>git branch</code>：你现在是不是确实站在预期分支上</li>
+</ul>
+</section>
+<section id="这一步怎样算成功-5" class="level3" data-number="7.8.2">
+<h3 data-number="7.8.2" class="anchored" data-anchor-id="这一步怎样算成功-5"><span class="header-section-number">7.8.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>主线已经包含新修改</li>
+<li>仓库状态正常</li>
+<li>你知道自己当前在哪条分支上</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>合并做完后，你其实不知道最后结果长什么样</li>
+<li>你只看命令没报错，却没验证历史和文件内容</li>
+</ul>
+</section>
+</section>
+<section id="为什么分支对单人也有用" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="为什么分支对单人也有用"><span class="header-section-number">7.9</span> 为什么分支对单人也有用</h2>
+<p>很多人会说：我一个人写东西，也需要分支吗？</p>
+<p>需要，而且很有用。因为分支不只是为多人准备的，它也在帮你把不同阶段的工作隔开。</p>
+<p>例如这些场景都很适合：</p>
+<ul>
+<li>你想试一个新写法，但不确定要不要保留</li>
+<li>你想重构一段内容，但还不想影响当前稳定版本</li>
+<li>你要同时处理“补充新内容”和“修错字”两类事情</li>
+</ul>
+<p>没有分支时，你只能把这些东西混在一起。用了分支以后，你就能更从容地试。</p>
+</section>
+<section id="初学者最容易踩的几个坑" class="level2" data-number="7.10">
+<h2 data-number="7.10" class="anchored" data-anchor-id="初学者最容易踩的几个坑"><span class="header-section-number">7.10</span> 初学者最容易踩的几个坑</h2>
+<section id="以为自己已经切分支了其实没有" class="level3" data-number="7.10.1">
+<h3 data-number="7.10.1" class="anchored" data-anchor-id="以为自己已经切分支了其实没有"><span class="header-section-number">7.10.1</span> 以为自己已经切分支了，其实没有</h3>
+<p>所以每次切完都值得跑一下：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>看看 <code>*</code> 到底在哪。</p>
+</section>
+<section id="在主线上做了一堆实验性改动" class="level3" data-number="7.10.2">
+<h3 data-number="7.10.2" class="anchored" data-anchor-id="在主线上做了一堆实验性改动"><span class="header-section-number">7.10.2</span> 在主线上做了一堆实验性改动</h3>
+<p>这会让主线变得很乱，也让后面整理历史更麻烦。</p>
+</section>
+<section id="合并后不检查结果" class="level3" data-number="7.10.3">
+<h3 data-number="7.10.3" class="anchored" data-anchor-id="合并后不检查结果"><span class="header-section-number">7.10.3</span> 合并后不检查结果</h3>
+<p>命令成功，不代表内容一定就是你想要的。日志、状态和文件内容都值得看一眼。</p>
+</section>
+</section>
+<section id="到这里你应该做到什么" class="level2" data-number="7.11">
+<h2 data-number="7.11" class="anchored" data-anchor-id="到这里你应该做到什么"><span class="header-section-number">7.11</span> 到这里你应该做到什么</h2>
+<p>这一章结束时，你至少应该能独立完成：</p>
+<ul>
+<li>查看当前分支</li>
+<li>建立一个新分支并切过去</li>
+<li>在新分支上完成修改和提交</li>
+<li>切回主分支</li>
+<li>把新分支合并回主线</li>
+</ul>
+<p>如果这些动作你已经能顺着做，后面理解 Pull Request 和多人协作时会轻松很多，因为它们基本上都是建立在“分支隔离工作，再并回主线”这条思路上。</p>
+</section>
+<section id="本章练习" class="level2" data-number="7.12">
+<h2 data-number="7.12" class="anchored" data-anchor-id="本章练习"><span class="header-section-number">7.12</span> 本章练习</h2>
+<section id="练习-1建立并切换分支" class="level3" data-number="7.12.1">
+<h3 data-number="7.12.1" class="anchored" data-anchor-id="练习-1建立并切换分支"><span class="header-section-number">7.12.1</span> 练习 1：建立并切换分支</h3>
+<ol type="1">
+<li><code>git branch</code></li>
+<li><code>git switch -c test-branch</code></li>
+<li><code>git branch</code></li>
+</ol>
+<p>算成功：</p>
+<ul>
+<li>新分支建立成功</li>
+<li><code>*</code> 出现在 <code>test-branch</code> 前面</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你以为建好了，但其实还站在原分支</li>
+</ul>
+</section>
+<section id="练习-2在新分支上做一笔独立提交" class="level3" data-number="7.12.2">
+<h3 data-number="7.12.2" class="anchored" data-anchor-id="练习-2在新分支上做一笔独立提交"><span class="header-section-number">7.12.2</span> 练习 2：在新分支上做一笔独立提交</h3>
+<ol type="1">
+<li>修改一个文件</li>
+<li><code>git add &lt;文件&gt;</code></li>
+<li><code>git commit -m "..."</code></li>
+<li><code>git log --oneline -3</code></li>
+</ol>
+<p>算成功：</p>
+<ul>
+<li>你在新分支上留下一笔清楚的提交</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你没有先确认当前分支，就直接开始改</li>
+</ul>
+</section>
+<section id="练习-3切回主线并合并" class="level3" data-number="7.12.3">
+<h3 data-number="7.12.3" class="anchored" data-anchor-id="练习-3切回主线并合并"><span class="header-section-number">7.12.3</span> 练习 3：切回主线并合并</h3>
+<ol type="1">
+<li><code>git switch main</code></li>
+<li><code>git merge test-branch</code></li>
+<li><code>git log --oneline -5</code></li>
+</ol>
+<p>如果默认分支不是 <code>main</code>，请替换成你的实际分支名。</p>
+<p>算成功：</p>
+<ul>
+<li>主线已经包含 <code>test-branch</code> 的工作</li>
+<li>你能从日志看出合并后的结果</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你切错分支</li>
+<li>合并完以后没检查历史和文件</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./06-undo-and-recover.html" class="pagination-link" aria-label="撤销、改错与找回">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">撤销、改错与找回</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./08-conflicts.html" class="pagination-link" aria-label="冲突怎么解决">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">冲突怎么解决</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>12&nbsp; 用 Pull Request 协作 – Git 与 GitHub 入门</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./13-fork-and-contribute.html" rel="next">
+<link href="./11-publish-to-github.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./12-collaboration.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">用 Pull Request 协作</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Git 与 GitHub 入门</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">前言</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-why-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">为什么需要 Git</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-how-git-thinks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Git 是怎么想的</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-first-repo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">第一次建立仓库</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-history-and-diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">怎么看变化，怎么看历史</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-daily-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">日常修改流程</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-undo-and-recover.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">撤销、改错与找回</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-branches.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">分支是什么</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-conflicts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">冲突怎么解决</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-tags-and-release.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">标签、版本与发布</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-git-vs-github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Git 和 GitHub 不是一回事</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-publish-to-github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">把本地项目放到 GitHub</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-collaboration.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">用 Pull Request 协作</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-fork-and-contribute.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Fork 与参与别人的项目</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-full-case.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">一个完整案例</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">常见问题与排查</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">参考资料</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#为什么协作时不直接改主分支" id="toc-为什么协作时不直接改主分支" class="nav-link active" data-scroll-target="#为什么协作时不直接改主分支"><span class="header-section-number">12.1</span> 为什么协作时不直接改主分支</a></li>
+  <li><a href="#pull-request-在解决什么问题" id="toc-pull-request-在解决什么问题" class="nav-link" data-scroll-target="#pull-request-在解决什么问题"><span class="header-section-number">12.2</span> Pull Request 在解决什么问题</a></li>
+  <li><a href="#先准备一个最小协作场景" id="toc-先准备一个最小协作场景" class="nav-link" data-scroll-target="#先准备一个最小协作场景"><span class="header-section-number">12.3</span> 先准备一个最小协作场景</a>
+  <ul class="collapse">
+  <li><a href="#这一步怎样算成功" id="toc-这一步怎样算成功" class="nav-link" data-scroll-target="#这一步怎样算成功"><span class="header-section-number">12.3.1</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#第一步为一个具体任务建分支" id="toc-第一步为一个具体任务建分支" class="nav-link" data-scroll-target="#第一步为一个具体任务建分支"><span class="header-section-number">12.4</span> 第一步：为一个具体任务建分支</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么" id="toc-你现在应该看到什么" class="nav-link" data-scroll-target="#你现在应该看到什么"><span class="header-section-number">12.4.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-1" id="toc-这一步怎样算成功-1" class="nav-link" data-scroll-target="#这一步怎样算成功-1"><span class="header-section-number">12.4.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#第二步在分支上完成一笔清楚的修改" id="toc-第二步在分支上完成一笔清楚的修改" class="nav-link" data-scroll-target="#第二步在分支上完成一笔清楚的修改"><span class="header-section-number">12.5</span> 第二步：在分支上完成一笔清楚的修改</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么-1" id="toc-你现在应该看到什么-1" class="nav-link" data-scroll-target="#你现在应该看到什么-1"><span class="header-section-number">12.5.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-2" id="toc-这一步怎样算成功-2" class="nav-link" data-scroll-target="#这一步怎样算成功-2"><span class="header-section-number">12.5.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#第三步把任务分支推到远端" id="toc-第三步把任务分支推到远端" class="nav-link" data-scroll-target="#第三步把任务分支推到远端"><span class="header-section-number">12.6</span> 第三步：把任务分支推到远端</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么-2" id="toc-你现在应该看到什么-2" class="nav-link" data-scroll-target="#你现在应该看到什么-2"><span class="header-section-number">12.6.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-3" id="toc-这一步怎样算成功-3" class="nav-link" data-scroll-target="#这一步怎样算成功-3"><span class="header-section-number">12.6.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#第四步在-github-上发起-pull-request" id="toc-第四步在-github-上发起-pull-request" class="nav-link" data-scroll-target="#第四步在-github-上发起-pull-request"><span class="header-section-number">12.7</span> 第四步：在 GitHub 上发起 Pull Request</a>
+  <ul class="collapse">
+  <li><a href="#一个最小可用的-pr-标题和描述" id="toc-一个最小可用的-pr-标题和描述" class="nav-link" data-scroll-target="#一个最小可用的-pr-标题和描述"><span class="header-section-number">12.7.1</span> 一个最小可用的 PR 标题和描述</a></li>
+  <li><a href="#这一步怎样算成功-4" id="toc-这一步怎样算成功-4" class="nav-link" data-scroll-target="#这一步怎样算成功-4"><span class="header-section-number">12.7.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#第五步review-时到底在看什么" id="toc-第五步review-时到底在看什么" class="nav-link" data-scroll-target="#第五步review-时到底在看什么"><span class="header-section-number">12.8</span> 第五步：review 时到底在看什么</a></li>
+  <li><a href="#第六步根据-review-调整再继续推送" id="toc-第六步根据-review-调整再继续推送" class="nav-link" data-scroll-target="#第六步根据-review-调整再继续推送"><span class="header-section-number">12.9</span> 第六步：根据 review 调整，再继续推送</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么-3" id="toc-你现在应该看到什么-3" class="nav-link" data-scroll-target="#你现在应该看到什么-3"><span class="header-section-number">12.9.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-5" id="toc-这一步怎样算成功-5" class="nav-link" data-scroll-target="#这一步怎样算成功-5"><span class="header-section-number">12.9.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#第七步合并-pull-request" id="toc-第七步合并-pull-request" class="nav-link" data-scroll-target="#第七步合并-pull-request"><span class="header-section-number">12.10</span> 第七步：合并 Pull Request</a>
+  <ul class="collapse">
+  <li><a href="#这一步怎样算成功-6" id="toc-这一步怎样算成功-6" class="nav-link" data-scroll-target="#这一步怎样算成功-6"><span class="header-section-number">12.10.1</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#第八步合并后把本地整理干净" id="toc-第八步合并后把本地整理干净" class="nav-link" data-scroll-target="#第八步合并后把本地整理干净"><span class="header-section-number">12.11</span> 第八步：合并后把本地整理干净</a>
+  <ul class="collapse">
+  <li><a href="#你现在应该看到什么-4" id="toc-你现在应该看到什么-4" class="nav-link" data-scroll-target="#你现在应该看到什么-4"><span class="header-section-number">12.11.1</span> 你现在应该看到什么</a></li>
+  <li><a href="#这一步怎样算成功-7" id="toc-这一步怎样算成功-7" class="nav-link" data-scroll-target="#这一步怎样算成功-7"><span class="header-section-number">12.11.2</span> 这一步怎样算成功</a></li>
+  </ul></li>
+  <li><a href="#为什么-pull-request-对一个人写书也有用" id="toc-为什么-pull-request-对一个人写书也有用" class="nav-link" data-scroll-target="#为什么-pull-request-对一个人写书也有用"><span class="header-section-number">12.12</span> 为什么 Pull Request 对一个人写书也有用</a></li>
+  <li><a href="#协作时最容易犯的几个错" id="toc-协作时最容易犯的几个错" class="nav-link" data-scroll-target="#协作时最容易犯的几个错"><span class="header-section-number">12.13</span> 协作时最容易犯的几个错</a>
+  <ul class="collapse">
+  <li><a href="#直接在主分支上改" id="toc-直接在主分支上改" class="nav-link" data-scroll-target="#直接在主分支上改"><span class="header-section-number">12.13.1</span> 直接在主分支上改</a></li>
+  <li><a href="#一个-pr-混太多主题" id="toc-一个-pr-混太多主题" class="nav-link" data-scroll-target="#一个-pr-混太多主题"><span class="header-section-number">12.13.2</span> 一个 PR 混太多主题</a></li>
+  <li><a href="#发了-pr-但不检查-base-分支" id="toc-发了-pr-但不检查-base-分支" class="nav-link" data-scroll-target="#发了-pr-但不检查-base-分支"><span class="header-section-number">12.13.3</span> 发了 PR 但不检查 base 分支</a></li>
+  <li><a href="#合并后不整理本地" id="toc-合并后不整理本地" class="nav-link" data-scroll-target="#合并后不整理本地"><span class="header-section-number">12.13.4</span> 合并后不整理本地</a></li>
+  </ul></li>
+  <li><a href="#本章练习" id="toc-本章练习" class="nav-link" data-scroll-target="#本章练习"><span class="header-section-number">12.14</span> 本章练习</a>
+  <ul class="collapse">
+  <li><a href="#练习-1为一个小任务发起-pr" id="toc-练习-1为一个小任务发起-pr" class="nav-link" data-scroll-target="#练习-1为一个小任务发起-pr"><span class="header-section-number">12.14.1</span> 练习 1：为一个小任务发起 PR</a></li>
+  <li><a href="#练习-2在同一个-pr-里继续补修改" id="toc-练习-2在同一个-pr-里继续补修改" class="nav-link" data-scroll-target="#练习-2在同一个-pr-里继续补修改"><span class="header-section-number">12.14.2</span> 练习 2：在同一个 PR 里继续补修改</a></li>
+  <li><a href="#练习-3合并后整理本地" id="toc-练习-3合并后整理本地" class="nav-link" data-scroll-target="#练习-3合并后整理本地"><span class="header-section-number">12.14.3</span> 练习 3：合并后整理本地</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">用 Pull Request 协作</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>真正进入团队协作之后，Git 的重点就不再只是“我怎么保存自己的修改”，而是“我怎么把修改有条理地交给别人看，再安全地合并回去”。</p>
+<p>这一章会围绕 Pull Request 展开，因为它几乎就是 GitHub 协作的中心动作。你会看到一个改动从分支开始，到提交、推送、发起 PR、接受 review、最后合并的完整过程。</p>
+<p>本章重点包括：</p>
+<ul>
+<li>为什么协作时通常不直接改主分支</li>
+<li>Pull Request 在解决什么问题</li>
+<li>review 时通常会看什么</li>
+<li>合并以后本地该怎么整理</li>
+</ul>
+<p>这一章读完，GitHub 对你来说就不只是备份网站，而会开始像一个协作平台。</p>
+<section id="为什么协作时不直接改主分支" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="为什么协作时不直接改主分支"><span class="header-section-number">12.1</span> 为什么协作时不直接改主分支</h2>
+<p>一个人自己写小东西时，偶尔直接在主分支上改，未必马上出事。可一旦进入协作，这样做很快就会出问题：</p>
+<ul>
+<li>半成品会直接出现在主线</li>
+<li>别人还没来得及看，你的修改就已经进去了</li>
+<li>两个人同时改主线，冲突和混乱都会变多</li>
+<li>很难区分“正在做的工作”和“已经确认可以合并的工作”</li>
+</ul>
+<p>所以更稳的做法通常是：</p>
+<ul>
+<li>主分支保持相对稳定</li>
+<li>每个任务开一个分支</li>
+<li>分支完成以后，用 Pull Request 交给别人看</li>
+</ul>
+</section>
+<section id="pull-request-在解决什么问题" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="pull-request-在解决什么问题"><span class="header-section-number">12.2</span> Pull Request 在解决什么问题</h2>
+<p>如果只用一句话来讲，Pull Request 解决的是这件事：</p>
+<ul>
+<li>我已经在一个分支上整理好改动了，现在请你看一眼，再决定要不要合并进主线</li>
+</ul>
+<p>所以 Pull Request 不是单纯的“发通知”，它实际上把几件事绑在了一起：</p>
+<ul>
+<li>展示这次改了什么</li>
+<li>给别人评论和 review 的位置</li>
+<li>提供合并入口</li>
+<li>留下这次协作的记录</li>
+</ul>
+</section>
+<section id="先准备一个最小协作场景" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="先准备一个最小协作场景"><span class="header-section-number">12.3</span> 先准备一个最小协作场景</h2>
+<p>为了练这一章，你至少需要有一个已经连到 GitHub 的仓库。开始前先执行：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote <span class="at">-v</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="这一步怎样算成功" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="这一步怎样算成功"><span class="header-section-number">12.3.1</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>当前仓库状态正常</li>
+<li>你知道自己现在站在哪个分支上</li>
+<li>这个仓库已经连上 GitHub 远端</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你还没有远端仓库，却直接跳进 Pull Request</li>
+<li>你还没确认当前分支，就开始做协作流程</li>
+</ul>
+<p>如果还没连远端，先回到上一章，把 GitHub 对接那一步补上。</p>
+</section>
+</section>
+<section id="第一步为一个具体任务建分支" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="第一步为一个具体任务建分支"><span class="header-section-number">12.4</span> 第一步：为一个具体任务建分支</h2>
+<p>假设你现在要补一节“常见错误”，不要直接在 <code>main</code> 上写。先切一个新分支：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">-c</span> add-common-mistakes</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="你现在应该看到什么" class="level3" data-number="12.4.1">
+<h3 data-number="12.4.1" class="anchored" data-anchor-id="你现在应该看到什么"><span class="header-section-number">12.4.1</span> 你现在应该看到什么</h3>
+<p>你通常会看到：</p>
+<pre class="text"><code>* add-common-mistakes
+  main</code></pre>
+<p>或者主分支名是 <code>master</code>。</p>
+</section>
+<section id="这一步怎样算成功-1" class="level3" data-number="12.4.2">
+<h3 data-number="12.4.2" class="anchored" data-anchor-id="这一步怎样算成功-1"><span class="header-section-number">12.4.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>你已经站在新分支上</li>
+<li>这次工作和主分支隔开了</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你以为切过去了，其实还在主分支</li>
+<li>你后面所有修改其实都直接做在主线上</li>
+</ul>
+</section>
+</section>
+<section id="第二步在分支上完成一笔清楚的修改" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="第二步在分支上完成一笔清楚的修改"><span class="header-section-number">12.5</span> 第二步：在分支上完成一笔清楚的修改</h2>
+<p>现在修改一个文件，比如 <code>README.md</code> 或某个章节文件：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">"\n## 常见错误\n这里补一节常见错误。\n"</span> <span class="op">&gt;&gt;</span> README.md</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add README.md</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"补充常见错误小节"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="你现在应该看到什么-1" class="level3" data-number="12.5.1">
+<h3 data-number="12.5.1" class="anchored" data-anchor-id="你现在应该看到什么-1"><span class="header-section-number">12.5.1</span> 你现在应该看到什么</h3>
+<p>这一步结束后，你应该已经在 <code>add-common-mistakes</code> 分支上留下了一笔独立提交。</p>
+</section>
+<section id="这一步怎样算成功-2" class="level3" data-number="12.5.2">
+<h3 data-number="12.5.2" class="anchored" data-anchor-id="这一步怎样算成功-2"><span class="header-section-number">12.5.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>你在任务分支上完成了一笔主题明确的提交</li>
+<li>提交说明和改动内容能对得上</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你一边改这个主题，一边顺手塞进别的无关修改</li>
+<li>提交后自己也说不清这笔提交到底在做什么</li>
+</ul>
+</section>
+</section>
+<section id="第三步把任务分支推到远端" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="第三步把任务分支推到远端"><span class="header-section-number">12.6</span> 第三步：把任务分支推到远端</h2>
+<p>现在把这个分支推到 GitHub：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin add-common-mistakes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="你现在应该看到什么-2" class="level3" data-number="12.6.1">
+<h3 data-number="12.6.1" class="anchored" data-anchor-id="你现在应该看到什么-2"><span class="header-section-number">12.6.1</span> 你现在应该看到什么</h3>
+<p>推送成功后，终端通常会告诉你：</p>
+<ul>
+<li>这个新分支已经推到远端</li>
+<li>本地分支开始跟踪远端对应分支</li>
+</ul>
+<p>很多时候，终端还会给出一个 GitHub 页面链接，方便你直接去发 Pull Request。</p>
+</section>
+<section id="这一步怎样算成功-3" class="level3" data-number="12.6.2">
+<h3 data-number="12.6.2" class="anchored" data-anchor-id="这一步怎样算成功-3"><span class="header-section-number">12.6.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>远端已经出现 <code>add-common-mistakes</code> 这个分支</li>
+<li>本地和远端分支建立了跟踪关系</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你没确认当前分支名，就把错误分支推上去了</li>
+<li>推送失败，却以为网页上已经有这次改动</li>
+</ul>
+</section>
+</section>
+<section id="第四步在-github-上发起-pull-request" class="level2" data-number="12.7">
+<h2 data-number="12.7" class="anchored" data-anchor-id="第四步在-github-上发起-pull-request"><span class="header-section-number">12.7</span> 第四步：在 GitHub 上发起 Pull Request</h2>
+<p>现在回到 GitHub 页面。你通常会看到提示，告诉你刚推上来的分支可以发起 Pull Request。</p>
+<p>这一步在网页上完成。发 PR 时，通常要确认几件事：</p>
+<ul>
+<li>base 分支是不是 <code>main</code> 或你的主分支</li>
+<li>compare 分支是不是 <code>add-common-mistakes</code></li>
+<li>标题能不能让人一眼看懂这次改了什么</li>
+<li>描述里有没有交代这次修改的目的</li>
+</ul>
+<section id="一个最小可用的-pr-标题和描述" class="level3" data-number="12.7.1">
+<h3 data-number="12.7.1" class="anchored" data-anchor-id="一个最小可用的-pr-标题和描述"><span class="header-section-number">12.7.1</span> 一个最小可用的 PR 标题和描述</h3>
+<p>比如：</p>
+<ul>
+<li>标题：<code>补充常见错误小节</code></li>
+<li>描述：<code>新增一节常见错误，帮助读者更快定位初学阶段的常见问题。</code></li>
+</ul>
+</section>
+<section id="这一步怎样算成功-4" class="level3" data-number="12.7.2">
+<h3 data-number="12.7.2" class="anchored" data-anchor-id="这一步怎样算成功-4"><span class="header-section-number">12.7.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>PR 指向了正确的主分支</li>
+<li>标题和描述清楚说明了改动内容</li>
+<li>GitHub 页面上能直接看到这次差异</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>base 分支选错</li>
+<li>compare 分支选错</li>
+<li>PR 标题写得太空，看不出这次在改什么</li>
+</ul>
+</section>
+</section>
+<section id="第五步review-时到底在看什么" class="level2" data-number="12.8">
+<h2 data-number="12.8" class="anchored" data-anchor-id="第五步review-时到底在看什么"><span class="header-section-number">12.8</span> 第五步：review 时到底在看什么</h2>
+<p>Pull Request 打开以后，review 不只是“看一眼能不能过”。更稳的检查顺序通常包括：</p>
+<ul>
+<li>这次改动的目标清不清楚</li>
+<li>改动范围是不是和目标一致</li>
+<li>有没有把不相干内容混进来</li>
+<li>文本、代码或结构有没有明显问题</li>
+</ul>
+<p>对写书、写文档这类项目来说，review 时尤其值得看：</p>
+<ul>
+<li>这段话有没有讲清楚</li>
+<li>例子顺不顺</li>
+<li>有没有和前文重复或矛盾</li>
+<li>有没有顺手把别的半成品一起带进来</li>
+</ul>
+</section>
+<section id="第六步根据-review-调整再继续推送" class="level2" data-number="12.9">
+<h2 data-number="12.9" class="anchored" data-anchor-id="第六步根据-review-调整再继续推送"><span class="header-section-number">12.9</span> 第六步：根据 review 调整，再继续推送</h2>
+<p>如果 review 里有人提了修改意见，不需要重开一个新 PR。通常你只要继续在同一个分支上改，再 push 一次就可以。</p>
+<p>比如：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">"\n补一行说明，回应 review 意见。\n"</span> <span class="op">&gt;&gt;</span> README.md</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add README.md</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"根据 review 补充说明"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="你现在应该看到什么-3" class="level3" data-number="12.9.1">
+<h3 data-number="12.9.1" class="anchored" data-anchor-id="你现在应该看到什么-3"><span class="header-section-number">12.9.1</span> 你现在应该看到什么</h3>
+<p>如果这个分支已经和远端建立过跟踪关系，直接 <code>git push</code> 就可以把新提交送上去。GitHub 上同一个 PR 页面会自动更新。</p>
+</section>
+<section id="这一步怎样算成功-5" class="level3" data-number="12.9.2">
+<h3 data-number="12.9.2" class="anchored" data-anchor-id="这一步怎样算成功-5"><span class="header-section-number">12.9.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>你在原分支上继续补充修改</li>
+<li>PR 页面自动出现新的提交和差异</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你以为 review 后必须重开一个新 PR</li>
+<li>你把修改做到别的分支上，结果当前 PR 根本没更新</li>
+</ul>
+</section>
+</section>
+<section id="第七步合并-pull-request" class="level2" data-number="12.10">
+<h2 data-number="12.10" class="anchored" data-anchor-id="第七步合并-pull-request"><span class="header-section-number">12.10</span> 第七步：合并 Pull Request</h2>
+<p>当这次改动已经确认没问题，就可以在 GitHub 上执行合并。</p>
+<p>合并以后，通常会发生两件事：</p>
+<ul>
+<li>主分支吸收了这个任务分支的工作</li>
+<li>这个任务分支可能就可以删掉了</li>
+</ul>
+<section id="这一步怎样算成功-6" class="level3" data-number="12.10.1">
+<h3 data-number="12.10.1" class="anchored" data-anchor-id="这一步怎样算成功-6"><span class="header-section-number">12.10.1</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>主分支已经包含本次改动</li>
+<li>PR 在 GitHub 上显示为已合并</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你以为 PR 开出来就等于已经合并</li>
+<li>你没有确认主分支是否真的吸收了这次修改</li>
+</ul>
+</section>
+</section>
+<section id="第八步合并后把本地整理干净" class="level2" data-number="12.11">
+<h2 data-number="12.11" class="anchored" data-anchor-id="第八步合并后把本地整理干净"><span class="header-section-number">12.11</span> 第八步：合并后把本地整理干净</h2>
+<p>很多人做到“网页上点了 merge”就停了，但本地也要跟着整理。</p>
+<p>先回到主分支并同步：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch main</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>如果主分支叫 <code>master</code>，这里就换成 <code>master</code>。</p>
+<p>然后如果你确认本地任务分支已经不再需要，可以删掉：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch <span class="at">-d</span> add-common-mistakes</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="你现在应该看到什么-4" class="level3" data-number="12.11.1">
+<h3 data-number="12.11.1" class="anchored" data-anchor-id="你现在应该看到什么-4"><span class="header-section-number">12.11.1</span> 你现在应该看到什么</h3>
+<p>整理完成后，理想状态通常是：</p>
+<ul>
+<li>你已经回到主分支</li>
+<li>主分支已经包含刚才合并进来的工作</li>
+<li>本地不再留着没必要的旧任务分支</li>
+</ul>
+</section>
+<section id="这一步怎样算成功-7" class="level3" data-number="12.11.2">
+<h3 data-number="12.11.2" class="anchored" data-anchor-id="这一步怎样算成功-7"><span class="header-section-number">12.11.2</span> 这一步怎样算成功</h3>
+<p>算成功：</p>
+<ul>
+<li>本地主分支已经同步到最新状态</li>
+<li>已完成的任务分支被清理掉</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>远端已经合并了，本地主分支却还停在旧状态</li>
+<li>你积了一堆过期分支，自己也分不清哪些还在用</li>
+</ul>
+</section>
+</section>
+<section id="为什么-pull-request-对一个人写书也有用" class="level2" data-number="12.12">
+<h2 data-number="12.12" class="anchored" data-anchor-id="为什么-pull-request-对一个人写书也有用"><span class="header-section-number">12.12</span> 为什么 Pull Request 对一个人写书也有用</h2>
+<p>很多人会觉得，PR 好像只是团队开发才需要。其实一个人写书、写文档时，它也有价值。</p>
+<p>比如你可以这样用：</p>
+<ul>
+<li>每个章节大改开一个分支</li>
+<li>写完以后从网页上看一次整段 diff</li>
+<li>把 PR 当成一次正式自查入口</li>
+</ul>
+<p>这样做的好处是，你会更容易把“正在写”和“准备收进主线”的状态分开。</p>
+</section>
+<section id="协作时最容易犯的几个错" class="level2" data-number="12.13">
+<h2 data-number="12.13" class="anchored" data-anchor-id="协作时最容易犯的几个错"><span class="header-section-number">12.13</span> 协作时最容易犯的几个错</h2>
+<section id="直接在主分支上改" class="level3" data-number="12.13.1">
+<h3 data-number="12.13.1" class="anchored" data-anchor-id="直接在主分支上改"><span class="header-section-number">12.13.1</span> 直接在主分支上改</h3>
+<p>这样会让 review 和回看都变得很乱。</p>
+</section>
+<section id="一个-pr-混太多主题" class="level3" data-number="12.13.2">
+<h3 data-number="12.13.2" class="anchored" data-anchor-id="一个-pr-混太多主题"><span class="header-section-number">12.13.2</span> 一个 PR 混太多主题</h3>
+<p>如果一个 PR 同时改结构、改措辞、补案例、修格式，review 会很吃力。</p>
+</section>
+<section id="发了-pr-但不检查-base-分支" class="level3" data-number="12.13.3">
+<h3 data-number="12.13.3" class="anchored" data-anchor-id="发了-pr-但不检查-base-分支"><span class="header-section-number">12.13.3</span> 发了 PR 但不检查 base 分支</h3>
+<p>这会导致改动送到错误目标上。</p>
+</section>
+<section id="合并后不整理本地" class="level3" data-number="12.13.4">
+<h3 data-number="12.13.4" class="anchored" data-anchor-id="合并后不整理本地"><span class="header-section-number">12.13.4</span> 合并后不整理本地</h3>
+<p>网页上已经合并了，不代表你本地就自动跟上了。</p>
+</section>
+</section>
+<section id="本章练习" class="level2" data-number="12.14">
+<h2 data-number="12.14" class="anchored" data-anchor-id="本章练习"><span class="header-section-number">12.14</span> 本章练习</h2>
+<section id="练习-1为一个小任务发起-pr" class="level3" data-number="12.14.1">
+<h3 data-number="12.14.1" class="anchored" data-anchor-id="练习-1为一个小任务发起-pr"><span class="header-section-number">12.14.1</span> 练习 1：为一个小任务发起 PR</h3>
+<ol type="1">
+<li><code>git switch -c &lt;任务分支&gt;</code></li>
+<li>修改一个文件并提交</li>
+<li><code>git push -u origin &lt;任务分支&gt;</code></li>
+<li>在 GitHub 页面发起 PR</li>
+</ol>
+<p>算成功：</p>
+<ul>
+<li>你完成了从分支到 PR 的整条流程</li>
+<li>PR 标题和修改目标能对得上</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你没有从分支开始，而是直接在主分支上改</li>
+</ul>
+</section>
+<section id="练习-2在同一个-pr-里继续补修改" class="level3" data-number="12.14.2">
+<h3 data-number="12.14.2" class="anchored" data-anchor-id="练习-2在同一个-pr-里继续补修改"><span class="header-section-number">12.14.2</span> 练习 2：在同一个 PR 里继续补修改</h3>
+<ol type="1">
+<li>在原分支继续修改</li>
+<li><code>git add</code></li>
+<li><code>git commit</code></li>
+<li><code>git push</code></li>
+<li>刷新 PR 页面</li>
+</ol>
+<p>算成功：</p>
+<ul>
+<li>原 PR 页面自动更新</li>
+<li>你知道 review 后的补改通常还在同一个分支里继续</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你把修改做到别的地方，导致 PR 没更新</li>
+</ul>
+</section>
+<section id="练习-3合并后整理本地" class="level3" data-number="12.14.3">
+<h3 data-number="12.14.3" class="anchored" data-anchor-id="练习-3合并后整理本地"><span class="header-section-number">12.14.3</span> 练习 3：合并后整理本地</h3>
+<ol type="1">
+<li>在 GitHub 上完成 merge</li>
+<li><code>git switch main</code></li>
+<li><code>git pull</code></li>
+<li><code>git branch -d &lt;任务分支&gt;</code></li>
+</ol>
+<p>算成功：</p>
+<ul>
+<li>本地主分支已经同步到最新</li>
+<li>已完成分支被清理掉</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>远端已经合并，本地却还停在旧状态</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./11-publish-to-github.html" class="pagination-link" aria-label="把本地项目放到 GitHub">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">把本地项目放到 GitHub</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./13-fork-and-contribute.html" class="pagination-link" aria-label="Fork 与参与别人的项目">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Fork 与参与别人的项目</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

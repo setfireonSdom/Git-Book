@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>1&nbsp; 为什么需要 Git – Git 与 GitHub 入门</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./02-how-git-thinks.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-why-git.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">为什么需要 Git</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Git 与 GitHub 入门</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">前言</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-why-git.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">为什么需要 Git</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-how-git-thinks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Git 是怎么想的</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-first-repo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">第一次建立仓库</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-history-and-diff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">怎么看变化，怎么看历史</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-daily-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">日常修改流程</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-undo-and-recover.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">撤销、改错与找回</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-branches.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">分支是什么</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-conflicts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">冲突怎么解决</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-tags-and-release.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">标签、版本与发布</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-git-vs-github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Git 和 GitHub 不是一回事</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-publish-to-github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">把本地项目放到 GitHub</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-collaboration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">用 Pull Request 协作</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-fork-and-contribute.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Fork 与参与别人的项目</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-full-case.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">一个完整案例</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">常见问题与排查</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">参考资料</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#你可能已经这样做过" id="toc-你可能已经这样做过" class="nav-link active" data-scroll-target="#你可能已经这样做过"><span class="header-section-number">1.1</span> 你可能已经这样做过</a></li>
+  <li><a href="#git-到底在管什么" id="toc-git-到底在管什么" class="nav-link" data-scroll-target="#git-到底在管什么"><span class="header-section-number">1.2</span> Git 到底在管什么</a></li>
+  <li><a href="#为什么文件夹备份很快就不够用" id="toc-为什么文件夹备份很快就不够用" class="nav-link" data-scroll-target="#为什么文件夹备份很快就不够用"><span class="header-section-number">1.3</span> 为什么文件夹备份很快就不够用</a></li>
+  <li><a href="#git-和云盘备份的区别" id="toc-git-和云盘备份的区别" class="nav-link" data-scroll-target="#git-和云盘备份的区别"><span class="header-section-number">1.4</span> Git 和云盘、备份的区别</a></li>
+  <li><a href="#为什么不只写代码的人该学-git" id="toc-为什么不只写代码的人该学-git" class="nav-link" data-scroll-target="#为什么不只写代码的人该学-git"><span class="header-section-number">1.5</span> 为什么不只写代码的人该学 Git</a></li>
+  <li><a href="#git-最有用的四件事" id="toc-git-最有用的四件事" class="nav-link" data-scroll-target="#git-最有用的四件事"><span class="header-section-number">1.6</span> Git 最有用的四件事</a>
+  <ul class="collapse">
+  <li><a href="#一是看得见变化" id="toc-一是看得见变化" class="nav-link" data-scroll-target="#一是看得见变化"><span class="header-section-number">1.6.1</span> 一是看得见变化</a></li>
+  <li><a href="#二是回得去之前" id="toc-二是回得去之前" class="nav-link" data-scroll-target="#二是回得去之前"><span class="header-section-number">1.6.2</span> 二是回得去之前</a></li>
+  <li><a href="#三是能把一次修改说清楚" id="toc-三是能把一次修改说清楚" class="nav-link" data-scroll-target="#三是能把一次修改说清楚"><span class="header-section-number">1.6.3</span> 三是能把一次修改说清楚</a></li>
+  <li><a href="#四是能让多人协作不那么乱" id="toc-四是能让多人协作不那么乱" class="nav-link" data-scroll-target="#四是能让多人协作不那么乱"><span class="header-section-number">1.6.4</span> 四是能让多人协作不那么乱</a></li>
+  </ul></li>
+  <li><a href="#git-不是什么" id="toc-git-不是什么" class="nav-link" data-scroll-target="#git-不是什么"><span class="header-section-number">1.7</span> Git 不是什么</a></li>
+  <li><a href="#先做一个很小的体验" id="toc-先做一个很小的体验" class="nav-link" data-scroll-target="#先做一个很小的体验"><span class="header-section-number">1.8</span> 先做一个很小的体验</a>
+  <ul class="collapse">
+  <li><a href="#小实验用普通文件夹管理修改" id="toc-小实验用普通文件夹管理修改" class="nav-link" data-scroll-target="#小实验用普通文件夹管理修改"><span class="header-section-number">1.8.1</span> 小实验：用普通文件夹管理修改</a></li>
+  <li><a href="#如果现在就用-git成功会长什么样" id="toc-如果现在就用-git成功会长什么样" class="nav-link" data-scroll-target="#如果现在就用-git成功会长什么样"><span class="header-section-number">1.8.2</span> 如果现在就用 Git，成功会长什么样</a></li>
+  </ul></li>
+  <li><a href="#这一章的结论" id="toc-这一章的结论" class="nav-link" data-scroll-target="#这一章的结论"><span class="header-section-number">1.9</span> 这一章的结论</a></li>
+  <li><a href="#本章练习" id="toc-本章练习" class="nav-link" data-scroll-target="#本章练习"><span class="header-section-number">1.10</span> 本章练习</a>
+  <ul class="collapse">
+  <li><a href="#练习-1找一个你正在维护的文件" id="toc-练习-1找一个你正在维护的文件" class="nav-link" data-scroll-target="#练习-1找一个你正在维护的文件"><span class="header-section-number">1.10.1</span> 练习 1：找一个你正在维护的文件</a></li>
+  <li><a href="#练习-2判断成功和失败" id="toc-练习-2判断成功和失败" class="nav-link" data-scroll-target="#练习-2判断成功和失败"><span class="header-section-number">1.10.2</span> 练习 2：判断成功和失败</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">为什么需要 Git</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>很多人第一次接触 Git，不是因为突然对版本控制有兴趣，而是因为文件开始变多了，项目开始改来改去，光靠文件夹备份已经不够用了。</p>
+<p>这一章要解决的问题很简单：Git 到底在帮我们省掉什么麻烦？如果不用 Git，平常又会怎么出错？把这件事想明白，后面那些命令才不会显得像一套硬背的咒语。</p>
+<p>本章会回答几个问题：</p>
+<ul>
+<li>为什么「final」「final2」「final-真的最终版」不是好办法</li>
+<li>Git 和普通云盘、文件夹备份有什么不同</li>
+<li>为什么写代码的人要学，写文档的人其实也该学</li>
+<li>Git 最适合解决哪些问题，不适合解决哪些问题</li>
+</ul>
+<p>读完这一章，你应该能理解：Git 不是为了增加步骤，而是为了让修改变得可追踪、可回退、可协作。</p>
+<section id="你可能已经这样做过" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="你可能已经这样做过"><span class="header-section-number">1.1</span> 你可能已经这样做过</h2>
+<p>如果你以前没有学过 Git，管理文件时大概用过这些办法：</p>
+<ul>
+<li>直接覆盖旧文件</li>
+<li>另存一个新文件，名字叫 <code>report-final.docx</code></li>
+<li>改完以后又存一个 <code>report-final-2.docx</code></li>
+<li>担心出错，再复制一个 <code>report-final-真的最终版.docx</code></li>
+<li>想起上周删过一段文字，却不知道去哪里找回来</li>
+</ul>
+<p>这些办法不是完全没用。项目很小、修改很少、也只有自己一个人动手时，勉强还能撑住。问题在于，只要修改次数一多，下面几件事就会一起冒出来：</p>
+<ul>
+<li>你不知道哪个文件才是最新的</li>
+<li>你知道文件变了，却说不清到底哪里变了</li>
+<li>你想回到昨天的状态，却没有可靠的办法</li>
+<li>两个人同时改同一个文件时，后合并的人很容易把前面的修改盖掉</li>
+</ul>
+<p>Git 要解决的，就是这些问题。</p>
+</section>
+<section id="git-到底在管什么" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="git-到底在管什么"><span class="header-section-number">1.2</span> Git 到底在管什么</h2>
+<p>先把一句话放在这里：Git 管的不是“文件夹里有没有文件”，而是“这个项目是怎么一步步改成现在这个样子的”。</p>
+<p>这句话很重要，因为很多人一开始会把 Git 误会成：</p>
+<ul>
+<li>一个高级云盘</li>
+<li>一个自动备份工具</li>
+<li>一个专门给程序员用的东西</li>
+</ul>
+<p>它和这些东西都沾边，但都不完全一样。</p>
+<p>云盘擅长同步文件，让你在不同设备上都能拿到同一份内容。Git 擅长记录修改，让你知道谁在什么时候改了什么，还能回到之前的状态。两者可以一起用，但负责的事情不同。</p>
+<p>普通备份更像“按时间留副本”。Git 更像“按修改留历史”。你不是被迫保存一整堆 <code>final</code> 文件，而是把每一次关键变动组织成一条清楚的历史线。</p>
+<p>这里有个很关键的转变。没用 Git 时，我们常常只是“把当前结果存下来”；至于中间怎么改过、为什么这样改，时间一久就说不清了。用了 Git 以后，你开始管理的就不只是结果，还包括通往这个结果的过程。</p>
+</section>
+<section id="为什么文件夹备份很快就不够用" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="为什么文件夹备份很快就不够用"><span class="header-section-number">1.3</span> 为什么文件夹备份很快就不够用</h2>
+<p>先看一个很常见的场景。</p>
+<p>你在做一个个人网站，第一天存成 <code>index.html</code>。第二天你准备大改首页文案，怕翻车，于是复制一份，叫 <code>index-new.html</code>。改了一半觉得不太好，又回去修旧稿。第三天你决定融合两个版本，结果两个文件都改过了，你已经不记得：</p>
+<ul>
+<li>哪一份才是最新的</li>
+<li>哪一份删过一段更好的话</li>
+<li>哪一份加入了新的例子</li>
+</ul>
+<p>这时真正麻烦的，不是文件太多，而是“变化没有被结构化地记录下来”。</p>
+<p>Git 的第一个价值，就是让你不再用文件名承担“版本管理”这件事。</p>
+<p>很多人第一次真正感受到 Git 的价值，不是在建仓库那一刻，而是在几天后回头看时，发现自己终于不用靠猜来回忆“那版到底改了什么”。</p>
+</section>
+<section id="git-和云盘备份的区别" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="git-和云盘备份的区别"><span class="header-section-number">1.4</span> Git 和云盘、备份的区别</h2>
+<p>这一点最好一开始就分清楚。</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>工具</th>
+<th>最擅长的事</th>
+<th>不擅长的事</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>云盘</td>
+<td>同步文件、跨设备访问、共享文件</td>
+<td>清楚比较修改历史、组织开发流程</td>
+</tr>
+<tr class="even">
+<td>手动备份</td>
+<td>留下某个时间点的副本</td>
+<td>难以持续维护，版本很快混乱</td>
+</tr>
+<tr class="odd">
+<td>Git</td>
+<td>记录修改、比较差异、回退历史、支撑协作</td>
+<td>不能替代日常网盘，也不是所有二进制文件都适合用它管</td>
+</tr>
+</tbody>
+</table>
+<p>所以比较稳的理解不是“用了 Git 就不用备份”，而是：</p>
+<ul>
+<li>Git 负责管修改历史</li>
+<li>云盘负责管文件同步</li>
+<li>备份负责防止整体丢失</li>
+</ul>
+<p>这三个角色分清楚以后，后面很多误会会少很多。比如有人会问：“我都放网盘了，为什么还要 Git？”这个问题其实就像在问：“我已经把纸张装进文件盒了，为什么还要给文稿写修订记录？”两者不是互相替代，而是在处理不同问题。</p>
+</section>
+<section id="为什么不只写代码的人该学-git" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="为什么不只写代码的人该学-git"><span class="header-section-number">1.5</span> 为什么不只写代码的人该学 Git</h2>
+<p>很多人一听 Git，就先想到程序员。其实只要你做的是“会反复修改，而且希望看得清历史”的工作，Git 都有价值。</p>
+<p>例如：</p>
+<ul>
+<li>写论文、书稿、讲义</li>
+<li>维护网站文案</li>
+<li>写配置文件</li>
+<li>记录数据处理脚本</li>
+<li>和别人一起改同一份文档</li>
+</ul>
+<p>像个人网站、小型文档站点、课程笔记仓库这类项目，都很适合用 Git。它们的文件大多是文本文件，修改会不断累积。如果不用 Git，时间一久，最容易出现的不是“文件丢了”，而是“文件还在，但已经说不清怎么变成现在这样”。</p>
+<p>这一点对持续打磨的内容尤其明显。页面不是一次写完的，而是一轮一轮往前推：改标题、换文案、补说明、挪顺序、重写某一段。要是这些变化都没被好好记住，写到后面就会很难判断“这版为什么比上一版更好”，也很难放心回退。</p>
+</section>
+<section id="git-最有用的四件事" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="git-最有用的四件事"><span class="header-section-number">1.6</span> Git 最有用的四件事</h2>
+<p>如果要把 Git 的价值压缩成最核心的四点，可以这样记。</p>
+<section id="一是看得见变化" class="level3" data-number="1.6.1">
+<h3 data-number="1.6.1" class="anchored" data-anchor-id="一是看得见变化"><span class="header-section-number">1.6.1</span> 一是看得见变化</h3>
+<p>你可以知道这次到底改了什么，而不是只知道“文件好像不一样了”。</p>
+</section>
+<section id="二是回得去之前" class="level3" data-number="1.6.2">
+<h3 data-number="1.6.2" class="anchored" data-anchor-id="二是回得去之前"><span class="header-section-number">1.6.2</span> 二是回得去之前</h3>
+<p>你改坏了，或者实验一条路以后想退回来，不需要靠运气找旧文件。</p>
+</section>
+<section id="三是能把一次修改说清楚" class="level3" data-number="1.6.3">
+<h3 data-number="1.6.3" class="anchored" data-anchor-id="三是能把一次修改说清楚"><span class="header-section-number">1.6.3</span> 三是能把一次修改说清楚</h3>
+<p>你不是把一整个杂乱状态扔进去，而是能整理成一笔一笔提交。以后回头看历史时，才会知道每一笔改动是在解决什么问题。</p>
+</section>
+<section id="四是能让多人协作不那么乱" class="level3" data-number="1.6.4">
+<h3 data-number="1.6.4" class="anchored" data-anchor-id="四是能让多人协作不那么乱"><span class="header-section-number">1.6.4</span> 四是能让多人协作不那么乱</h3>
+<p>没有 Git 时，两个人同时改一份东西，通常靠聊天沟通“你先别动，我改完发你”。有了 Git 以后，协作会变得更可控，因为每个人的修改都有明确记录，也有合并机制。</p>
+</section>
+</section>
+<section id="git-不是什么" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="git-不是什么"><span class="header-section-number">1.7</span> Git 不是什么</h2>
+<p>学 Git 时，早点知道它的边界也很重要。</p>
+<p>Git 不是：</p>
+<ul>
+<li>自动帮你写好提交说明的老师</li>
+<li>永远不会出错的保险箱</li>
+<li>所有文件都适合直接放进去的仓库</li>
+<li>学会几条命令以后就不用理解流程的魔法工具</li>
+</ul>
+<p>再补一句更实际的话：Git 也不是让你从此再也不会乱。它只是把“乱”变得可见、可整理、可回头。这个差别看起来不大，用起来却非常大。</p>
+<p>尤其是最后一点。Git 的难，不全在命令，而在于你要知道自己现在是在处理哪一层：工作区、暂存区、历史，还是远端。这个问题下一章会正式展开。</p>
+</section>
+<section id="先做一个很小的体验" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="先做一个很小的体验"><span class="header-section-number">1.8</span> 先做一个很小的体验</h2>
+<p>这一章先不急着上来就学完整命令，但可以先做一个很小的观察实验。目的不是立刻学会 Git，而是亲眼看到“有记录”和“没记录”的差别。</p>
+<section id="小实验用普通文件夹管理修改" class="level3" data-number="1.8.1">
+<h3 data-number="1.8.1" class="anchored" data-anchor-id="小实验用普通文件夹管理修改"><span class="header-section-number">1.8.1</span> 小实验：用普通文件夹管理修改</h3>
+<p>你可以在桌面随便建一个目录，比如 <code>git-demo-without-git</code>，然后做下面的事：</p>
+<ol type="1">
+<li>建一个 <code>notes.txt</code></li>
+<li>写入第一版内容</li>
+<li>过几分钟改掉其中两三句</li>
+<li>再删掉一段</li>
+<li>试着回答下面几个问题</li>
+</ol>
+<ul>
+<li>第二次到底改了哪几句</li>
+<li>删掉的那一段原来写了什么</li>
+<li>如果你只想保留其中一处修改，怎么做</li>
+</ul>
+<p>只靠普通文件夹，你通常做不到很轻松地回答这些问题。</p>
+</section>
+<section id="如果现在就用-git成功会长什么样" class="level3" data-number="1.8.2">
+<h3 data-number="1.8.2" class="anchored" data-anchor-id="如果现在就用-git成功会长什么样"><span class="header-section-number">1.8.2</span> 如果现在就用 Git，成功会长什么样</h3>
+<p>下一章开始我们会真正动手。你先记住一个判断标准：Git 用起来顺不顺，不是看命令背得多不多，而是看你能不能明确回答下面几件事：</p>
+<ul>
+<li>我现在改了哪些文件</li>
+<li>哪些修改准备提交，哪些还没准备提交</li>
+<li>上一次提交记录了什么</li>
+<li>如果改坏了，我能退到哪里</li>
+</ul>
+<p>只要你能稳定回答这四个问题，Git 就已经开始真的帮上忙了。</p>
+<p>这也是这本书后面每一章反复在做的事。我们不是为了多学几条命令，而是在不断练这四个判断：现在改了什么，准备交什么，历史里已经有什么，出错时能退到哪里。</p>
+</section>
+</section>
+<section id="这一章的结论" class="level2" data-number="1.9">
+<h2 data-number="1.9" class="anchored" data-anchor-id="这一章的结论"><span class="header-section-number">1.9</span> 这一章的结论</h2>
+<p>这一章还没进入细命令，但有三件事应该先钉牢。</p>
+<p>第一，Git 不是为了把流程变复杂，而是为了让修改历史清楚下来。</p>
+<p>第二，Git 最重要的价值，不是“多存一份”，而是让你看得见变化、回得去之前、说得清每次修改在做什么。</p>
+<p>第三，如果你以后在 Git 里迷路，通常不是因为你不聪明，而是因为你还没把它的心智模型看清楚。下一章我们就专门解决这个问题。</p>
+<p>如果这一章读完，你已经从“Git 很厉害，但我不知道它到底在管什么”变成“Git 管的是修改过程，而不只是文件结果”，那这一章的任务就完成了一大半。</p>
+</section>
+<section id="本章练习" class="level2" data-number="1.10">
+<h2 data-number="1.10" class="anchored" data-anchor-id="本章练习"><span class="header-section-number">1.10</span> 本章练习</h2>
+<p>这一章的练习不要求你已经会 Git，只要求你开始用“版本管理”的眼光看手头项目。</p>
+<section id="练习-1找一个你正在维护的文件" class="level3" data-number="1.10.1">
+<h3 data-number="1.10.1" class="anchored" data-anchor-id="练习-1找一个你正在维护的文件"><span class="header-section-number">1.10.1</span> 练习 1：找一个你正在维护的文件</h3>
+<p>可以是下面这些类型之一：</p>
+<ul>
+<li>一篇文档</li>
+<li>一个 Markdown 文档</li>
+<li>一个脚本</li>
+<li>一份配置文件</li>
+</ul>
+<p>然后回答：</p>
+<ol type="1">
+<li>它最近一周改过几次</li>
+<li>你能不能清楚说出每次改了什么</li>
+<li>如果要回到前天的版本，你现在有没有把握做到</li>
+</ol>
+<p>如果这三个问题里有两个你答不稳，就说明这个文件已经很适合交给 Git 管。</p>
+</section>
+<section id="练习-2判断成功和失败" class="level3" data-number="1.10.2">
+<h3 data-number="1.10.2" class="anchored" data-anchor-id="练习-2判断成功和失败"><span class="header-section-number">1.10.2</span> 练习 2：判断成功和失败</h3>
+<p>先不用操作 Git，只判断自己的现状。</p>
+<p>算成功：</p>
+<ul>
+<li>你已经能用自己的话说清楚 Git 在解决什么问题</li>
+<li>你知道 Git 不等于 GitHub</li>
+<li>你知道手动备份和版本管理不是同一回事</li>
+</ul>
+<p>算失败：</p>
+<ul>
+<li>你仍然觉得 Git 只是“程序员用来上传代码的网站工具”</li>
+<li>你觉得版本管理等于“多存几个副本”</li>
+<li>你还说不清为什么需要“修改历史”而不只是“最新文件”</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="前言">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">前言</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./02-how-git-thinks.html" class="pagination-link" aria-label="Git 是怎么想的">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Git 是怎么想的</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
